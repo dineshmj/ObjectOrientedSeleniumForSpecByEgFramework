@@ -1,0 +1,76 @@
+﻿@model OOSelenium.TestWebApp.Models.QuoteModel
+
+@{
+	ViewBag.Title = "View Quote";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View Quote</h2>
+
+<div>
+	<h4>View quote's details</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.QuoteId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.QuoteId, new { id = "quoteIdValue" })
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.VehicleType)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.VehicleType, new { id = "vehicleTypeValue" })
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.FromDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.FromDate, new { id = "fromDateValue" })
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ToDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ToDate, new { id = "toDateValue" })
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CarPrice)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.CarPrice, new { id = "carPriceValue" })
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ApproximatePremiumAmount)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ApproximatePremiumAmount, new { id = "approxPremAmtValue" })
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Issuer)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Issuer, new { id = "issuerValue" })
+		</dd>
+
+	</dl>
+</div>
+<p>
+	@Html.ActionLink("Back to Quotes List", "List", null, new { id = "backToQuotesList" })
+	<br />
+	@Html.ActionLink("Back to Main Menu", "LandingPage", "Master", null, new { id = "backToMainMenuLink" })
+</p>

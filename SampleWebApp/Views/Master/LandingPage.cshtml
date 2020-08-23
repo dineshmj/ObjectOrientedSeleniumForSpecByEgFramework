@@ -1,0 +1,23 @@
+﻿@{
+	ViewBag.Title = "Welcome to Insurance One!";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Main Menu</h1>
+<br />
+<h2>Please select an option from the links below:</h2>
+<br />
+
+@foreach (var oneEntry in base.ViewBag.MenuLinks)
+{
+	var onePair = (KeyValuePair<string, KeyValuePair<string, string>>) oneEntry;
+	var linkText = onePair.Key;
+	var actionAndControllerPair = onePair.Value;
+	var actionName = actionAndControllerPair.Key;
+	var controllerName = actionAndControllerPair.Value;
+	var htmlIdForLink = $"{ actionName }ActionOf{ controllerName }Controller";
+
+	<p>
+		@base.Html.ActionLink(linkText, actionName, controllerName, null, new { id = htmlIdForLink })
+	</p>
+}

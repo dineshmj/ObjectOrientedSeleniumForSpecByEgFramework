@@ -1,0 +1,71 @@
+﻿@model IEnumerable<OOSelenium.TestWebApp.Models.QuoteModel>
+
+@{
+    ViewBag.Title = "List all Quotes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quotes list</h2>
+
+<p>
+    @Html.ActionLink("Issue New", "Issue")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.QuoteId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApproximatePremiumAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Issuer)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuoteId, new { id = $"quoteId_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleType, new { id = $"vehicleType_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FromDate, new { id = $"fromDate_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ToDate, new { id = $"_toDate_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarPrice, new { id = $"carPrice_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApproximatePremiumAmount, new { id = $"approxPremAmt_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Issuer, new { id = $"issuer_{ item.QuoteId }" })
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Show", new { quoteId = item.QuoteId }, new { id = $"showDetails_{ item.QuoteId }" })
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    @Html.ActionLink("Back to Main Menu", "LandingPage", "Master", null, new { id = "backToMainMenu" })
+</div>

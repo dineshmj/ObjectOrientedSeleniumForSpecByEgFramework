@@ -1,0 +1,67 @@
+﻿@model OOSelenium.TestWebApp.Models.SignInModel
+
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Sign in to Insurance One by Four Walls Inc.</title>
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/jqueryval")
+
+
+	@using(Html.BeginForm())
+	{
+		@Html.AntiForgeryToken()
+
+		<div class="form-horizontal">
+			<br />
+			&nbsp;&nbsp;<img src="~/Content/Images/FourWallsLogo.png" />
+			<br />
+			<h4 id="welcomeTitle">&nbsp;&nbsp;Sign in to <b>Insurance One</b> by Four Walls Inc.</h4>
+			<br />
+
+			@Html.ValidationSummary(true, "", new { @class = "text-danger", id = "validationSummary" })
+			<div class="form-group">
+				<table>
+					<tr>
+						<td width="150">
+							@Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "col-md-8 text-right", id = "userIdLabel" })
+						</td>
+						<td width="200">
+							@Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter user ID", id = "userIdField" } })
+							@Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger", id = "userIdValidation" })
+							<p></p>
+						</td>
+					</tr>
+					<tr>
+						<td width="150">
+							@Html.LabelFor(model => model.EncryptedPassword, htmlAttributes: new { @class = "col-md-8 text-right", id = "passwordLabel" })
+						</td>
+						<td width="200">
+							@Html.PasswordFor(model => model.EncryptedPassword, new { @class = "form-control", placeholder = "Enter password", id = "passwordField" })
+							@Html.ValidationMessageFor(model => model.EncryptedPassword, "", new { @class = "text-danger", id = "passwordValidation" })
+							<p></p>
+						</td>
+					</tr>
+					<tr>
+						<td width="150">
+						</td>
+						<td width="200">
+							<input type="submit" value="Sign in" class="btn btn-primary" id="signInButton" />
+							<p></p>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	}
+</body>
+</html>
