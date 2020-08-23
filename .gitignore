@@ -7,3 +7,4 @@
 /SampleWebApp/bin
 /SampleWebApp/obj/Debug
 *.suo
+/Framework/obj/Debug
