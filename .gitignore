@@ -3,3 +3,6 @@
 ################################################################################
 
 /packages
+/.vs/OOSelenium.Framework
+/SampleWebApp/bin
+/SampleWebApp/obj/Debug
