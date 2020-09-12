@@ -67,6 +67,11 @@ namespace OOSelenium.Framework.Abstractions
 			return new TextField (this.webDriver.FindElement (By.Id (textFieldId)) as RemoteWebElement, textFieldId);
 		}
 
+		protected CheckBox FindCheckBox (string checkBoxId)
+		{
+			return new CheckBox (this.webDriver.FindElement (By.Id (checkBoxId)) as RemoteWebElement, checkBoxId);
+		}
+
 		protected Button FindButton (string buttonId)
 		{
 			return new Button (this.webDriver.FindElement (By.Id (buttonId)) as RemoteWebElement, buttonId);

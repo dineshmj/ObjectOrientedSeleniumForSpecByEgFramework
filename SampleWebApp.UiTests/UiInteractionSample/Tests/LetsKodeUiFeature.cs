@@ -183,5 +183,42 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 					secondSelectedEntry.Value.Should ().Be ("peach");
 				});
 		}
+		[Scenario]
+		public async void Lets_kode_UI_must_have_BMW_check_box_with_correct_values ()
+		{
+			var bmwCheckBox = (CheckBox) null;
+
+			"Given that Let's Kode page is available"
+				.x (() =>
+				{
+					letsKodePage = letsKodeComponent.GetLetsKodePage ();
+				});
+
+			"When I check the check-boxes on the page"
+				.x (() =>
+				{
+					bmwCheckBox = this.letsKodePage.BmwCheckBox;
+				});
+
+			"Then I should see the check-boxes with the correct values"
+				.x (() =>
+				{
+					bmwCheckBox.Text.Should ().Be ("BMW");
+					bmwCheckBox.Value.Should ().Be ("bmw");
+					bmwCheckBox.IsChecked.Should ().BeFalse ();
+				});
+
+			"When I check the BMW check box"
+				.x (() =>
+				{
+					bmwCheckBox.ToggleCheckState ();
+				});
+
+			"Then I should see that the check-boxes are checked"
+				.x (() =>
+				{
+					bmwCheckBox.IsChecked.Should ().BeTrue ();
+				});
+		}
 	}
 }

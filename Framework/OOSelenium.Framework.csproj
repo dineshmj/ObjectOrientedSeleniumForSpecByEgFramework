@@ -69,6 +69,7 @@
     <Compile Include="WebUIControls\DropDownList.cs" />
     <Compile Include="WebUIControls\MultiValuedControlBase.cs" />
     <Compile Include="WebUIControls\RadioButtons.cs" />
+    <Compile Include="WebUIControls\CheckBox.cs" />
     <Compile Include="WebUIControls\ValidationSummary.cs" />
     <Compile Include="WebUIControls\ValidationLabel.cs" />
     <Compile Include="WebUIControls\Link.cs" />
