@@ -25,6 +25,11 @@ namespace OOSelenium.Framework.Abstractions
 		public IWebDriver WebDriver { get; protected set; }
 
 		// Constructors.
+		public BusinessFunctionFlowComponentBase (IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment> hostComponent)
+			: this (hostComponent.TestBackgroundDataProvider)
+		{
+		}
+
 		public BusinessFunctionFlowComponentBase (ITestBackgroundDataProvider<TUserRole, TTestEnvironment> testBackgroundDataProvider)
 		{
 			// Ensure generic types are enums.

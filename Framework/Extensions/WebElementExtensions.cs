@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using OpenQA.Selenium;
 
@@ -60,6 +61,25 @@ namespace OOSelenium.Framework.Extensions
 			}
 
 			throw new StaleElementReferenceException ($"Cannot locate an element with id \"{ id }\".");
+		}
+
+		public static IList<string> ReadBulletEntries (this IWebElement divTag, IWebDriver webDriver, string id)
+		{
+			var bulletEntries = new List<string> ();
+
+			var ulElement = divTag.FindElement (By.XPath ("./ul"));
+
+			if (ulElement != null)
+			{
+				var liElements = ulElement.FindElements (By.XPath ("./li"));
+
+				foreach (var oneLiElement in liElements)
+				{
+					bulletEntries.Add (oneLiElement.Text);
+				}
+			}
+
+			return bulletEntries;
 		}
 	}
 }

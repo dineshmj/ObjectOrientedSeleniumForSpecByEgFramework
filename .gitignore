@@ -8,3 +8,7 @@
 /SampleWebApp/obj/Debug
 *.suo
 /Framework/obj/Debug
+/Framework/bin/Debug
+/.vs/OOSelenium.SampleWebApp.UiTests/v16/TestStore/0
+/SampleWebApp.UiTests/bin/Debug
+/SampleWebApp.UiTests/obj/Debug
