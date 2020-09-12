@@ -77,6 +77,23 @@ namespace OOSelenium.Framework.Abstractions
 			return new RadioButtons (this.WebDriver.FindElements (By.XPath ($"//input[@name=\"{ radioButtonGroupName }\" and @type=\"radio\"]")), radioButtonGroupName);
 		}
 
+		protected DropDownList FindDropDownList (string dropDownName)
+		{
+			var selectElement = this.WebDriver.FindElement (By.XPath ($"//select[@name=\"{ dropDownName }\"]"));
+			var selectOptionElements = selectElement.FindElements (By.XPath ("./option"));
+
+			return new DropDownList (selectOptionElements, dropDownName);
+		}
+
+		protected MultiSelectListBox FindMultiSelectListBox (string multiListName)
+		{
+			// "multiple" attribute must be present for a multi-select list box.
+			var selectElement = this.WebDriver.FindElement (By.XPath ($"//select[@name=\"{ multiListName }\" and @multiple]"));
+			var selectOptionElements = selectElement.FindElements (By.XPath ("./option"));
+
+			return new MultiSelectListBox (selectOptionElements, multiListName);
+		}
+
 		protected virtual void Dispose (bool proceedWithDisposal)
 		{
 			if (proceedWithDisposal)

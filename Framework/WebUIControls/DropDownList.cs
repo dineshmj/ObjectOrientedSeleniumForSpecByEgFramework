@@ -8,27 +8,27 @@ using OpenQA.Selenium;
 
 namespace OOSelenium.Framework.WebUIControls
 {
-	public sealed class RadioButtons
+	public sealed class DropDownList
 		: MultiValuedControlBase
 	{
-		public RadioButtons (ReadOnlyCollection<IWebElement> radioTags, string id)
-			: base (radioTags, id)
+		public DropDownList (ReadOnlyCollection<IWebElement> dropDownEntryTags, string id)
+			: base (dropDownEntryTags, id)
 		{
 		}
 
-		public IList<TextValuePair> RadioOptions
+		public IList<TextValuePair> DropDownOptions
 		{
 			get  { return base.entries; }
 		}
 
-		public TextValuePair SelectedOption
+		public TextValuePair SelectedEntry
 		{
 			get { return base.GetSelectedEntries ().FirstOrDefault (); }
 		}
 
-		public void SetRadioTo (string selectedRadioText)
+		public void SetSelectionTo (string dropDownTextToBeSet)
 		{
-			base.ClickAndSelectEntry (selectedRadioText);
+			base.ClickAndSelectEntry (dropDownTextToBeSet);
 		}
 	}
 }
