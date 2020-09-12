@@ -30,7 +30,7 @@ namespace OOSelenium.Framework.Extensions
 			jsEngine.ExecuteScript ($"arguments [0].click ();", anchorTag);
 		}
 
-		public static string GetInnerText (this IWebElement spanTag, IWebDriver webDriver, string id)
+		public static string GetInnerText (this IWebElement tagWithText, IWebDriver webDriver, string id)
 		{
 			int attempts = 0;
 
@@ -40,7 +40,15 @@ namespace OOSelenium.Framework.Extensions
 
 				try
 				{
-					var innerText = jsEngine.ExecuteScript ("return arguments [0].innerHTML;", spanTag).ToString ();
+					// If it is an input field (text box, radio button, etc.), then go one level up to its parent
+					// <span>, <div> or <label> and get its text.
+					if (tagWithText.TagName == "input")
+					{
+						tagWithText = tagWithText.FindElement (By.XPath (".."));
+						return tagWithText.Text;
+					}
+
+					var innerText = jsEngine.ExecuteScript ("return arguments [0].innerHTML;", tagWithText).ToString ();
 					return innerText;
 				}
 				catch (StaleElementReferenceException se1)

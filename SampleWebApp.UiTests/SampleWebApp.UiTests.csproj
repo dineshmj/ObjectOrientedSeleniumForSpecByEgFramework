@@ -96,6 +96,10 @@
     <Compile Include="Preparatory\Decryptor.cs" />
     <Compile Include="Preparatory\InsuranceOneTestBackgroundDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UiInteractionSample\Helpers\Components\LetsKodeUiComponent.cs" />
+    <Compile Include="UiInteractionSample\Helpers\LetsKodeScreenDataProvider.cs" />
+    <Compile Include="UiInteractionSample\Helpers\Screens\LetsKodeItPage.cs" />
+    <Compile Include="UiInteractionSample\Tests\LetsKodeUiFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

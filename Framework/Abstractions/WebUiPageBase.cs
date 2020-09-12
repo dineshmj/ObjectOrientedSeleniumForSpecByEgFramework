@@ -72,6 +72,11 @@ namespace OOSelenium.Framework.Abstractions
 			return new Button (this.webDriver.FindElement (By.Id (buttonId)) as RemoteWebElement, buttonId);
 		}
 
+		protected RadioButtons FindRadioButtonGroup (string radioButtonGroupName)
+		{
+			return new RadioButtons (this.WebDriver.FindElements (By.XPath ($"//input[@name=\"{ radioButtonGroupName }\" and @type=\"radio\"]")), radioButtonGroupName);
+		}
+
 		protected virtual void Dispose (bool proceedWithDisposal)
 		{
 			if (proceedWithDisposal)
