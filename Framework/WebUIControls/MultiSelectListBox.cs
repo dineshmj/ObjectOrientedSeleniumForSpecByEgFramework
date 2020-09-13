@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
+using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
 
 using OpenQA.Selenium;
@@ -18,6 +19,7 @@ namespace OOSelenium.Framework.WebUIControls
 		{
 			// Get the parent "select" tag.
 			var parentTag = base.entryTags [0];
+
 			while (true)
 			{
 				// Go one level up.
@@ -28,6 +30,7 @@ namespace OOSelenium.Framework.WebUIControls
 					break;
 				}
 
+				// Is the parent tag a "select" tag?
 				if (parentTag.TagName == "select")
 				{
 					this.parentSelectTag = new SelectElement (parentTag);

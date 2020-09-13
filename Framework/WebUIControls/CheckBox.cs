@@ -18,7 +18,7 @@ namespace OOSelenium.Framework.WebUIControls
 			get { return base.remoteElement.GetAttribute ("checked") == "true"; }
 		}
 
-		public string Text
+		public override string Text
 		{
 			get { return base.remoteElement.FindElement (By.XPath ("..")).Text;  }
 		}

@@ -2,14 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Extensions;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
-namespace OOSelenium.Framework.WebUIControls
+namespace OOSelenium.Framework.Abstractions
 {
 	public abstract class MultiValuedControlBase
 		: WebUiControlBase

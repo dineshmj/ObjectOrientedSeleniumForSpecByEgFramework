@@ -85,7 +85,15 @@ namespace OOSelenium.Framework.Abstractions
 		protected DropDownList FindDropDownList (string dropDownName)
 		{
 			var selectElement = this.WebDriver.FindElement (By.XPath ($"//select[@name=\"{ dropDownName }\"]"));
-			var selectOptionElements = selectElement.FindElements (By.XPath ("./option"));
+
+			if (selectElement == null)
+			{
+				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
+				// Try getting the select tag based on "id".
+				selectElement = this.WebDriver.FindElement (By.Id (dropDownName));
+			}
+
+			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
 			return new DropDownList (selectOptionElements, dropDownName);
 		}
@@ -94,7 +102,15 @@ namespace OOSelenium.Framework.Abstractions
 		{
 			// "multiple" attribute must be present for a multi-select list box.
 			var selectElement = this.WebDriver.FindElement (By.XPath ($"//select[@name=\"{ multiListName }\" and @multiple]"));
-			var selectOptionElements = selectElement.FindElements (By.XPath ("./option"));
+
+			if (selectElement == null)
+			{
+				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
+				// Try getting the select tag based on "id".
+				selectElement = this.WebDriver.FindElement (By.Id (multiListName));
+			}
+
+			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
 			return new MultiSelectListBox (selectOptionElements, multiListName);
 		}

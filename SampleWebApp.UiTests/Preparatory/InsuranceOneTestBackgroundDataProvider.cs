@@ -48,7 +48,7 @@ namespace SampleWebApp.UiTests.Preparatory
 
 		public WebBrowser GetWebBrowserTypeToUseForAcceptanceTests ()
 		{
-			return WebBrowser.GoogleChrome;
+			return WebBrowser.MozillaFirefox;
 		}
 	}
 }

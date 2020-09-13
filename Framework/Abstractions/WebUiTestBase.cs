@@ -18,7 +18,7 @@ namespace OOSelenium.Framework.Abstractions
 					{
 						var privateField = (FieldInfo) field;
 
-						// Is the private field disposable?
+						// Is the private instance field of the inheriting child class disposable?
 						if (typeof (IDisposable).IsAssignableFrom (privateField.FieldType))
 						{
 							var disp = privateField.GetValue (this) as IDisposable;

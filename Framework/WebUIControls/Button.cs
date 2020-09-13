@@ -1,4 +1,5 @@
 ﻿using OOSelenium.Framework.Abstractions;
+
 using OpenQA.Selenium.Remote;
 
 namespace OOSelenium.Framework.WebUIControls

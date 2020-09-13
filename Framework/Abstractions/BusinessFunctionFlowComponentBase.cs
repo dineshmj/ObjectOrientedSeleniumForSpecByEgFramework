@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Configuration;
+
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Misc;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -25,12 +27,12 @@ namespace OOSelenium.Framework.Abstractions
 		public IWebDriver WebDriver { get; protected set; }
 
 		// Constructors.
-		public BusinessFunctionFlowComponentBase (IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment> hostComponent)
+		protected BusinessFunctionFlowComponentBase (IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment> hostComponent)
 			: this (hostComponent.TestBackgroundDataProvider)
 		{
 		}
 
-		public BusinessFunctionFlowComponentBase (ITestBackgroundDataProvider<TUserRole, TTestEnvironment> testBackgroundDataProvider)
+		protected BusinessFunctionFlowComponentBase (ITestBackgroundDataProvider<TUserRole, TTestEnvironment> testBackgroundDataProvider)
 		{
 			// Ensure generic types are enums.
 			this.EnsureGenericArgumentsAreEnumTypes ();

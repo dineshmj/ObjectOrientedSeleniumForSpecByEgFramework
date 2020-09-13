@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
+using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
 
 using OpenQA.Selenium;

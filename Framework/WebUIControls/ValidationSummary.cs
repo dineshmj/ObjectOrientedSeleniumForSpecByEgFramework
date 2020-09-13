@@ -17,7 +17,7 @@ namespace OOSelenium.Framework.WebUIControls
 
 		public IList<string> ValidationFailureMessages
 		{
-			get { return this.remoteElement.ReadBulletEntries (this.webDriver, this.id); }
+			get { return base.remoteElement.ReadBulletEntries (base.webDriver, base.id); }
 		}
 	}
 }
