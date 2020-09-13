@@ -12,3 +12,6 @@
 /.vs/OOSelenium.SampleWebApp.UiTests/v16/TestStore/0
 /SampleWebApp.UiTests/bin/Debug
 /SampleWebApp.UiTests/obj/Debug
+/Framework/obj/Release
+/SampleWebApp/obj/Release
+/SampleWebApp.UiTests/obj/Release
