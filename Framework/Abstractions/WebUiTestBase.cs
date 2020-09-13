@@ -22,7 +22,7 @@ namespace OOSelenium.Framework.Abstractions
 						if (typeof (IDisposable).IsAssignableFrom (privateField.FieldType))
 						{
 							var disp = privateField.GetValue (this) as IDisposable;
-							disp.Dispose ();
+							disp?.Dispose ();
 						}
 					});
 		}

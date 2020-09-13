@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Configuration;
 
+using OOSelenium.Framework.Entities;
+using OOSelenium.Framework.Misc;
 using OOSelenium.Framework.WebUIControls;
 
 using OpenQA.Selenium;

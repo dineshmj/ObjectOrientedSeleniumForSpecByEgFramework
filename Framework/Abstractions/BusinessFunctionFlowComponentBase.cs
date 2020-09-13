@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Configuration;
+using System.IO;
+using System.Reflection;
+
+using Microsoft.Edge.SeleniumTools;
 
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Misc;
@@ -61,11 +65,35 @@ namespace OOSelenium.Framework.Abstractions
 					case WebBrowser.GoogleChrome:
 						var chromeOptions = new ChromeOptions { BinaryLocation = browserExeAbsolutePath };
 						chromeOptions.AddAdditionalCapability ("useAutomationExtension", false);
+						chromeOptions.AddArgument ("no-sandbox");
 						this.WebDriver = new ChromeDriver (webDriverExeDirectoryAbsolutePath, chromeOptions);
 						break;
 
+					case WebBrowser.MicrosoftEdge:
+						var edgeOptions = new EdgeOptions
+							{
+								BinaryLocation = browserExeAbsolutePath
+							};
+						var edgeService = EdgeDriverService.CreateDefaultService (webDriverExeDirectoryAbsolutePath, "msedgedriver.exe");
+						// this.WebDriver = new EdgeDriver (edgeService, edgeOptions);
+						this.WebDriver = new EdgeDriver (edgeService, edgeOptions);
+						break;
+
 					case WebBrowser.InternetExplorer:
-						var ieOptions = new InternetExplorerOptions { EnsureCleanSession = true, RequireWindowFocus = true };
+						InternetExplorerOptions options = new InternetExplorerOptions ();
+						options.IntroduceInstabilityByIgnoringProtectedModeSettings = true;
+						options.RequireWindowFocus = true;
+
+
+						var ieOptions
+							= new InternetExplorerOptions
+								{
+									EnsureCleanSession = true,
+									RequireWindowFocus = true,
+									IntroduceInstabilityByIgnoringProtectedModeSettings = true
+								};
+
+						ieOptions.AddAdditionalCapability ("useAutomationExtension", false);
 						this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryAbsolutePath, ieOptions);
 						break;
 

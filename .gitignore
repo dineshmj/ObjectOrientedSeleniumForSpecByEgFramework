@@ -15,3 +15,6 @@
 /Framework/obj/Release
 /SampleWebApp/obj/Release
 /SampleWebApp.UiTests/obj/Release
+/.vs/OOSelenium.SampleWebApp/config/applicationhost.config
+/Framework/OOSelenium.Framework.csproj.user
+/SampleWebApp.UiTests/SampleWebApp.UiTests.csproj.user
