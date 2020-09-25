@@ -17,7 +17,7 @@ namespace OOSelenium.TestWebApp.Business
 					new SignInModel { UserId = "admin", EncryptedPassword = "123", UserRole = UserRole.Admin },
 					new SignInModel { UserId = "quote_issuer1", EncryptedPassword = "123", UserRole = UserRole.QuoteIssuer },
 					new SignInModel { UserId = "proposer1", EncryptedPassword = "123", UserRole = UserRole.ProposalInitiator },
-					new SignInModel { UserId = "policy_approver1", EncryptedPassword = "123", UserRole = UserRole.Admin }
+					new SignInModel { UserId = "policy_approver1", EncryptedPassword = "123", UserRole = UserRole.PolicyApprover }
 				};
 
 		private static IList<string> vehicleTypes = new List<string> { "Sedan", "Caravan", "Hybrid", "Convertible", "Hatchback", "Luxury Sedan" };

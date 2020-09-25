@@ -34,17 +34,17 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 			"Given that Four Walls Inc. Insurance One sign in page is accessible"
 				.x (() =>
 				{
-					signInPage = signInComponent.GoToSignInPage ();
+					this.signInPage = this.signInComponent.GoToSignInPage ();
 				});
 
 			"When I check the page title, labels of UI fileds, and text of buttons"
 				.x (() =>
 				{
 					// Read the UI field labels.
-					pageTitle = signInPage.Title;
-					userIdLabel = signInPage.UserIdLabel.Text;
-					passwordLabel = signInPage.PasswordLabel.Text;
-					signInButtonText = signInPage.SignInButton.Text;
+					pageTitle = this.signInPage.Title;
+					userIdLabel = this.signInPage.UserIdLabel.Text;
+					passwordLabel = this.signInPage.PasswordLabel.Text;
+					signInButtonText = this.signInPage.SignInButton.Text;
 				});
 
 			"Then the page title, labels and texts should be as expected"
@@ -67,27 +67,29 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 				.x (() =>
 				{
 					// Go to the sign in page.
-					signInPage = signInComponent.GoToSignInPage ();
+					this.signInPage = this.signInComponent.GoToSignInPage ();
 				});
 
 			"When enter invalid credentials on the sign in page and click the \"Sign in\" button"
 				.x (() =>
 				{
-					// Enter invalid credentials and click "Sign in".
-					signInPage.UserIdField.SetText ("pqr");
-					signInPage.PasswordField.SetText ("xyz");
-					signInPage.SignInButton.Click ();
+					// Enter invalid credentials.
+					this.signInPage.UserIdField.SetText ("pqr");
+					this.signInPage.PasswordField.SetText ("xyz");
+
+					// Click "sign in" button.
+					this.signInPage.SignInButton.Click ();
 				});
 
 			"Then I should see relevant validation failure messages related to failed signing in attempt."
 			.x (() =>
 				{
 					// Get the validation summary error messages.
-					validationSummaryMessages = signInPage.ValidationSummary.ValidationFailureMessages;
+					validationSummaryMessages = this.signInPage.ValidationSummary.ValidationFailureMessages;
 
 					// Assert the expectations.
 					validationSummaryMessages.Should ().NotBeNull ();
-					validationSummaryMessages [0].Should ().Be (Expectations.FAILED_SIGNING_IN_ATTEMPT_MESSAGE);
+					validationSummaryMessages [0].Should ().Be (Expectations.INVALID_USER_ID_OR_PASSWORD_MESSAGE);
 				});
 		} 
 	}
