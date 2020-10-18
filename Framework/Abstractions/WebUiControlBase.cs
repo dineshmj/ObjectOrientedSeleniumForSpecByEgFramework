@@ -22,5 +22,17 @@ namespace OOSelenium.Framework.Abstractions
 		{
 			get { return this.remoteElement.Text;  }
 		}
+
+		public virtual string CssClass
+		{
+			get { return this.GetAttribute ("class");  }
+		}
+
+		// Protected methods.
+
+		protected string GetAttribute (string attributeName)
+		{
+			return this.remoteElement.GetAttribute (attributeName);
+		}
 	}
 }

@@ -10,8 +10,12 @@ namespace SampleWebApp.UiTests.Modules.Auth.Helpers.Components
 		: BusinessFunctionFlowComponentBase<UserRole, TestEnvironment>
 	{
 		// Constructor.
-		public SignInFlowComponent (ITestBackgroundDataProvider<UserRole, TestEnvironment> testBackgroundDataProvider)
-			: base (testBackgroundDataProvider)
+		public SignInFlowComponent
+			(
+				ITestBackgroundDataProvider<UserRole, TestEnvironment> testBackgroundDataProvider,
+				IDecryptor decryptor
+			)
+			: base (testBackgroundDataProvider, decryptor)
 		{
 		}
 
@@ -55,7 +59,7 @@ namespace SampleWebApp.UiTests.Modules.Auth.Helpers.Components
 
 			// Enter credentials and sign in.
 			signInPage.UserIdField.SetText (signingInUser.UserId);
-			signInPage.PasswordField.SetText (signingInUser.EncryptedPassword);
+			signInPage.PasswordField.SetText (base.Decryptor.Decrypt (signingInUser.EncryptedPassword));
 			signInPage.SignInButton.Click ();
 		}
 	}

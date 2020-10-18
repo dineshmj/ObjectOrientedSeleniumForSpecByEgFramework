@@ -68,6 +68,7 @@
     <Compile Include="Extensions\WebElementExtensions.cs" />
     <Compile Include="Misc\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebUIControls\Picture.cs" />
     <Compile Include="WebUIControls\MultiSelectListBox.cs" />
     <Compile Include="WebUIControls\DropDownList.cs" />
     <Compile Include="Abstractions\MultiValuedControlBase.cs" />

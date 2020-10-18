@@ -21,7 +21,8 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 		public LetsKodeUiFeature ()
 		{
 			this.dataProvider = new LetsKodeScreenDataProvider ();
-			this.letsKodeComponent = new LetsKodeUiComponent<UserRole, TestEnvironment> (dataProvider);
+			this.letsKodeComponent
+				= new LetsKodeUiComponent<UserRole, TestEnvironment> (dataProvider);
 		}
 
 		[Scenario]

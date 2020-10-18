@@ -8,8 +8,12 @@ namespace SampleWebApp.UiTests.UiInteractionSample.Helpers.Components
 		: BusinessFunctionFlowComponentBase<UserRole, TestEnvironment>
 	{
 		// Constructor.
-		public LetsKodeUiComponent (ITestBackgroundDataProvider<UserRole, TestEnvironment> testBackgroundDataProvider)
-			: base (testBackgroundDataProvider)
+		public LetsKodeUiComponent
+			(
+				ITestBackgroundDataProvider<UserRole, TestEnvironment> testBackgroundDataProvider,
+				IDecryptor decryptor = null
+			)
+			: base (testBackgroundDataProvider, decryptor)
 		{
 		}
 

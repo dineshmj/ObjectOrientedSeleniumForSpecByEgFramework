@@ -4,8 +4,13 @@
 	{
 		// Sign in screen.
 		public const string SIGN_IN_PAGE_TITLE = "Sign in to Insurance One by Four Walls Inc.";
+
 		public const string SIGN_IN_PAGE_USER_ID_FIELD_LABEL_TEXT = "User ID";
 		public const string SIGN_IN_PAGE_PASSWORD_FIELD_LABEL_TEXT = "Password";
+
+		public const string SIGN_IN_PAGE_USER_ID_FIELD_PLACEHOLDER = "Enter user ID";
+		public const string SIGN_IN_PAGE_PASSWORD_FIELD_PLACEHOLDER = "Enter password";
+
 		public const string SIGN_IN_PAGE_SIGN_IN_BUTTON_TEXT = "Sign in";
 
 		// Failed signing in attempt.

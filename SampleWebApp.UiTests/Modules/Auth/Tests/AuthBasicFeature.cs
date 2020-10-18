@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 
 using FluentAssertions;
+
 using OOSelenium.Framework.Abstractions;
-using Xbehave;
+using OOSelenium.Framework.WebUIControls;
 
 using SampleWebApp.UiTests.Entities;
 using SampleWebApp.UiTests.Modules.Auth.Helpers;
 using SampleWebApp.UiTests.Modules.Auth.Helpers.Components;
+using SampleWebApp.UiTests.Modules.Auth.Helpers.ElementIDs;
 using SampleWebApp.UiTests.Modules.Auth.Helpers.Screens;
 using SampleWebApp.UiTests.Preparatory;
+
+using Xbehave;
 
 namespace SampleWebApp.UiTests.Modules.Auth.Tests
 {
@@ -17,19 +21,29 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 		: WebUiTestBase
 	{
 		private readonly ITestBackgroundDataProvider<UserRole, TestEnvironment> dataProvider;
+		private readonly IDecryptor decryptor;
 		private readonly SignInFlowComponent<UserRole, TestEnvironment> signInComponent;
 		private SignInPage signInPage;
 
 		public AuthBasicFeature ()
 		{
 			this.dataProvider = new InsuranceOneTestBackgroundDataProvider ();
-			this.signInComponent = new SignInFlowComponent<UserRole, TestEnvironment> (dataProvider);
+			this.decryptor = new DummyDecryptor ();
+			this.signInComponent
+				= new SignInFlowComponent<UserRole, TestEnvironment>
+					(
+						this.dataProvider,
+						this.decryptor
+					);
 		}
 
 		[Scenario]
 		public async void Sign_in_page_must_have_its_title_and_UI_controls_with_correct_labels_and_texts ()
 		{
 			var userIdLabel = String.Empty; var passwordLabel = String.Empty; var signInButtonText = String.Empty; var pageTitle = String.Empty;
+			var userIdFieldCssClass = String.Empty; var userIdFieldPlaceholder = String.Empty;
+			var passwordFieldCssClass = String.Empty; var passwordFieldPlaceholder = String.Empty;
+			var isPasswordFieldObscured = false; var logoPicture = (Picture) null;
 
 			"Given that Four Walls Inc. Insurance One sign in page is accessible"
 				.x (() =>
@@ -40,21 +54,55 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 			"When I check the page title, labels of UI fileds, and text of buttons"
 				.x (() =>
 				{
+					// Logo.
+					logoPicture = this.signInPage.ApplicationLogo;
+
+					// Credentials fields.
+					var userIdField = this.signInPage.UserIdField;
+					var passwordField = this.signInPage.PasswordField;
+
 					// Read the UI field labels.
 					pageTitle = this.signInPage.Title;
 					userIdLabel = this.signInPage.UserIdLabel.Text;
 					passwordLabel = this.signInPage.PasswordLabel.Text;
 					signInButtonText = this.signInPage.SignInButton.Text;
+
+					// User ID field.
+					userIdFieldCssClass = userIdField.CssClass;
+					userIdFieldPlaceholder = userIdField.PlaceHolderText;
+
+					// Password field.
+					passwordFieldCssClass = passwordField.CssClass;
+					passwordFieldPlaceholder = passwordField.PlaceHolderText;
+					isPasswordFieldObscured = passwordField.IsPassword;
 				});
 
-			"Then the page title, labels and texts should be as expected"
+			"Then the page title, labels and texts, CSS classes should be as expected"
 				.x (() =>
 				{
 					// Assert expectations.
+
+					// Logo.
+					var logoSize = logoPicture.ImageBitmap.Size;
+					logoSize.Width.Should ().Be (250);
+					logoSize.Height.Should ().Be (169);
+
+					// Labels.
 					pageTitle.Should ().Be (Expectations.SIGN_IN_PAGE_TITLE);
 					userIdLabel.Should ().Be (Expectations.SIGN_IN_PAGE_USER_ID_FIELD_LABEL_TEXT);
 					passwordLabel.Should ().Be (Expectations.SIGN_IN_PAGE_PASSWORD_FIELD_LABEL_TEXT);
 					signInButtonText.Should ().Be (Expectations.SIGN_IN_PAGE_SIGN_IN_BUTTON_TEXT);
+
+					// CSS classes.
+					userIdFieldCssClass.Should ().Contain (CssClassNames.REGULAR_TEXT_FIELD_CSS_CLASS);
+					passwordFieldCssClass.Should ().Contain (CssClassNames.PASSWORD_FIELD_CSS_CLASS);
+
+					// Placeholders.
+					userIdFieldPlaceholder.Should ().Be (Expectations.SIGN_IN_PAGE_USER_ID_FIELD_PLACEHOLDER);
+					passwordFieldPlaceholder.Should ().Be (Expectations.SIGN_IN_PAGE_PASSWORD_FIELD_PLACEHOLDER);
+
+					// Others.
+					isPasswordFieldObscured.Should ().BeTrue ();
 				});
 		}
 		

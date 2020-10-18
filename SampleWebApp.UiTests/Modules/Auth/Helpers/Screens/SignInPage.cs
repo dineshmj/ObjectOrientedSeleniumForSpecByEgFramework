@@ -10,6 +10,9 @@ namespace SampleWebApp.UiTests.Modules.Auth.Helpers.Screens
 	public sealed class SignInPage
 		: WebUiPageBase
 	{
+		// Application logo.
+		public Picture ApplicationLogo { get; private set; }
+
 		// Validation summary.
 		public ValidationSummary ValidationSummary
 		{
@@ -33,6 +36,9 @@ namespace SampleWebApp.UiTests.Modules.Auth.Helpers.Screens
 		public SignInPage (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
+			// Application logo.
+			this.ApplicationLogo = base.FindImage (SignInPageElementIDs.ID_APPLICATION_LOGO);
+
 			// Validation summary is intentionally left out because when the page loads, the
 			// DIV tag for validation summary would not be there.
 

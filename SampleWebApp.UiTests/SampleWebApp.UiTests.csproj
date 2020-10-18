@@ -87,6 +87,7 @@
     <Compile Include="Entities\TestEnvironment.cs" />
     <Compile Include="Entities\UserRole.cs" />
     <Compile Include="Modules\Auth\Helpers\Components\SignInFlowComponent.cs" />
+    <Compile Include="Modules\Auth\Helpers\ElementIDs\CssClassNames.cs" />
     <Compile Include="Modules\Auth\Helpers\ElementIDs\IssueQuoteLandingPageElementIds.cs" />
     <Compile Include="Modules\Auth\Helpers\ElementIDs\SignInPageElementIDs.cs" />
     <Compile Include="Modules\Auth\Helpers\Expectations.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Modules\Auth\Helpers\Screens\SignInPage.cs" />
     <Compile Include="Modules\Auth\Tests\IssueQuoteLandingPageFeature.cs" />
     <Compile Include="Modules\Auth\Tests\AuthBasicFeature.cs" />
-    <Compile Include="Preparatory\Decryptor.cs" />
+    <Compile Include="Preparatory\DummyDecryptor.cs" />
     <Compile Include="Preparatory\InsuranceOneTestBackgroundDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UiInteractionSample\Helpers\Components\LetsKodeUiComponent.cs" />

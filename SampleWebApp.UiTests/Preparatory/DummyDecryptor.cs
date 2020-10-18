@@ -2,7 +2,7 @@
 
 namespace SampleWebApp.UiTests.Preparatory
 {
-	public sealed class Decryptor
+	public sealed class DummyDecryptor
 		: IDecryptor
 	{
 		public string Decrypt (string cipherText)

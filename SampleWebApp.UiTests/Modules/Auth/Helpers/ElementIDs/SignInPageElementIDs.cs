@@ -2,6 +2,9 @@
 {
 	public static class SignInPageElementIDs
 	{
+		// Application Logo.
+		public const string ID_APPLICATION_LOGO = "applicationLogo";
+
 		// Validation summary.
 		public const string ID_VALIDATION_SUMMARY = "validationSummary";
 

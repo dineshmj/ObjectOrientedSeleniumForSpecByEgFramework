@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
-using System.Reflection;
 
 using Microsoft.Edge.SeleniumTools;
 
@@ -24,6 +22,8 @@ namespace OOSelenium.Framework.Abstractions
 		// Properties.
 		public ITestBackgroundDataProvider<TUserRole, TTestEnvironment> TestBackgroundDataProvider { get; protected set; }
 
+		public IDecryptor Decryptor { get; protected set; }
+
 		public TTestEnvironment TestEnvironment { get; protected set; }
 
 		public WebBrowser WebBrowserToUse { get; protected set; }
@@ -31,17 +31,25 @@ namespace OOSelenium.Framework.Abstractions
 		public IWebDriver WebDriver { get; protected set; }
 
 		// Constructors.
-		protected BusinessFunctionFlowComponentBase (IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment> hostComponent)
-			: this (hostComponent.TestBackgroundDataProvider)
+		protected BusinessFunctionFlowComponentBase
+			(
+				IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment> hostComponent
+			)
+			: this (hostComponent.TestBackgroundDataProvider, hostComponent.Decryptor)
 		{
 		}
 
-		protected BusinessFunctionFlowComponentBase (ITestBackgroundDataProvider<TUserRole, TTestEnvironment> testBackgroundDataProvider)
+		protected BusinessFunctionFlowComponentBase
+			(
+				ITestBackgroundDataProvider<TUserRole, TTestEnvironment> testBackgroundDataProvider,
+				IDecryptor decryptor = null
+			)
 		{
 			// Ensure generic types are enums.
 			this.EnsureGenericArgumentsAreEnumTypes ();
 
 			this.TestBackgroundDataProvider = testBackgroundDataProvider;
+			this.Decryptor = decryptor;
 
 			if (testBackgroundDataProvider != null)
 			{

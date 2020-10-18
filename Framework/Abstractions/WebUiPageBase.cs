@@ -50,6 +50,12 @@ namespace OOSelenium.Framework.Abstractions
 			return new Link (this.webDriver.FindElement (By.Id (linkId)) as RemoteWebElement, linkId);
 		}
 
+		protected Picture FindImage (string imageId)
+		{
+			return new Picture (this.webDriver.FindElement (By.Id (imageId)) as RemoteWebElement, imageId);
+		}
+
+
 		protected Label FindLabel (string labelId)
 		{
 			return new Label (this.webDriver.FindElement (By.Id (labelId)) as RemoteWebElement, labelId);

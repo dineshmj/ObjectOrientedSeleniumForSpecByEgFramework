@@ -18,13 +18,20 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 		: WebUiTestBase
 	{
 		private readonly ITestBackgroundDataProvider<UserRole, TestEnvironment> dataProvider;
+		private readonly IDecryptor decryptor;
 		private readonly SignInFlowComponent<UserRole, TestEnvironment> signInComponent;
 		private QuoteIssuerLandingPage issueQuotesLandingPage;
 
 		public IssueQuoteLandingPageFeature ()
 		{
 			this.dataProvider = new InsuranceOneTestBackgroundDataProvider ();
-			this.signInComponent = new SignInFlowComponent<UserRole, TestEnvironment> (dataProvider);
+			this.decryptor = new DummyDecryptor ();
+			this.signInComponent
+				= new SignInFlowComponent<UserRole, TestEnvironment>
+					(
+						this.dataProvider,
+						this.decryptor
+					);
 		}
 
 		[Scenario]
