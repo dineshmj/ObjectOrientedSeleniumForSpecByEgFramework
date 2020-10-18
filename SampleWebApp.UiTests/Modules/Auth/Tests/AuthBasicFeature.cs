@@ -139,6 +139,12 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 					validationSummaryMessages.Should ().NotBeNull ();
 					validationSummaryMessages [0].Should ().Be (Expectations.INVALID_USER_ID_OR_PASSWORD_MESSAGE);
 				});
-		} 
+		}
+
+		public override void Dispose ()
+		{
+			this.signInComponent.Dispose ();
+			this.signInPage.Dispose ();
+		}
 	}
 }

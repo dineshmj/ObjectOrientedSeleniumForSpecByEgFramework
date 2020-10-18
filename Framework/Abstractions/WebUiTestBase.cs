@@ -5,26 +5,26 @@ using System.Reflection;
 namespace OOSelenium.Framework.Abstractions
 {
 	public abstract class WebUiTestBase
+		: IDisposable
 	{
-		~WebUiTestBase ()
+		public virtual void Dispose ()
 		{
-			// Dispose all "IDisposable" instance fields of the Web UI tests.
 			this
 				.GetType ()
-				.GetMembers (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)	// Get all members.
-				.Where (m => m.MemberType == MemberTypes.Field)	// Get the private fields.
+				.GetMembers (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)  // Get all members.
+				.Where (m => m.MemberType == MemberTypes.Field) // Get the private fields.
 				.ToList ()
 				.ForEach (field =>
-					{
-						var privateField = (FieldInfo) field;
+				{
+					var privateField = (FieldInfo) field;
 
-						// Is the private instance field of the inheriting child class disposable?
-						if (typeof (IDisposable).IsAssignableFrom (privateField.FieldType))
-						{
-							var disp = privateField.GetValue (this) as IDisposable;
-							disp?.Dispose ();
-						}
-					});
+					// Is the private instance field of the inheriting child class disposable?
+					if (privateField != null && typeof (IDisposable).IsAssignableFrom (privateField.FieldType))
+					{
+						var disp = privateField.GetValue (this) as IDisposable;
+						disp?.Dispose ();
+					}
+				});
 		}
 	}
 }

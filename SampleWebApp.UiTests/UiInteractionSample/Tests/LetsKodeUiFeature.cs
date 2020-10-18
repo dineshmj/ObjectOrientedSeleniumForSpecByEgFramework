@@ -184,6 +184,7 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 					secondSelectedEntry.Value.Should ().Be ("peach");
 				});
 		}
+
 		[Scenario]
 		public async void Lets_kode_UI_must_have_BMW_check_box_with_correct_values ()
 		{
@@ -220,6 +221,12 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 				{
 					bmwCheckBox.IsChecked.Should ().BeTrue ();
 				});
+		}
+
+		public override void Dispose ()
+		{
+			this.letsKodeComponent.Dispose ();
+			this.letsKodePage.Dispose ();
 		}
 	}
 }

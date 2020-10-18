@@ -73,5 +73,11 @@ namespace SampleWebApp.UiTests.Modules.Auth.Tests
 					issueNewQuoteLink.Text.Should ().Be (Expectations.QUOTE_ISSUER_PAGE_ISSUE_A_NEW_QUOTE_LINK_TEXT);
 				});
 		}
+
+		public override void Dispose ()
+		{
+			this.signInComponent.Dispose ();
+			this.issueQuotesLandingPage.Dispose ();
+		}
 	}
 }
