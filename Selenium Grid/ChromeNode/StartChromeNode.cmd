@@ -1,0 +1,1 @@
+java -Dwebdriver.chrome.driver="D:\Dropbox\Professional\GitHub\ObjectOrientedSeleniumForSpecByEgFramework\packages\Selenium.WebDriver.ChromeDriver.86.0.4240.2200\driver\win32\chromedriver.exe" -jar selenium-server-standalone-3.141.59.jar -role node -hub http://192.168.1.28:4444/grid/register/

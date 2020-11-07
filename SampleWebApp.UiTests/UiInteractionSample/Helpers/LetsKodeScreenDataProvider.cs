@@ -30,7 +30,7 @@ namespace SampleWebApp.UiTests.UiInteractionSample.Helpers
 
 		public WebBrowser GetWebBrowserTypeToUseForAcceptanceTests ()
 		{
-			var preferredBrowser = ConfigurationManager.AppSettings [Constants.PREFERRED_WEB_BROWSER_KEY];
+			var preferredBrowser = ConfigurationManager.AppSettings [ConfigKeys.PREFERRED_WEB_BROWSER];
 			return (WebBrowser) Enum.Parse (typeof (WebBrowser), preferredBrowser);
 		}
 	}

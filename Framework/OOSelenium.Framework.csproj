@@ -63,10 +63,11 @@
     <Compile Include="Abstractions\WebUiPageBase.cs" />
     <Compile Include="Abstractions\WebUiTestBase.cs" />
     <Compile Include="Entities\Credential.cs" />
+    <Compile Include="Entities\TestRunMode.cs" />
     <Compile Include="Entities\TextValuePair.cs" />
     <Compile Include="Entities\WebBrowser.cs" />
     <Compile Include="Extensions\WebElementExtensions.cs" />
-    <Compile Include="Misc\Constants.cs" />
+    <Compile Include="Misc\ConfigKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebUIControls\Picture.cs" />
     <Compile Include="WebUIControls\MultiSelectListBox.cs" />

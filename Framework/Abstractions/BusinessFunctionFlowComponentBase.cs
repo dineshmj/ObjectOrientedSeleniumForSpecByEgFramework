@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Security.Policy;
 
 using Microsoft.Edge.SeleniumTools;
 
@@ -10,6 +11,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Remote;
 
 namespace OOSelenium.Framework.Abstractions
 {
@@ -57,52 +59,104 @@ namespace OOSelenium.Framework.Abstractions
 				this.WebBrowserToUse = testBackgroundDataProvider.GetWebBrowserTypeToUseForAcceptanceTests ();
 
 				var appSettings = ConfigurationManager.AppSettings;
+
+				// Selenium Grid related settings.
+				var runMode
+					= (appSettings [ConfigKeys.RUN_MODE].Trim ().Equals ("local"))
+						? TestRunMode.Local
+						: TestRunMode.SeleniumGrid;
+
+				var gridHubUrl = String.Empty;
+
+				if (runMode == TestRunMode.SeleniumGrid)
+				{
+					gridHubUrl = appSettings [ConfigKeys.SELENIUM_GRID_HUB_URL];
+				}
+
+				// Browser and web driver executable paths.
 				var configKeyFirstPart = this.WebBrowserToUse.ToString ();
 
-				var browserExeAbsolutePath = appSettings [configKeyFirstPart + Constants.BROWSER_EXE_ABSOLUTE_PATH_KEY_PART];
-				var webDriverExeDirectoryAbsolutePath = appSettings [configKeyFirstPart + Constants.WEB_DRIVER_EXE_DIRECTORY_PATH_KEY_PART];
+				var browserExeAbsolutePath = appSettings [configKeyFirstPart + ConfigKeys.BROWSER_EXE_ABSOLUTE_PATH_KEY_PART];
+				var webDriverExeDirectoryAbsolutePath = appSettings [configKeyFirstPart + ConfigKeys.WEB_DRIVER_EXE_DIRECTORY_PATH_KEY_PART];
 
 				// Prepare the web driver of choice.
 				switch (this.WebBrowserToUse)
 				{
 					case WebBrowser.MozillaFirefox:
-						var firefoxOptions = new FirefoxOptions { BrowserExecutableLocation = browserExeAbsolutePath };
-						this.WebDriver = new FirefoxDriver (webDriverExeDirectoryAbsolutePath, firefoxOptions);
+						if (runMode == TestRunMode.Local)
+						{
+							var firefoxOptions = new FirefoxOptions { BrowserExecutableLocation = browserExeAbsolutePath };
+							this.WebDriver = new FirefoxDriver (webDriverExeDirectoryAbsolutePath, firefoxOptions);
+						}
+						else
+						{
+							var firefoxOptions = new FirefoxOptions ();
+							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), firefoxOptions);
+						}
 						break;
 
 					case WebBrowser.GoogleChrome:
-						var chromeOptions = new ChromeOptions { BinaryLocation = browserExeAbsolutePath };
-						chromeOptions.AddAdditionalCapability ("useAutomationExtension", false);
-						chromeOptions.AddArgument ("no-sandbox");
-						this.WebDriver = new ChromeDriver (webDriverExeDirectoryAbsolutePath, chromeOptions);
+
+						if (runMode == TestRunMode.Local)
+						{
+							var chromeOptions = new ChromeOptions { BinaryLocation = browserExeAbsolutePath };
+							chromeOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							chromeOptions.AddArgument ("no-sandbox");
+							this.WebDriver = new ChromeDriver (webDriverExeDirectoryAbsolutePath, chromeOptions);
+						}
+						else
+						{
+							var chromeOptions = new ChromeOptions ();
+							chromeOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							chromeOptions.AddArgument ("no-sandbox");
+							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), chromeOptions);
+						}
 						break;
 
 					case WebBrowser.MicrosoftEdge:
-						var edgeOptions = new EdgeOptions
+						if (runMode == TestRunMode.Local)
+						{
+							var edgeOptions = new EdgeOptions
 							{
 								BinaryLocation = browserExeAbsolutePath
 							};
-						var edgeService = EdgeDriverService.CreateDefaultService (webDriverExeDirectoryAbsolutePath, "msedgedriver.exe");
-						// this.WebDriver = new EdgeDriver (edgeService, edgeOptions);
-						this.WebDriver = new EdgeDriver (edgeService, edgeOptions);
+							var edgeService = EdgeDriverService.CreateDefaultService (webDriverExeDirectoryAbsolutePath, "msedgedriver.exe");
+							this.WebDriver = new EdgeDriver (edgeService, edgeOptions);
+						}
+						else
+						{
+							var edgeOptions = new EdgeOptions { UseChromium = true };
+							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), edgeOptions);
+						}
 						break;
 
 					case WebBrowser.InternetExplorer:
-						InternetExplorerOptions options = new InternetExplorerOptions ();
-						options.IntroduceInstabilityByIgnoringProtectedModeSettings = true;
-						options.RequireWindowFocus = true;
-
-
-						var ieOptions
-							= new InternetExplorerOptions
+						if (runMode == TestRunMode.Local)
+						{
+							var ieOptions
+								= new InternetExplorerOptions
 								{
 									EnsureCleanSession = true,
 									RequireWindowFocus = true,
 									IntroduceInstabilityByIgnoringProtectedModeSettings = true
 								};
 
-						ieOptions.AddAdditionalCapability ("useAutomationExtension", false);
-						this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryAbsolutePath, ieOptions);
+							ieOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryAbsolutePath, ieOptions);
+						}
+						else
+						{
+							var ieOptions
+								= new InternetExplorerOptions
+								{
+									EnsureCleanSession = true,
+									RequireWindowFocus = true,
+									IntroduceInstabilityByIgnoringProtectedModeSettings = true
+								};
+
+							ieOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), ieOptions);
+						}
 						break;
 
 					default:
