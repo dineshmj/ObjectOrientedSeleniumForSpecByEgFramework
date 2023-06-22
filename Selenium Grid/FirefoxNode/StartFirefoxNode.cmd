@@ -1,1 +1,1 @@
-java -Dwebdriver.gecko.driver="D:\Dropbox\Professional\GitHub\ObjectOrientedSeleniumForSpecByEgFramework\packages\Selenium.Firefox.WebDriver.0.26.0\driver\geckodriver.exe" -jar selenium-server-standalone-3.141.59.jar -role node -hub http://192.168.1.28:4444/grid/register/
+java -Dwebdriver.gecko.driver="D:\Dropbox\Professional\GitHub\ObjectOrientedSeleniumForSpecByEgFramework\WebDrivers\Firefox\geckodriver.exe" -jar selenium-server-standalone-3.5.3.jar -role node -hub http://192.168.1.11:4444/grid/register/ -browser browserName=firefox

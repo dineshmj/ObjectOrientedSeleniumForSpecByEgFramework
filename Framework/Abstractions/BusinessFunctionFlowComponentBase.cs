@@ -13,12 +13,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace OOSelenium.Framework.Abstractions
 {
-	/// <summary>
-	/// Acts as the abstract base class for all business function flow components.
-	/// </summary>
+	//
+	// Acts as the abstract base class for all business function flow components.
+	//
 	public abstract class BusinessFunctionFlowComponentBase<TUserRole, TTestEnvironment>
 		: IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment>
 	{
+		// Fields.
 		private readonly IConfigurationRoot appSettings;
 
 		// Properties.
@@ -47,6 +48,7 @@ namespace OOSelenium.Framework.Abstractions
 				IDecryptor? decryptor = null
 			)
 		{
+			// Config reader.
 			this.appSettings = new ConfigurationBuilder ().AddJsonFile ("appsettings.json").Build ();
 
 			// Ensure generic types are enums.
@@ -70,11 +72,11 @@ namespace OOSelenium.Framework.Abstractions
 
 				if (runMode == TestRunMode.SeleniumGrid)
 				{
-					gridHubUrl = appSettings [ConfigKeys.SELENIUM_GRID_HUB_URL];
+					gridHubUrl = this.appSettings [ConfigKeys.SELENIUM_GRID_HUB_URL];
 				}
 
-				var browserExeAbsolutePath = string.Empty;
-				var webDriverExeDirectoryAbsolutePath = string.Empty;
+				string? browserExeAbsolutePath;
+				string? webDriverExeDirectoryAbsolutePath;
 
 				// Browser and web driver executable paths.
 				switch (this.WebBrowserToUse)
@@ -114,7 +116,8 @@ namespace OOSelenium.Framework.Abstractions
 						}
 						else
 						{
-							var firefoxOptions = new FirefoxOptions ();
+							// NOTE: The browser EXE path should be that of the Grid server, not local.
+							var firefoxOptions = new FirefoxOptions () { BrowserExecutableLocation = browserExeAbsolutePath };
 							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), firefoxOptions);
 						}
 						break;
@@ -131,6 +134,7 @@ namespace OOSelenium.Framework.Abstractions
 						}
 						else
 						{
+							// NOTE: If the binary cannot be obtained while running in grid mode, then you might need to specify the HUB server Chrome binary path.
 							var chromeOptions = new ChromeOptions ();
 							chromeOptions.AddAdditionalChromeOption ("useAutomationExtension", false);
 							chromeOptions.AddArgument ("no-sandbox");
@@ -163,11 +167,11 @@ namespace OOSelenium.Framework.Abstractions
 								= new InternetExplorerOptions
 								{
 									EnsureCleanSession = true,
+									IgnoreZoomLevel = true,
 									RequireWindowFocus = true,
 									IntroduceInstabilityByIgnoringProtectedModeSettings = true
 								};
 
-							ieOptions.AddAdditionalInternetExplorerOption ("useAutomationExtension", false);
 							this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryAbsolutePath, ieOptions);
 						}
 						else

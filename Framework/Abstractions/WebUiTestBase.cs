@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 
 using OpenQA.Selenium;
 
@@ -23,14 +21,14 @@ namespace OOSelenium.Framework.Abstractions
 					// Is the private instance field of the inheriting child class disposable?
 					if (privateField != null && typeof (IWebDriver).IsAssignableFrom (privateField.FieldType))
 					{
-						var disp = privateField.GetValue (this) as IWebDriver;
-						disp?.Quit ();
+						var webDriver = privateField.GetValue (this) as IWebDriver;
+						webDriver?.Quit ();
 					}
 
 					if (privateField != null && typeof (IDisposable).IsAssignableFrom (privateField.FieldType))
 					{
-						var disp = privateField.GetValue (this) as IDisposable;
-						disp?.Dispose ();
+						var disposable = privateField.GetValue (this) as IDisposable;
+						disposable?.Dispose ();
 					}
 				});
 		}

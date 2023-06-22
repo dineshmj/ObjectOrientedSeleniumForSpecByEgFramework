@@ -3,6 +3,7 @@
 	public sealed class TextValuePair
 	{
 		public string Text { get; private set; }
+
 		public string Value { get; private set; }
 
 		public TextValuePair (string text, string value)

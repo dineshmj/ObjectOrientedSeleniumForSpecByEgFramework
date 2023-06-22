@@ -1,7 +1,7 @@
-﻿using OOSelenium.Framework.Abstractions;
-using OOSelenium.Framework.WebUIControls;
+﻿using OpenQA.Selenium;
 
-using OpenQA.Selenium;
+using OOSelenium.Framework.Abstractions;
+using OOSelenium.Framework.WebUIControls;
 
 using SampleWebApp.UiTests.Modules.Auth.Helpers.ElementIDs;
 
@@ -24,10 +24,12 @@ namespace SampleWebApp.UiTests.Modules.Auth.Helpers.Screens
 
 		// User ID.
 		public Label UserIdLabel { get; private set; }
+
 		public TextField UserIdField { get; private set; }
 
 		// Password.
 		public Label PasswordLabel { get; private set; }
+
 		public TextField PasswordField { get; private set; }
 
 		// Sign in button.

@@ -1,6 +1,6 @@
-﻿using OOSelenium.Framework.WebUIControls;
+﻿using OpenQA.Selenium;
 
-using OpenQA.Selenium;
+using OOSelenium.Framework.WebUIControls;
 
 using SampleWebApp.UiTests.Modules.Auth.Helpers.ElementIDs;
 

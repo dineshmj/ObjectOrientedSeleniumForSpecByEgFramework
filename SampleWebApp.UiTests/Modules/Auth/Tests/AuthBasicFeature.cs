@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
-using FluentAssertions;
+﻿using FluentAssertions;
+using Xbehave;
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.WebUIControls;
@@ -12,8 +10,6 @@ using SampleWebApp.UiTests.Modules.Auth.Helpers.Components;
 using SampleWebApp.UiTests.Modules.Auth.Helpers.ElementIDs;
 using SampleWebApp.UiTests.Modules.Auth.Helpers.Screens;
 using SampleWebApp.UiTests.Preparatory;
-
-using Xbehave;
 
 namespace SampleWebApp.UiTests.Modules.Auth.Tests
 {

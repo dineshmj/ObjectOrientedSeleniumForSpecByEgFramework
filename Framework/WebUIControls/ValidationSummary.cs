@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Extensions;
-using OpenQA.Selenium;
 
 namespace OOSelenium.Framework.WebUIControls
 {

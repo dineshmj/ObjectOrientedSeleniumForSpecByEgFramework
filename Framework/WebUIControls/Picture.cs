@@ -1,12 +1,9 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+﻿using System.Drawing;
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 
 using OOSelenium.Framework.Abstractions;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Support.Extensions;
 
 namespace OOSelenium.Framework.WebUIControls
 {

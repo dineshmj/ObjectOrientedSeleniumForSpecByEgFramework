@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Misc;

@@ -1,6 +1,4 @@
-﻿using System;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xbehave;
 
 using OOSelenium.Framework.Abstractions;

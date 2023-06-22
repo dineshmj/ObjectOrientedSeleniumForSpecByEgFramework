@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Extensions;
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 
 namespace OOSelenium.Framework.Abstractions
 {

@@ -1,7 +1,7 @@
-﻿using OOSelenium.Framework.Abstractions;
-using OOSelenium.Framework.WebUIControls;
+﻿using OpenQA.Selenium;
 
-using OpenQA.Selenium;
+using OOSelenium.Framework.Abstractions;
+using OOSelenium.Framework.WebUIControls;
 
 namespace SampleWebApp.UiTests.UiInteractionSample.Helpers.Screens
 {
@@ -15,7 +15,9 @@ namespace SampleWebApp.UiTests.UiInteractionSample.Helpers.Screens
 		public MultiSelectListBox FruitsMultiListBox { get; private set; }
 
 		public CheckBox BmwCheckBox { get; private set; }
+
 		public CheckBox BenzCheckBox { get; private set; }
+
 		public CheckBox HondaCheckBox { get; private set; }
 
 		public LetsKodeItPage (IWebDriver webDriver, string baseUrl)

@@ -1,35 +1,28 @@
-﻿using System.Collections.Generic;
-
-using OOSelenium.Framework.Entities;
+﻿using OOSelenium.Framework.Entities;
 
 namespace OOSelenium.Framework.Abstractions
 {
-	/// <summary>
-	/// Provides data for the web UI acceptance tests.
-	/// </summary>
-	/// <typeparam name="TUserRole">An enumeration representing user roles.</typeparam>
-	/// <typeparam name="TTestEnvironment">An enumeration representing the test environments.</typeparam>
+	//
+	// Provides data for the web UI acceptance tests.
+	//
+	// TUserRole is an enumeration representing user roles.
+	// TTestEnvironment is an enumeration representing the test environments.
+	//
 	public interface ITestBackgroundDataProvider<TUserRole, TTestEnvironment>
 	{
-		/// <summary>
-		/// Gets the web browser that is to be used for the web UI acceptance tests.
-		/// </summary>
+		// Gets the web browser that is to be used for the web UI acceptance tests.
 		WebBrowser GetWebBrowserTypeToUseForAcceptanceTests ();
 
-		/// <summary>
-		/// Gets the target test environment (such as, FT, SIT, UAT, Pre-Prod, etc.)
-		/// </summary>
+		// Gets the target test environment (such as, FT, SIT, UAT, Pre-Prod, etc.)
 		TTestEnvironment GetTargetTestEnvironment ();
 
-		/// <summary>
-		/// Gets the target web application's URL for the specified test environment.
-		/// </summary>
+		// Gets the target web application's URL for the specified test environment.
 		string GetTargetApplicationBaseUrlFor (TTestEnvironment testEnv);
 
-		/// <summary>
-		/// Gets a dictionary of valid credentials for various user roles for the specified
-		/// test environment.
-		/// </summary>
+		//
+		// Gets a dictionary of valid credentials for various user roles for the specified
+		// test environment.
+		//
 		IDictionary<TUserRole, Credential> GetValidCredentialsOfUserTypesFor (TTestEnvironment testEnv);
 	}
 }

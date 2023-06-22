@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
+
+using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
-
-using OpenQA.Selenium;
 
 namespace OOSelenium.Framework.WebUIControls
 {

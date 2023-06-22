@@ -1,6 +1,4 @@
-﻿using System;
-
-using OOSelenium.Framework.Abstractions;
+﻿using OOSelenium.Framework.Abstractions;
 
 using SampleWebApp.UiTests.Modules.Auth.Helpers.Screens;
 
