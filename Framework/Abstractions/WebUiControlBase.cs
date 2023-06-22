@@ -6,14 +6,14 @@ namespace OOSelenium.Framework.Abstractions
 	public abstract class WebUiControlBase
 	{
 		protected readonly string id;
-		protected readonly RemoteWebElement remoteElement;
+		protected readonly IWebElement remoteElement;
 		protected readonly IWebDriver webDriver;
 
-		protected WebUiControlBase (RemoteWebElement element, string id)
+		protected WebUiControlBase (IWebElement element, string id, IWebDriver webDriver)
 		{
 			this.id = id;
 			this.remoteElement = element;
-			this.webDriver = element.WrappedDriver;
+			this.webDriver = webDriver;
 		}
 
 		public string Id { get { return this.id; } }

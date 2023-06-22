@@ -2,16 +2,15 @@
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Extensions;
-
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace OOSelenium.Framework.WebUIControls
 {
 	public sealed class ValidationSummary
 		: WebUiControlBase
 	{
-		public ValidationSummary (RemoteWebElement element, string id)
-			: base (element, id)
+		public ValidationSummary (IWebElement element, string id, IWebDriver webDriver)
+			: base (element, id, webDriver)
 		{
 		}
 

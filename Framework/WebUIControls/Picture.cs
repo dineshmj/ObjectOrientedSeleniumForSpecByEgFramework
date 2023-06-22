@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 
 using OOSelenium.Framework.Abstractions;
-
+using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.Extensions;
 
@@ -13,8 +13,8 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class Picture
 		: WebUiControlBase
 	{
-		public Picture (RemoteWebElement element, string id)
-			: base (element, id)
+		public Picture (IWebElement element, string id, IWebDriver webDriver)
+			: base (element, id, webDriver)
 		{
 			var base64string
 				= base.webDriver.ExecuteJavaScript<string>

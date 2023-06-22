@@ -47,48 +47,48 @@ namespace OOSelenium.Framework.Abstractions
 		// Protected methods.
 		protected Link FindLink (string linkId)
 		{
-			return new Link (this.webDriver.FindElement (By.Id (linkId)) as RemoteWebElement, linkId);
+			return new Link (this.webDriver.FindElement (By.Id (linkId)), linkId, this.webDriver);
 		}
 
 		protected Picture FindImage (string imageId)
 		{
-			return new Picture (this.webDriver.FindElement (By.Id (imageId)) as RemoteWebElement, imageId);
+			return new Picture (this.webDriver.FindElement (By.Id (imageId)), imageId, this.webDriver);
 		}
 
 
 		protected Label FindLabel (string labelId)
 		{
-			return new Label (this.webDriver.FindElement (By.Id (labelId)) as RemoteWebElement, labelId);
+			return new Label (this.webDriver.FindElement (By.Id (labelId)), labelId, this.webDriver);
 		}
 
 		protected ValidationSummary FindValidationSummary (string validationSummaryId)
 		{
-			return new ValidationSummary (this.webDriver.FindElement (By.Id (validationSummaryId)) as RemoteWebElement, validationSummaryId);
+			return new ValidationSummary (this.webDriver.FindElement (By.Id (validationSummaryId)), validationSummaryId, this.webDriver);
 		}
 
 		protected ValidationLabel FindValidationLabel (string validationLabelId)
 		{
-			return new ValidationLabel (this.webDriver.FindElement (By.Id (validationLabelId)) as RemoteWebElement, validationLabelId);
+			return new ValidationLabel (this.webDriver.FindElement (By.Id (validationLabelId)), validationLabelId, this.webDriver);
 		}
 
 		protected TextField FindTextField (string textFieldId)
 		{
-			return new TextField (this.webDriver.FindElement (By.Id (textFieldId)) as RemoteWebElement, textFieldId);
+			return new TextField (this.webDriver.FindElement (By.Id (textFieldId)), textFieldId, this.webDriver);
 		}
 
 		protected CheckBox FindCheckBox (string checkBoxId)
 		{
-			return new CheckBox (this.webDriver.FindElement (By.Id (checkBoxId)) as RemoteWebElement, checkBoxId);
+			return new CheckBox (this.webDriver.FindElement (By.Id (checkBoxId)), checkBoxId, this.webDriver);
 		}
 
 		protected Button FindButton (string buttonId)
 		{
-			return new Button (this.webDriver.FindElement (By.Id (buttonId)) as RemoteWebElement, buttonId);
+			return new Button (this.webDriver.FindElement (By.Id (buttonId)), buttonId, this.webDriver);
 		}
 
 		protected RadioButtons FindRadioButtonGroup (string radioButtonGroupName)
 		{
-			return new RadioButtons (this.WebDriver.FindElements (By.XPath ($"//input[@name=\"{ radioButtonGroupName }\" and @type=\"radio\"]")), radioButtonGroupName);
+			return new RadioButtons (this.WebDriver.FindElements (By.XPath ($"//input[@name=\"{ radioButtonGroupName }\" and @type=\"radio\"]")), radioButtonGroupName, this.webDriver);
 		}
 
 		protected DropDownList FindDropDownList (string dropDownName)
@@ -104,7 +104,7 @@ namespace OOSelenium.Framework.Abstractions
 
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
-			return new DropDownList (selectOptionElements, dropDownName);
+			return new DropDownList (selectOptionElements, dropDownName, this.webDriver);
 		}
 
 		protected MultiSelectListBox FindMultiSelectListBox (string multiListName)
@@ -121,7 +121,7 @@ namespace OOSelenium.Framework.Abstractions
 
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
-			return new MultiSelectListBox (selectOptionElements, multiListName);
+			return new MultiSelectListBox (selectOptionElements, multiListName, this.webDriver);
 		}
 
 		protected virtual void Dispose (bool proceedWithDisposal)

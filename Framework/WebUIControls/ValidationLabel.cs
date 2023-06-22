@@ -1,6 +1,6 @@
 ﻿using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Extensions;
-
+using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
 namespace OOSelenium.Framework.WebUIControls
@@ -8,8 +8,8 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class ValidationLabel
 		: WebUiControlBase
 	{
-		public ValidationLabel (RemoteWebElement element, string id)
-			: base (element, id)
+		public ValidationLabel (IWebElement element, string id, IWebDriver webDriver)
+			: base (element, id, webDriver)
 		{
 		}
 

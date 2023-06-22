@@ -1,17 +1,15 @@
-﻿using System;
-using System.Configuration;
-using System.Security.Policy;
-
-using Microsoft.Edge.SeleniumTools;
-
-using OOSelenium.Framework.Entities;
-using OOSelenium.Framework.Misc;
+﻿using System.Configuration;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
+
+using OOSelenium.Framework.Entities;
+using OOSelenium.Framework.Misc;
+using OpenQA.Selenium.Edge;
+using Microsoft.Extensions.Configuration;
 
 namespace OOSelenium.Framework.Abstractions
 {
@@ -21,10 +19,12 @@ namespace OOSelenium.Framework.Abstractions
 	public abstract class BusinessFunctionFlowComponentBase<TUserRole, TTestEnvironment>
 		: IBusinessFunctionFlowComponent<TUserRole, TTestEnvironment>
 	{
+		private readonly IConfigurationRoot appSettings;
+
 		// Properties.
 		public ITestBackgroundDataProvider<TUserRole, TTestEnvironment> TestBackgroundDataProvider { get; protected set; }
 
-		public IDecryptor Decryptor { get; protected set; }
+		public IDecryptor? Decryptor { get; protected set; }
 
 		public TTestEnvironment TestEnvironment { get; protected set; }
 
@@ -44,9 +44,11 @@ namespace OOSelenium.Framework.Abstractions
 		protected BusinessFunctionFlowComponentBase
 			(
 				ITestBackgroundDataProvider<TUserRole, TTestEnvironment> testBackgroundDataProvider,
-				IDecryptor decryptor = null
+				IDecryptor? decryptor = null
 			)
 		{
+			this.appSettings = new ConfigurationBuilder ().AddJsonFile ("appsettings.json").Build ();
+
 			// Ensure generic types are enums.
 			this.EnsureGenericArgumentsAreEnumTypes ();
 
@@ -58,11 +60,9 @@ namespace OOSelenium.Framework.Abstractions
 				this.TestEnvironment = testBackgroundDataProvider.GetTargetTestEnvironment ();
 				this.WebBrowserToUse = testBackgroundDataProvider.GetWebBrowserTypeToUseForAcceptanceTests ();
 
-				var appSettings = ConfigurationManager.AppSettings;
-
 				// Selenium Grid related settings.
 				var runMode
-					= (appSettings [ConfigKeys.RUN_MODE].Trim ().Equals ("local"))
+					= (this.appSettings [ConfigKeys.RUN_MODE].Trim ().Equals ("local"))
 						? TestRunMode.Local
 						: TestRunMode.SeleniumGrid;
 
@@ -73,11 +73,35 @@ namespace OOSelenium.Framework.Abstractions
 					gridHubUrl = appSettings [ConfigKeys.SELENIUM_GRID_HUB_URL];
 				}
 
-				// Browser and web driver executable paths.
-				var configKeyFirstPart = this.WebBrowserToUse.ToString ();
+				var browserExeAbsolutePath = string.Empty;
+				var webDriverExeDirectoryAbsolutePath = string.Empty;
 
-				var browserExeAbsolutePath = appSettings [configKeyFirstPart + ConfigKeys.BROWSER_EXE_ABSOLUTE_PATH_KEY_PART];
-				var webDriverExeDirectoryAbsolutePath = appSettings [configKeyFirstPart + ConfigKeys.WEB_DRIVER_EXE_DIRECTORY_PATH_KEY_PART];
+				// Browser and web driver executable paths.
+				switch (this.WebBrowserToUse)
+				{
+					case WebBrowser.MicrosoftEdge:
+						browserExeAbsolutePath = appSettings [ConfigKeys.EDGE_BROWSER_EXE_ABSOLUTE_PATH];
+						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.EDGE_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						break;
+
+					case WebBrowser.GoogleChrome:
+						browserExeAbsolutePath = appSettings [ConfigKeys.CHROME_BROWSER_EXE_ABSOLUTE_PATH];
+						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.CHROME_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						break;
+
+					case WebBrowser.MozillaFirefox:
+						browserExeAbsolutePath = appSettings [ConfigKeys.FIREFOX_BROWSER_EXE_ABSOLUTE_PATH];
+						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.FIREFOX_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						break;
+
+					case WebBrowser.InternetExplorer:
+						browserExeAbsolutePath = appSettings [ConfigKeys.IE_BROWSER_EXE_ABSOLUTE_PATH];
+						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.IE_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						break;
+
+					default:
+						throw new NotImplementedException ($"The Object Oriented Selenium Framework does not support web browser '{this.WebBrowserToUse}' yet.");
+				}
 
 				// Prepare the web driver of choice.
 				switch (this.WebBrowserToUse)
@@ -100,15 +124,17 @@ namespace OOSelenium.Framework.Abstractions
 						if (runMode == TestRunMode.Local)
 						{
 							var chromeOptions = new ChromeOptions { BinaryLocation = browserExeAbsolutePath };
-							chromeOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							chromeOptions.AddAdditionalChromeOption ("useAutomationExtension", false);
 							chromeOptions.AddArgument ("no-sandbox");
+
 							this.WebDriver = new ChromeDriver (webDriverExeDirectoryAbsolutePath, chromeOptions);
 						}
 						else
 						{
 							var chromeOptions = new ChromeOptions ();
-							chromeOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							chromeOptions.AddAdditionalChromeOption ("useAutomationExtension", false);
 							chromeOptions.AddArgument ("no-sandbox");
+
 							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), chromeOptions);
 						}
 						break;
@@ -125,7 +151,7 @@ namespace OOSelenium.Framework.Abstractions
 						}
 						else
 						{
-							var edgeOptions = new EdgeOptions { UseChromium = true };
+							var edgeOptions = new EdgeOptions ();
 							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), edgeOptions);
 						}
 						break;
@@ -141,7 +167,7 @@ namespace OOSelenium.Framework.Abstractions
 									IntroduceInstabilityByIgnoringProtectedModeSettings = true
 								};
 
-							ieOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							ieOptions.AddAdditionalInternetExplorerOption ("useAutomationExtension", false);
 							this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryAbsolutePath, ieOptions);
 						}
 						else
@@ -154,7 +180,7 @@ namespace OOSelenium.Framework.Abstractions
 									IntroduceInstabilityByIgnoringProtectedModeSettings = true
 								};
 
-							ieOptions.AddAdditionalCapability ("useAutomationExtension", false);
+							ieOptions.AddAdditionalInternetExplorerOption ("useAutomationExtension", false);
 							this.WebDriver = new RemoteWebDriver (new Uri (gridHubUrl), ieOptions);
 						}
 						break;

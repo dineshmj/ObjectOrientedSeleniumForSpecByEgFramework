@@ -1,5 +1,5 @@
 ﻿using OOSelenium.Framework.Abstractions;
-
+using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
 namespace OOSelenium.Framework.WebUIControls
@@ -7,8 +7,8 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class Button
 		: WebUiControlBase
 	{
-		public Button (RemoteWebElement element, string id)
-			: base (element, id)
+		public Button (IWebElement element, string id, IWebDriver webDriver)
+			: base (element, id, webDriver)
 		{
 		}
 

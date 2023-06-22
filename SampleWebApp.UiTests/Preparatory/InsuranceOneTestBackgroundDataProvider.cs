@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-
+using Microsoft.Extensions.Configuration;
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Misc;
@@ -13,6 +13,13 @@ namespace SampleWebApp.UiTests.Preparatory
 	public sealed class InsuranceOneTestBackgroundDataProvider
 		: ITestBackgroundDataProvider<UserRole, TestEnvironment>
 	{
+		private readonly IConfigurationRoot appSettings;
+
+		public InsuranceOneTestBackgroundDataProvider()
+        {
+			this.appSettings = new ConfigurationBuilder ().AddJsonFile ("appsettings.json").Build ();
+		}
+
 		public string GetTargetApplicationBaseUrlFor (TestEnvironment testEnv)
 		{
 			switch (testEnv)
@@ -50,7 +57,7 @@ namespace SampleWebApp.UiTests.Preparatory
 
 		public WebBrowser GetWebBrowserTypeToUseForAcceptanceTests ()
 		{
-			var preferredBrowser = ConfigurationManager.AppSettings [ConfigKeys.PREFERRED_WEB_BROWSER];
+			var preferredBrowser = this.appSettings [ConfigKeys.PREFERRED_WEB_BROWSER];
 			return (WebBrowser) Enum.Parse (typeof (WebBrowser), preferredBrowser);
 		}
 	}

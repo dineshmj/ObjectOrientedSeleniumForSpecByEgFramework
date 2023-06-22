@@ -8,8 +8,8 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class CheckBox
 		: WebUiControlBase
 	{
-		public CheckBox (RemoteWebElement element, string id)
-			: base (element, id)
+		public CheckBox (IWebElement element, string id, IWebDriver webDriver)
+			: base (element, id, webDriver)
 		{
 		}
 

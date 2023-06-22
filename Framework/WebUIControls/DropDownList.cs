@@ -12,8 +12,8 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class DropDownList
 		: MultiValuedControlBase
 	{
-		public DropDownList (ReadOnlyCollection<IWebElement> dropDownEntryTags, string id)
-			: base (dropDownEntryTags, id)
+		public DropDownList (ReadOnlyCollection<IWebElement> dropDownEntryTags, string id, IWebDriver webDriver)
+			: base (dropDownEntryTags, id, webDriver)
 		{
 		}
 

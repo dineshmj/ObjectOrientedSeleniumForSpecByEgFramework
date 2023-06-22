@@ -16,8 +16,8 @@ namespace OOSelenium.Framework.Abstractions
 		protected readonly ReadOnlyCollection<IWebElement> entryTags;
 		protected readonly IList<TextValuePair> entries;
 
-		public MultiValuedControlBase (ReadOnlyCollection<IWebElement> entryTags, string id)
-			: base ((RemoteWebElement) entryTags ?[0], id)
+		public MultiValuedControlBase (ReadOnlyCollection<IWebElement> entryTags, string id, IWebDriver webDriver)
+			: base (entryTags ?[0], id, webDriver)
 		{
 			// The radio tags collection.
 			this.entryTags = entryTags;

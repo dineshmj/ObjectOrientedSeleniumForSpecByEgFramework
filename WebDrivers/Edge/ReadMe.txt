@@ -1,4 +1,5 @@
-For version 85.0.564.51 of Microsoft Edge.
+For version 113.0.1774.42 Microsoft Edge on x64 platform.
+
 Download the appropriate web driver for Edge from:
 
 	https://developer.microsoft.com/fr-fr/microsoft-edge/tools/webdriver/

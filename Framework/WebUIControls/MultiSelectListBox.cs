@@ -14,8 +14,8 @@ namespace OOSelenium.Framework.WebUIControls
 	{
 		private readonly SelectElement parentSelectTag;
 
-		public MultiSelectListBox (ReadOnlyCollection<IWebElement> multiListBoxEntryTags, string id)
-			: base (multiListBoxEntryTags, id)
+		public MultiSelectListBox (ReadOnlyCollection<IWebElement> multiListBoxEntryTags, string id, IWebDriver webDriver)
+			: base (multiListBoxEntryTags, id, webDriver)
 		{
 			// Get the parent "select" tag.
 			var parentTag = base.entryTags [0];

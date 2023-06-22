@@ -9,7 +9,7 @@ namespace OOSelenium.Framework.Extensions
 	{
 		public static string Value (this IWebElement webElement)
 		{
-			var elementValue = webElement.GetProperty ("value");
+			var elementValue = webElement.GetDomProperty ("value");
 			var elementText = webElement.Text;
 
 			return
