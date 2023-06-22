@@ -19,3 +19,7 @@
 /Framework/OOSelenium.Framework.csproj.user
 /SampleWebApp.UiTests/SampleWebApp.UiTests.csproj.user
 /.vs/OOSelenium.SampleWebApp.UiTests/config/applicationhost.config
+/.vs/OOSelenium.SampleWebApp.UiTests
+/.vs
+/Framework/obj
+/SampleWebApp.UiTests/obj
