@@ -24,3 +24,16 @@
 /Framework/obj
 /SampleWebApp.UiTests/obj
 /SampleWebApp/.vs
+/Utilities/bin/Debug/net8.0
+/Selenium Grid/Hub/Old
+/Selenium Grid/Hub/WebDriverInfo.txt
+/Utilities/obj
+/WebDrivers/Chrome/#archive#
+/WebDrivers/Edge/#archive#
+/WebDrivers/Chrome/SoftwareDownloadInfo.txt
+/WebDrivers/Edge/SoftwareDownloadInfo.txt
+/WebDrivers/Firefox/#archive#
+/WebDrivers/Firefox/SoftwareDownloadInfo.txt
+/WebDrivers/IE/Old
+/WebDrivers/IE/WebDriverInfo.txt
+/WebDrivers/IE/#archive#
