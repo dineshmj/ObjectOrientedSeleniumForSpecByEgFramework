@@ -1,0 +1,10 @@
+Software = SeleniumGridHubJarFile
+Version = 4.29.0
+Download URL = https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.29.0/selenium-server-4.29.0.jar
+Downloaded on = 22-Mar-2025 04:52:50 PM, +05:30
+
+Software = SeleniumGridHubJarFile
+Version = 4.29.0
+Download URL = https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.29.0/selenium-server-4.29.0.jar
+Downloaded on = 22-Mar-2025 04:42:14 PM, +05:30
+

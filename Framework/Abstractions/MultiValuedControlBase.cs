@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 
+using OpenQA.Selenium;
+
 using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Extensions;
-
-using OpenQA.Selenium;
 
 namespace OOSelenium.Framework.Abstractions
 {
@@ -20,8 +20,6 @@ namespace OOSelenium.Framework.Abstractions
 			this.entryTags = entryTags;
 
 			// The radio options, their texts, and the corresponding values.
-			this.entries = new List<TextValuePair> ();
-
 			this.entries
 				= new ReadOnlyCollection<TextValuePair> (this.entryTags
 					.ToList ()

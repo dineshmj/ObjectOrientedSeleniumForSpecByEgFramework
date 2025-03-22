@@ -14,8 +14,7 @@ namespace OOSelenium.Framework.Abstractions
 				.GetMembers (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)  // Get all members.
 				.Where (m => m.MemberType == MemberTypes.Field) // Get the private fields.
 				.ToList ()
-				.ForEach (field =>
-				{
+				.ForEach (field => {
 					var privateField = (FieldInfo) field;
 
 					// Is the private instance field of the inheriting child class disposable?

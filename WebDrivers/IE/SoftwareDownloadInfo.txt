@@ -1,0 +1,15 @@
+Software = InternetExplorerWebDriver
+Version = 4.14.0.0
+Download URL = https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.14.0/IEDriverServer_Win32_4.14.0.zip
+Downloaded on = 22-Mar-2025 04:52:39 PM, +05:30
+
+Software = InternetExplorerWebDriver
+Version = 4.14.0.0
+Download URL = https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.14.0/IEDriverServer_Win32_4.14.0.zip
+Downloaded on = 22-Mar-2025 04:42:02 PM, +05:30
+
+Software = InternetExplorerWebDriver
+Version = 4.14.0.0
+Download URL = https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.14.0/IEDriverServer_Win32_4.14.0.zip
+Downloaded on = 22-Mar-2025 04:35:44 PM, +05:30
+

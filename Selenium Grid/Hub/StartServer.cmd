@@ -1,1 +1,1 @@
-java -jar selenium-server-standalone-3.5.3.jar -role hub
+java -jar selenium-server-4.29.0.jar hub

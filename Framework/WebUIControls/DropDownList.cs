@@ -15,7 +15,7 @@ namespace OOSelenium.Framework.WebUIControls
 		{
 		}
 
-		public IList<TextValuePair> DropDownOptions
+		public IList<TextValuePair> DropDownEntries
 		{
 			get  { return base.entries; }
 		}

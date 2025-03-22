@@ -46,6 +46,7 @@ namespace OOSelenium.Framework.WebUIControls
 		}
 
 		public Bitmap ImageBitmap { get; private set; }
+
 		public string Base64String { get; private set; }
 	}
 }

@@ -20,14 +20,14 @@ namespace OOSelenium.Framework.WebUIControls
 			get  { return base.entries; }
 		}
 
-		public TextValuePair SelectedOption
+		public TextValuePair SelectedRadio
 		{
 			get { return base.GetSelectedEntries ().FirstOrDefault (); }
 		}
 
-		public void SetRadioTo (string selectedRadioText)
+		public void SelectRadio (string textOfRadioToBeSelected)
 		{
-			base.ClickAndSelectEntry (selectedRadioText);
+			base.ClickAndSelectEntry (textOfRadioToBeSelected);
 		}
 	}
 }

@@ -2,10 +2,9 @@
 {
 	public enum WebBrowser
 	{
-		InternetExplorer,
 		MicrosoftEdge,
 		GoogleChrome,
 		MozillaFirefox,
-		AppleSafari
+		InternetExplorer
 	}
 }

@@ -23,19 +23,14 @@ namespace OOSelenium.Framework.Abstractions
 			this.baseUrl = baseUrl;
 
 			// Go to the page, so that its UI fields can be instantiated.
-			this.GoToPage ();
+			this.NavigateToPage ();
 		}
 
 		// Public methods.
-		public virtual void GoToPage ()
+		public virtual void NavigateToPage ()
 		{
 			this.webDriver.Manage ().Window.Maximize ();
 			this.webDriver.Navigate ().GoToUrl (this.baseUrl);
-		}
-
-		public virtual void Dispose ()
-		{
-			this.Dispose (true);
 		}
 
 		// Protected methods.
@@ -116,6 +111,11 @@ namespace OOSelenium.Framework.Abstractions
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
 			return new MultiSelectListBox (selectOptionElements, multiListName, this.webDriver);
+		}
+
+		public virtual void Dispose ()
+		{
+			this.Dispose (true);
 		}
 
 		protected virtual void Dispose (bool proceedWithDisposal)
