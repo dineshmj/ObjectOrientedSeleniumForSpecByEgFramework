@@ -88,9 +88,9 @@ namespace GitHubServerSearch.Pages
 				var searchResultsBlocks = base.FindAllDivsByCss (CssClasses.CSS_SEARCH_RESULT_BLOCK);
 
 				// If "show more" links are present, click them so that all matching lines are shown in the screen.
-				var showMoreLinks = base.GetAllElementsByCss (CssClasses.CSS_SHOW_MORE_ENTRIES_LINK);
+				var showMoreLinks = base.GetAllElementsByCss (CssClasses.CSS_SHOW_MORE_ENTRIES_LINK.RefineForAnchor ());
 
-				if (showMoreLinks.Count > 0)
+				if (showMoreLinks != null && showMoreLinks.Count > 0)
 				{
 					foreach (var oneLink in showMoreLinks)
 					{
@@ -221,9 +221,17 @@ namespace GitHubServerSearch.Pages
 					break;
 				}
 
-				var paginationButtons = base.GetAllElementsByCss (CssClasses.CSS_NEXT_PAGE_LINK.RefineForAnchor ());
+				IList<IWebElement> paginationButtons = default;
 
-				if (paginationButtons.Count == 0)
+				try
+				{
+					paginationButtons = base.GetAllElementsByCss (CssClasses.CSS_NEXT_PAGE_LINK.RefineForAnchor ());
+				}
+				catch
+				{
+				}
+
+				if (paginationButtons == null || paginationButtons.Count == 0)
 				{
 					// No more pages to navigate to. Break the WHILE loop.
 					break;

@@ -2,7 +2,7 @@
 {
 	public static class CssClasses
 	{
-		public const string CSS_SSO_CONFIRMATION_SUBMIT_BUTTON = "Button--primary Button--medium Button.Button--fullWidth";
+		public const string CSS_SSO_CONFIRMATION_SUBMIT_BUTTON = "Button--primary Button--medium Button Button--fullWidth";
 
 		public const string CSS_SEARCH_TEXT_BOX_DIV = "overflow-hidden";
 

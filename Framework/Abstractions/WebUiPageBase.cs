@@ -113,16 +113,16 @@ namespace OOSelenium.Framework.Abstractions
 			}
 		}
 
-		protected IList<Div> FindAllDivsByCss (string refinedCssClassName)
+		protected IList<Div> FindAllDivsByCss (string cssClassNameFromHtmlAsIs)
 		{
 			try
 			{
-				var divElements = this.GetAllElementsByCss (refinedCssClassName);
+				var divElements = this.GetAllElementsByCss (cssClassNameFromHtmlAsIs.RefineForDiv ());
 				var divs = new List<Div> ();
 
 				foreach (var oneDivElement in divElements)
 				{
-					divs.Add (new Div (oneDivElement, refinedCssClassName, this.webDriver));
+					divs.Add (new Div (oneDivElement, cssClassNameFromHtmlAsIs, this.webDriver));
 				}
 
 				return divs;

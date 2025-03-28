@@ -21,7 +21,7 @@ namespace GitHubServerSearch.Pages
 		{
 			this.UsernameTextField = this.FindTextFieldById (ElementIds.ID_LOGIN_ID_FIELD);
 			this.PasswordTextField = this.FindTextFieldById (ElementIds.ID_LOGIN_PASSWORD_FIELD);
-			this.LoginButton = this.FindButtonById (ElementNames.NAME_LOGIN_BUTTON);
+			this.LoginButton = this.FindButtonByName (ElementNames.NAME_LOGIN_BUTTON);
 		}
 
 		public void Login (string username, string password)
