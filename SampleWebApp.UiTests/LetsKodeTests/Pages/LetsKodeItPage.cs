@@ -23,14 +23,14 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Pages
 		public LetsKodeItPage (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
-			CarRadioButtonGroup = FindRadioButtonGroup ("cars");
+			CarRadioButtonGroup = FindRadioButtonGroupByName ("cars");
 			CarDropDown = FindDropDownList ("cars");
 			FruitsMultiListBox = FindMultiSelectListBox ("multiple-select-example");
 
 			// Check boxes.
-			BmwCheckBox = FindCheckBox ("bmwcheck");
-			BenzCheckBox = FindCheckBox ("benzcheck");
-			HondaCheckBox = FindCheckBox ("hondacheck");
+			BmwCheckBox = FindCheckBoxById ("bmwcheck");
+			BenzCheckBox = FindCheckBoxById ("benzcheck");
+			HondaCheckBox = FindCheckBoxById ("hondacheck");
 		}
 	}
 }

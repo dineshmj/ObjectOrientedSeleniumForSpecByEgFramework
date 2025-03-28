@@ -13,11 +13,6 @@ namespace OOSelenium.Framework.WebUIControls
 		{
 		}
 
-		public void Click ()
-		{
-			base.remoteElement.Click ();
-		}
-
 		public override string Text
 		{
 			get { return base.remoteElement.GetInnerText (base.webDriver, base.id); }

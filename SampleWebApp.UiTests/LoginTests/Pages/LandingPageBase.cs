@@ -16,8 +16,8 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 		public LandingPageBase (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
-			HomeLink = FindLink (IssueQuotePageElementIds.ID_INS_ONE_HOME_LINK);
-			LogoutLink = FindLink (IssueQuotePageElementIds.ID_LOGOUT_LINK);
+			HomeLink = FindLinkById (IssueQuotePageElementIds.ID_INS_ONE_HOME_LINK);
+			LogoutLink = FindLinkById (IssueQuotePageElementIds.ID_LOGOUT_LINK);
 		}
 	}
 }

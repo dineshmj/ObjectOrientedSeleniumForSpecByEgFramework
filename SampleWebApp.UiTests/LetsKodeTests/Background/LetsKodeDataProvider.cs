@@ -8,7 +8,7 @@ using SampleWebApp.UiTests.LoginTests.Background;
 namespace SampleWebApp.UiTests.LetsKodeTests.Background
 {
 	public sealed class LetsKodeDataProvider
-		: IExecutionEnvironmentDataProvider<UserRole, ExecutionEnvironment>
+		: IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment>
 	{
 		private readonly IConfigurationRoot appSettings;
 		
@@ -17,7 +17,7 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Background
 			appSettings = new ConfigurationBuilder ().AddJsonFile ("appsettings.json").Build ();
 		}
 
-		public string GetApplicationBaseUrlFor (ExecutionEnvironment testEnv)
+		public string GetWebApplicationUrlFor (ExecutionEnvironment testEnv)
 		{
 			return "https://www.letskodeit.com/practice";
 		}
@@ -36,6 +36,11 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Background
 		{
 			var preferredBrowser = appSettings [ConfigKeys.PREFERRED_WEB_BROWSER];
 			return (WebBrowser) Enum.Parse (typeof (WebBrowser), preferredBrowser);
+		}
+
+		public void SetCredentialsFor (ExecutionEnvironment executionEnv, IDictionary<UserRole, Credential> roleCredentialsDictionary)
+		{
+			throw new NotImplementedException ();
 		}
 	}
 }

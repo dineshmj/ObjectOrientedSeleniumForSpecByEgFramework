@@ -21,10 +21,58 @@ namespace OOSelenium.Framework.Extensions
 			jsEngine.ExecuteScript ($"arguments [0].setAttribute ('value', '{ valueText }');", webElement);
 		}
 
+		public static void SetFocus (this IWebElement webElement, IWebDriver webDriver)
+		{
+			var jsEngine = (IJavaScriptExecutor) webDriver;
+			jsEngine.ExecuteScript ("arguments [0].focus ();", webElement);
+		}
+
 		public static void ClickLink (this IWebElement anchorTag, IWebDriver webDriver)
 		{
 			var jsEngine = (IJavaScriptExecutor) webDriver;
 			jsEngine.ExecuteScript ($"arguments [0].click ();", anchorTag);
+		}
+
+		public static bool IsAnchorClickable (this IWebElement anchorElement)
+		{
+			var href = anchorElement.GetAttribute ("href");
+
+			if (string.IsNullOrEmpty (href) || string.IsNullOrWhiteSpace (href))
+			{
+				return false;
+			}
+
+			var classAttribute = anchorElement.GetAttribute ("class");
+
+			if (anchorElement.GetAttribute ("disabled") != null
+				|| (
+					classAttribute != null
+					&& classAttribute.Contains ("disabled")
+				))
+			{
+				return false;
+			}
+
+			if (! anchorElement.Displayed || !anchorElement.Enabled)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public static string GetInnerText (this IWebElement element, IWebDriver webDriver)
+		{
+			var text = element.Text;
+			var jsEngine = (IJavaScriptExecutor) webDriver;
+
+			var innerText = (string) jsEngine.ExecuteScript (
+				"return Array.from(arguments[0].childNodes).filter(node => node.nodeType === Node.TXT_NODE).map(node => node.textContent).join('');",
+				element);
+
+			return string.IsNullOrEmpty (innerText) || string.IsNullOrWhiteSpace (innerText)
+				? text
+				: innerText;
 		}
 
 		public static string GetInnerText (this IWebElement tagWithText, IWebDriver webDriver, string id)
@@ -66,6 +114,11 @@ namespace OOSelenium.Framework.Extensions
 			}
 
 			throw new StaleElementReferenceException ($"Cannot locate an element with id \"{ id }\".");
+		}
+
+		public static string GetOuterHTML (this IWebElement element)
+		{
+			return element.GetAttribute ("outerHTML");
 		}
 
 		public static IList<string> ReadBulletEntries (this IWebElement divTag, IWebDriver webDriver, string id)

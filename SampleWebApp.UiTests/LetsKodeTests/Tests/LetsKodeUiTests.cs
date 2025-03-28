@@ -13,7 +13,7 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Tests
 	public sealed class LetsKodeUiTests
 		: WebUiTestBase
 	{
-		private readonly IExecutionEnvironmentDataProvider<UserRole, ExecutionEnvironment> letsKodeDataProvider;
+		private readonly IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment> letsKodeDataProvider;
 		private readonly LetsKodeNavigationComponent<UserRole, ExecutionEnvironment> letsKodeNavigationComponent;
 		private LetsKodeItPage letsKodePage;
 

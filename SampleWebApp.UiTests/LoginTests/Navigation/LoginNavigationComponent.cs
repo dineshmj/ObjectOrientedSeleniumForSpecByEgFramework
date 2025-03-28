@@ -4,12 +4,12 @@ using SampleWebApp.UiTests.LoginTests.Pages;
 namespace SampleWebApp.UiTests.LoginTests.Navigation
 {
 	public sealed class LoginNavigationComponent<UserRole, ExecutionEnvironment>
-		: BusinessNavigationComponentBase<UserRole, ExecutionEnvironment>
+		: WebUiNavigationComponentBase<UserRole, ExecutionEnvironment>
 	{
 		// Constructor.
 		public LoginNavigationComponent
 			(
-				IExecutionEnvironmentDataProvider<UserRole, ExecutionEnvironment> testBackgroundDataProvider,
+				IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment> testBackgroundDataProvider,
 				IDecryptor decryptor
 			)
 			: base (testBackgroundDataProvider, decryptor)
@@ -19,13 +19,13 @@ namespace SampleWebApp.UiTests.LoginTests.Navigation
 		// Public methods.
 		public LoginPage GoToLoginPage ()
 		{
-			var provider = ExecutionEnvironmentDataProvider;
+			var provider = ExecutionEnvironmentPageDataProvider;
 
 			return
 				new LoginPage
 				(
 					WebDriver,
-					provider.GetApplicationBaseUrlFor (base.ExecutionEnvironment)
+					provider.GetWebApplicationUrlFor (base.ExecutionEnvironment)
 				);
 		}
 
@@ -52,7 +52,7 @@ namespace SampleWebApp.UiTests.LoginTests.Navigation
 		private void LoginToApplication (UserRole userRole)
 		{
 			// Get credentials for the role.
-			var credDictionary = ExecutionEnvironmentDataProvider.GetCredentialsFor (base.ExecutionEnvironment);
+			var credDictionary = ExecutionEnvironmentPageDataProvider.GetCredentialsFor (base.ExecutionEnvironment);
 			var credential = credDictionary [userRole];
 
 			// Go to sign in page.

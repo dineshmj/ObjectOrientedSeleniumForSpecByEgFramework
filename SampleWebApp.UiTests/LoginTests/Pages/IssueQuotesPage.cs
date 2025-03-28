@@ -15,8 +15,8 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 		public IssueQuotesPage (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
-			SearchQuotesLink = FindLink (IssueQuotePageElementIds.ID_SEARCH_QUOTES_LINK);
-			IssueANewQuoteLink = FindLink (IssueQuotePageElementIds.ID_ISSUE_A_NEW_QUOTE_LINK);
+			SearchQuotesLink = FindLinkById (IssueQuotePageElementIds.ID_SEARCH_QUOTES_LINK);
+			IssueANewQuoteLink = FindLinkById (IssueQuotePageElementIds.ID_ISSUE_A_NEW_QUOTE_LINK);
 		}
 	}
 }

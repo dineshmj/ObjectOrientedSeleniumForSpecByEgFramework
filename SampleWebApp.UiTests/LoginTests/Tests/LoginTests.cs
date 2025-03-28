@@ -14,7 +14,7 @@ namespace SampleWebApp.UiTests.LoginTests.Tests
 	public sealed class LoginTests
 		: WebUiTestBase
 	{
-		private readonly IExecutionEnvironmentDataProvider<UserRole, ExecutionEnvironment> dataProvider;
+		private readonly IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment> dataProvider;
 		private readonly IDecryptor decryptor;
 		private readonly LoginNavigationComponent<UserRole, ExecutionEnvironment> loginNavigationComponent;
 		private LoginPage loginPage;

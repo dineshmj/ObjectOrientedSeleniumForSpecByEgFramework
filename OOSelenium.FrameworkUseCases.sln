@@ -9,6 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp.UiTests", "Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOSelenium.Utilities", "Utilities\OOSelenium.Utilities.csproj", "{323F99B9-EC6D-97BB-803C-3D6433FEDDF9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCases", "UseCases", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUI Tests", "WebUI Tests", "{5840A5B3-FEB1-4D6F-95EA-FF27AADAFDD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App Use Automation", "App Use Automation", "{AC6712CF-59EB-46C2-83DD-1DA8CB63A86E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubServerSearch", "GitHubServerSearch\GitHubServerSearch\GitHubServerSearch.csproj", "{CEA18F48-3BEC-4C11-BE20-911F33065758}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +35,19 @@ Global
 		{323F99B9-EC6D-97BB-803C-3D6433FEDDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{323F99B9-EC6D-97BB-803C-3D6433FEDDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{323F99B9-EC6D-97BB-803C-3D6433FEDDF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{831973FC-AB0F-48F7-8953-1373A79EDE30} = {5840A5B3-FEB1-4D6F-95EA-FF27AADAFDD1}
+		{5840A5B3-FEB1-4D6F-95EA-FF27AADAFDD1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{AC6712CF-59EB-46C2-83DD-1DA8CB63A86E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CEA18F48-3BEC-4C11-BE20-911F33065758} = {AC6712CF-59EB-46C2-83DD-1DA8CB63A86E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83857670-D568-4862-BDB3-7A44A1B11EAE}

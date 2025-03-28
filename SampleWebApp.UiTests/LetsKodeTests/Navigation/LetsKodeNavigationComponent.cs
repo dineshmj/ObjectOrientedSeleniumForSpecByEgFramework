@@ -4,11 +4,11 @@ using SampleWebApp.UiTests.LetsKodeTests.Pages;
 namespace SampleWebApp.UiTests.LetsKodeTests.Navigation
 {
 	public sealed class LetsKodeNavigationComponent<UserRole, TestEnvironment>
-		: BusinessNavigationComponentBase<UserRole, TestEnvironment>
+		: WebUiNavigationComponentBase<UserRole, TestEnvironment>
 	{
 		// Constructor.
 		public LetsKodeNavigationComponent (
-				IExecutionEnvironmentDataProvider<UserRole, TestEnvironment> testDataProvider,
+				IExecutionEnvironmentPageDataProvider<UserRole, TestEnvironment> testDataProvider,
 				IDecryptor decryptor = null)
 			: base (testDataProvider, decryptor)
 		{
@@ -19,7 +19,7 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Navigation
 			return
 				new LetsKodeItPage (
 					WebDriver,
-					ExecutionEnvironmentDataProvider.GetApplicationBaseUrlFor (base.ExecutionEnvironment));
+					ExecutionEnvironmentPageDataProvider.GetWebApplicationUrlFor (base.ExecutionEnvironment));
 		}
 	}
 }

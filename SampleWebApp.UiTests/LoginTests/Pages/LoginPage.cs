@@ -17,7 +17,7 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 		{
 			get
 			{
-				return FindValidationSummary (LoginPageElementIDs.ID_VALIDATION_SUMMARY);
+				return FindValidationSummaryById (LoginPageElementIDs.ID_VALIDATION_SUMMARY);
 			}
 		}
 
@@ -38,21 +38,21 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 			: base (webDriver, baseUrl)
 		{
 			// Application logo.
-			ApplicationLogo = FindImage (LoginPageElementIDs.ID_APPLICATION_LOGO);
+			ApplicationLogo = FindImageById (LoginPageElementIDs.ID_APPLICATION_LOGO);
 
 			// Validation summary is intentionally left out because when the page loads, the
 			// DIV tag for validation summary would not be there.
 
 			// User ID.
-			UserIdLabel = FindLabel (LoginPageElementIDs.ID_USER_ID_LABEL);
-			UserIdField = FindTextField (LoginPageElementIDs.ID_USER_ID_TEXT_FIELD);
+			UserIdLabel = FindLabelById (LoginPageElementIDs.ID_USER_ID_LABEL);
+			UserIdField = FindTextFieldById (LoginPageElementIDs.ID_USER_ID_TEXT_FIELD);
 
 			// Password.
-			PasswordLabel = FindLabel (LoginPageElementIDs.ID_PASSWORD_LABEL);
-			PasswordField = FindTextField (LoginPageElementIDs.ID_PASSWORD_TEXT_FIELD);
+			PasswordLabel = FindLabelById (LoginPageElementIDs.ID_PASSWORD_LABEL);
+			PasswordField = FindTextFieldById (LoginPageElementIDs.ID_PASSWORD_TEXT_FIELD);
 
 			// Login button.
-			LoginButton = FindButton (LoginPageElementIDs.ID_LOGIN_BUTTON);
+			LoginButton = FindButtonById (LoginPageElementIDs.ID_LOGIN_BUTTON);
 		}
 	}
 }

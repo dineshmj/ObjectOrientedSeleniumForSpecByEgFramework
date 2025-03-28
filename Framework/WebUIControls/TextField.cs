@@ -27,5 +27,23 @@ namespace OOSelenium.Framework.WebUIControls
 		{
 			base.remoteElement.SetValue (text, base.webDriver);
 		}
+
+		public void Clear ()
+		{
+			base.remoteElement.Clear ();
+		}
+
+		public void SendKeys (string keys)
+		{
+			base.remoteElement.SendKeys (keys);
+		}
+
+		public void TypeEachCharacter (string text)
+		{
+			foreach (char oneChar in text)
+			{
+				base.remoteElement.SendKeys (oneChar.ToString ());
+			}
+		}
 	}
 }

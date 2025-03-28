@@ -13,13 +13,13 @@ using OOSelenium.Framework.Misc;
 namespace OOSelenium.Framework.Abstractions
 {
 	// Acts as the abstract base class for all business navgiation components.
-	public abstract class BusinessNavigationComponentBase<TUserRole, TExecutionEnvironment>
-		: IBusinessNavigationComponent<TUserRole, TExecutionEnvironment>
+	public abstract class WebUiNavigationComponentBase<TUserRole, TExecutionEnvironment>
+		: IWebUiNavigationComponent<TUserRole, TExecutionEnvironment>
 	{
 		private readonly IConfigurationRoot appSettings;
 
 		// Properties.
-		public IExecutionEnvironmentDataProvider<TUserRole, TExecutionEnvironment> ExecutionEnvironmentDataProvider { get; protected set; }
+		public IExecutionEnvironmentPageDataProvider<TUserRole, TExecutionEnvironment> ExecutionEnvironmentPageDataProvider { get; protected set; }
 
 		public IDecryptor? Decryptor { get; protected set; }
 
@@ -30,15 +30,15 @@ namespace OOSelenium.Framework.Abstractions
 		public IWebDriver WebDriver { get; protected set; }
 
 		// Constructors.
-		protected BusinessNavigationComponentBase (
-				IBusinessNavigationComponent<TUserRole, TExecutionEnvironment> parentComponent)
-			: this (parentComponent.ExecutionEnvironmentDataProvider, parentComponent.Decryptor)
+		protected WebUiNavigationComponentBase (
+				IWebUiNavigationComponent<TUserRole, TExecutionEnvironment> parentNavigationComponent)
+			: this (parentNavigationComponent.ExecutionEnvironmentPageDataProvider, parentNavigationComponent.Decryptor)
 		{
 		}
 
-		protected BusinessNavigationComponentBase
+		protected WebUiNavigationComponentBase
 			(
-				IExecutionEnvironmentDataProvider<TUserRole, TExecutionEnvironment> exeEnvDataProvider,
+				IExecutionEnvironmentPageDataProvider<TUserRole, TExecutionEnvironment> exeEnvDataProvider,
 				IDecryptor? decryptor = null
 			)
 		{
@@ -48,7 +48,7 @@ namespace OOSelenium.Framework.Abstractions
 			// Ensure generic types are enums.
 			this.EnsureGenericArgumentsAreEnumTypes ();
 
-			this.ExecutionEnvironmentDataProvider = exeEnvDataProvider;
+			this.ExecutionEnvironmentPageDataProvider = exeEnvDataProvider;
 			this.Decryptor = decryptor;
 
 			if (exeEnvDataProvider != null)

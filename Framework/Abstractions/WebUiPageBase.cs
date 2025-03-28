@@ -1,6 +1,11 @@
-﻿using OOSelenium.Framework.WebUIControls;
+﻿using System.Collections.ObjectModel;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+
+using OOSelenium.Framework.Extensions;
+using OOSelenium.Framework.WebUIControls;
 
 namespace OOSelenium.Framework.Abstractions
 {
@@ -34,61 +39,176 @@ namespace OOSelenium.Framework.Abstractions
 		}
 
 		// Protected methods.
-		protected Link FindLink (string linkId)
+		protected IWebElement GetElementById (string elementId)
 		{
-			return new Link (this.webDriver.FindElement (By.Id (linkId)), linkId, this.webDriver);
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.Id (elementId)));
+			return element;
 		}
 
-		protected Picture FindImage (string imageId)
+		protected IWebElement GetElementByName (string elementName)
 		{
-			return new Picture (this.webDriver.FindElement (By.Id (imageId)), imageId, this.webDriver);
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.Name (elementName)));
+			return element;
+		}
+
+		protected IWebElement GetElementByCss (string refinedCssClassName)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.CssSelector (refinedCssClassName)));
+			return element;
+		}
+
+		protected IWebElement GetElementByXPath (string xPath)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.XPath (xPath)));
+			return element;
+		}
+
+		protected IList<IWebElement> GetAllElementsByCss (string refinedCssClassName)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var elements = wait.Until (ExpectedConditions.PresenceOfAllElementsLocatedBy (By.CssSelector (refinedCssClassName)));
+			return elements;
+		}
+
+		protected IList<IWebElement> GetAllElementsByXPath (string xPath)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var elements = wait.Until (ExpectedConditions.PresenceOfAllElementsLocatedBy (By.XPath (xPath)));
+			return elements;
+		}
+
+		protected Link FindLinkById (string linkId)
+		{
+			var linkElement = this.GetElementById (linkId);
+			return new Link (linkElement, linkId, this.webDriver);
+		}
+
+		protected Link FindLinkByCss (string refinedCssClassName)
+		{
+			var linkElement = this.GetElementByCss (refinedCssClassName);
+			return new Link (linkElement, refinedCssClassName, this.webDriver);
+		}
+
+		protected IList<Link> FindAllLinksByCss (string cssClassNameFromHtmlAsIs)
+		{
+			try
+			{
+				var linkElements = this.GetAllElementsByCss (cssClassNameFromHtmlAsIs.RefineForAnchor ());
+				var links = new List<Link> ();
+
+				foreach (var oneLinkElement in linkElements)
+				{
+					links.Add (new Link (oneLinkElement, cssClassNameFromHtmlAsIs, this.webDriver));
+				}
+
+				return links;
+			}
+			catch (Exception ex)
+			{
+				return default;
+			}
+		}
+
+		protected IList<Div> FindAllDivsByCss (string refinedCssClassName)
+		{
+			try
+			{
+				var divElements = this.GetAllElementsByCss (refinedCssClassName);
+				var divs = new List<Div> ();
+
+				foreach (var oneDivElement in divElements)
+				{
+					divs.Add (new Div (oneDivElement, refinedCssClassName, this.webDriver));
+				}
+
+				return divs;
+			}
+			catch (Exception ex)
+			{
+				return default;
+			}
+		}
+
+		protected Picture FindImageById (string imageId)
+		{
+			var imageElement = this.GetElementById (imageId);
+			return new Picture (imageElement, imageId, this.webDriver);
 		}
 
 
-		protected Label FindLabel (string labelId)
+		protected Label FindLabelById (string labelId)
 		{
-			return new Label (this.webDriver.FindElement (By.Id (labelId)), labelId, this.webDriver);
+			var labelElement = this.GetElementById (labelId);
+			return new Label (labelElement, labelId, this.webDriver);
 		}
 
-		protected ValidationSummary FindValidationSummary (string validationSummaryId)
+		protected ValidationSummary FindValidationSummaryById (string validationSummaryId)
 		{
-			return new ValidationSummary (this.webDriver.FindElement (By.Id (validationSummaryId)), validationSummaryId, this.webDriver);
+			var validationSummaryElement = this.GetElementById (validationSummaryId);
+			return new ValidationSummary (validationSummaryElement, validationSummaryId, this.webDriver);
 		}
 
-		protected ValidationLabel FindValidationLabel (string validationLabelId)
+		protected ValidationLabel FindValidationLabelById (string validationLabelId)
 		{
-			return new ValidationLabel (this.webDriver.FindElement (By.Id (validationLabelId)), validationLabelId, this.webDriver);
+			var validationLabelElement = this.GetElementById (validationLabelId);
+			return new ValidationLabel (validationLabelElement, validationLabelId, this.webDriver);
 		}
 
-		protected TextField FindTextField (string textFieldId)
+		protected TextField FindTextFieldById (string textFieldId)
 		{
-			return new TextField (this.webDriver.FindElement (By.Id (textFieldId)), textFieldId, this.webDriver);
+			var textFieldElement = this.GetElementById (textFieldId);
+			return new TextField (textFieldElement, textFieldId, this.webDriver);
 		}
 
-		protected CheckBox FindCheckBox (string checkBoxId)
+		protected Span FindSpanById (string spanId)
 		{
-			return new CheckBox (this.webDriver.FindElement (By.Id (checkBoxId)), checkBoxId, this.webDriver);
+			var spanElement = this.GetElementById (spanId);
+			return new Span (spanElement, spanId, this.webDriver);
 		}
 
-		protected Button FindButton (string buttonId)
+		protected CheckBox FindCheckBoxById (string checkBoxId)
 		{
-			return new Button (this.webDriver.FindElement (By.Id (buttonId)), buttonId, this.webDriver);
+			var checkBoxElement = this.GetElementById (checkBoxId);
+			return new CheckBox (checkBoxElement, checkBoxId, this.webDriver);
 		}
 
-		protected RadioButtons FindRadioButtonGroup (string radioButtonGroupName)
+		protected Button FindButtonById (string buttonId)
 		{
-			return new RadioButtons (this.WebDriver.FindElements (By.XPath ($"//input[@name=\"{ radioButtonGroupName }\" and @type=\"radio\"]")), radioButtonGroupName, this.webDriver);
+			var buttonElement = this.GetElementById (buttonId);
+			return new Button (buttonElement, buttonId, this.webDriver);
+		}
+
+		protected Button FindButtonByName (string buttonName)
+		{
+			var buttonElement = this.GetElementByName (buttonName);
+			return new Button (buttonElement, buttonName, this.webDriver);
+		}
+
+		protected Button FindButtonByCss (string refinedCssClassName)
+		{
+			var buttonElement = this.GetElementByCss (refinedCssClassName);
+			return new Button (buttonElement, refinedCssClassName, this.webDriver);
+		}
+
+		protected RadioButtons FindRadioButtonGroupByName (string radioButtonGroupName)
+		{
+			var radioButtons = this.GetAllElementsByXPath ($"//input[@name=\"{radioButtonGroupName}\" and @type=\"radio\"]");
+			return new RadioButtons (new ReadOnlyCollection<IWebElement> (radioButtons), radioButtonGroupName, this.webDriver);
 		}
 
 		protected DropDownList FindDropDownList (string dropDownName)
 		{
-			var selectElement = this.WebDriver.FindElement (By.XPath ($"//select[@name=\"{ dropDownName }\"]"));
+			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ dropDownName }\"]");
 
 			if (selectElement == null)
 			{
 				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
 				// Try getting the select tag based on "id".
-				selectElement = this.WebDriver.FindElement (By.Id (dropDownName));
+				selectElement = this.GetElementById (dropDownName);
 			}
 
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
@@ -99,13 +219,13 @@ namespace OOSelenium.Framework.Abstractions
 		protected MultiSelectListBox FindMultiSelectListBox (string multiListName)
 		{
 			// "multiple" attribute must be present for a multi-select list box.
-			var selectElement = this.WebDriver.FindElement (By.XPath ($"//select[@name=\"{ multiListName }\" and @multiple]"));
+			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ multiListName }\" and @multiple]");
 
 			if (selectElement == null)
 			{
 				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
 				// Try getting the select tag based on "id".
-				selectElement = this.WebDriver.FindElement (By.Id (multiListName));
+				selectElement = this.GetElementById (multiListName);
 			}
 
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
