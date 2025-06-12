@@ -88,7 +88,15 @@ namespace GitHubServerSearch.Pages
 				var searchResultsBlocks = base.FindAllDivsByCss (CssClasses.CSS_SEARCH_RESULT_BLOCK);
 
 				// If "show more" links are present, click them so that all matching lines are shown in the screen.
-				var showMoreLinks = base.GetAllElementsByCss (CssClasses.CSS_SHOW_MORE_ENTRIES_LINK.RefineForAnchor ());
+				var showMoreLinks = default (IList<IWebElement>);
+
+				try
+				{
+					showMoreLinks = base.GetAllElementsByCss (CssClasses.CSS_SHOW_MORE_ENTRIES_LINK.RefineForAnchor ());
+				}
+				catch
+				{
+				}
 
 				if (showMoreLinks != null && showMoreLinks.Count > 0)
 				{

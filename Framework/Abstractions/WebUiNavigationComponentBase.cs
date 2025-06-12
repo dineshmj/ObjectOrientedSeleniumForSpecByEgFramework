@@ -224,6 +224,13 @@ namespace OOSelenium.Framework.Abstractions
 			this.WebDriver.Navigate ();
 		}
 
+		// Protected methods.
+		protected virtual TPage GetPageInstance<TPage> ()
+			where TPage : WebUiPageBase
+		{
+			return (TPage) Activator.CreateInstance (typeof (TPage), this.WebDriver, this.WebDriver.Url);
+		}
+
 		// Private methods.
 		private void EnsureGenericArgumentsAreEnumTypes ()
 		{

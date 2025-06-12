@@ -38,33 +38,23 @@ namespace GitHubServerSearch.Navigation
 			// Prepare an instance of the SSO confirmation page from the current screen in the browser.
 			//
 
-			return
-				(GitHubSsoConfirmationPage)
-					Activator.CreateInstance
-					(
-						typeof (GitHubSsoConfirmationPage),
-						base.WebDriver,
-						base.WebDriver.Url
-					);
+			var ssoConfirmationPage = base.GetPageInstance<GitHubSsoConfirmationPage> ();
+			return ssoConfirmationPage;
 		}
 
 		public GitHubHomePage LoginConfirmSsoAndGoToGitHubHomePage (string encryptedUsername, string encryptedPassword)
 		{
-			var ssoConfirmationPage = this.LoginAndGetSsoConfirmationPage (encryptedUsername, encryptedPassword);
+			var ssoConfirmationPage
+				= this.LoginAndGetSsoConfirmationPage (encryptedUsername, encryptedPassword);
 			ssoConfirmationPage.ConfirmSso ();
 
 			//
 			// Now that SSO confirmation is complete, the screen will navigate to the GitHub home page.
 			// Prepare an instance of the GitHub home page from the current screen in the browser.
 			//
-			return
-				(GitHubHomePage)
-					Activator.CreateInstance
-					(
-						typeof (GitHubHomePage),
-						base.WebDriver,
-						base.WebDriver.Url
-					);
+
+			var homePage = base.GetPageInstance<GitHubHomePage> ();
+			return homePage;
 		}
 	}
 }

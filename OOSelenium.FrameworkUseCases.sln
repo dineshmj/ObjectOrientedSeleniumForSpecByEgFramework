@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App Use Automation", "App U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubServerSearch", "GitHubServerSearch\GitHubServerSearch\GitHubServerSearch.csproj", "{CEA18F48-3BEC-4C11-BE20-911F33065758}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOSelenium.WebUIPageStudio", "WebUIPageStudio\OOSelenium.WebUIPageStudio.csproj", "{9417F0CA-DFDA-5C33-D8E4-E58BEA291950}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEA18F48-3BEC-4C11-BE20-911F33065758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9417F0CA-DFDA-5C33-D8E4-E58BEA291950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9417F0CA-DFDA-5C33-D8E4-E58BEA291950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9417F0CA-DFDA-5C33-D8E4-E58BEA291950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9417F0CA-DFDA-5C33-D8E4-E58BEA291950}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
