@@ -38,59 +38,116 @@ namespace OOSelenium.WebUIPageStudio
 			appPageUrlLabel = new Label ();
 			appPageUrlTextBox = new TextBox ();
 			navigateButton = new Button ();
+			selectedElementsGroupBox = new GroupBox ();
+			tagRenderAreaPictureBox = new PictureBox ();
+			selectedElementsListBox = new ListBox ();
+			statusStrip = new StatusStrip ();
+			toolStripTagsCountLabel = new ToolStripStatusLabel ();
 			((System.ComponentModel.ISupportInitialize) appPageWebView).BeginInit ();
+			selectedElementsGroupBox.SuspendLayout ();
+			((System.ComponentModel.ISupportInitialize) tagRenderAreaPictureBox).BeginInit ();
+			statusStrip.SuspendLayout ();
 			SuspendLayout ();
 			// 
 			// appPageWebView
 			// 
 			appPageWebView.AllowExternalDrop = true;
+			appPageWebView.BackColor = Color.White;
 			appPageWebView.CreationProperties = null;
 			appPageWebView.DefaultBackgroundColor = Color.White;
-			appPageWebView.Location = new Point (4, 98);
+			appPageWebView.Location = new Point (13, 86);
 			appPageWebView.Margin = new Padding (4, 5, 4, 5);
 			appPageWebView.Name = "appPageWebView";
-			appPageWebView.Size = new Size (2086, 912);
+			appPageWebView.Size = new Size (1711, 1122);
 			appPageWebView.TabIndex = 0;
 			appPageWebView.ZoomFactor = 1D;
 			// 
 			// appPageUrlLabel
 			// 
-			appPageUrlLabel.AutoSize = true;
-			appPageUrlLabel.Location = new Point (27, 40);
+			appPageUrlLabel.Location = new Point (13, 28);
 			appPageUrlLabel.Margin = new Padding (4, 0, 4, 0);
 			appPageUrlLabel.Name = "appPageUrlLabel";
-			appPageUrlLabel.Size = new Size (185, 25);
+			appPageUrlLabel.Size = new Size (144, 30);
 			appPageUrlLabel.TabIndex = 1;
-			appPageUrlLabel.Text = "Application Page URL:";
-			appPageUrlLabel.TextAlign = ContentAlignment.MiddleRight;
+			appPageUrlLabel.Text = "Application URL:";
 			// 
 			// appPageUrlTextBox
 			// 
 			appPageUrlTextBox.Font = new Font ("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point,  0);
-			appPageUrlTextBox.Location = new Point (213, 35);
+			appPageUrlTextBox.Location = new Point (165, 28);
 			appPageUrlTextBox.Margin = new Padding (4, 5, 4, 5);
 			appPageUrlTextBox.Name = "appPageUrlTextBox";
-			appPageUrlTextBox.Size = new Size (1805, 30);
+			appPageUrlTextBox.Size = new Size (1853, 30);
 			appPageUrlTextBox.TabIndex = 2;
 			appPageUrlTextBox.Text = "https://www.cba.com.au";
 			appPageUrlTextBox.TextChanged += appPageUrlTextBox_TextChanged;
 			// 
 			// navigateButton
 			// 
-			navigateButton.Location = new Point (2029, 33);
+			navigateButton.Location = new Point (2029, 28);
 			navigateButton.Margin = new Padding (4, 5, 4, 5);
 			navigateButton.Name = "navigateButton";
-			navigateButton.Size = new Size (61, 40);
+			navigateButton.Size = new Size (58, 30);
 			navigateButton.TabIndex = 3;
 			navigateButton.Text = "Go!";
 			navigateButton.UseVisualStyleBackColor = true;
 			navigateButton.Click += navigateButton_Click;
 			// 
+			// selectedElementsGroupBox
+			// 
+			selectedElementsGroupBox.Controls.Add (tagRenderAreaPictureBox);
+			selectedElementsGroupBox.Controls.Add (selectedElementsListBox);
+			selectedElementsGroupBox.Location = new Point (1730, 74);
+			selectedElementsGroupBox.Name = "selectedElementsGroupBox";
+			selectedElementsGroupBox.Size = new Size (357, 1123);
+			selectedElementsGroupBox.TabIndex = 4;
+			selectedElementsGroupBox.TabStop = false;
+			selectedElementsGroupBox.Text = "Selected HTML Tags";
+			// 
+			// tagRenderAreaPictureBox
+			// 
+			tagRenderAreaPictureBox.BorderStyle = BorderStyle.Fixed3D;
+			tagRenderAreaPictureBox.Location = new Point (10, 30);
+			tagRenderAreaPictureBox.Name = "tagRenderAreaPictureBox";
+			tagRenderAreaPictureBox.Size = new Size (341, 121);
+			tagRenderAreaPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+			tagRenderAreaPictureBox.TabIndex = 1;
+			tagRenderAreaPictureBox.TabStop = false;
+			// 
+			// selectedElementsListBox
+			// 
+			selectedElementsListBox.FormattingEnabled = true;
+			selectedElementsListBox.ItemHeight = 25;
+			selectedElementsListBox.Location = new Point (8, 157);
+			selectedElementsListBox.Name = "selectedElementsListBox";
+			selectedElementsListBox.Size = new Size (343, 954);
+			selectedElementsListBox.TabIndex = 0;
+			selectedElementsListBox.SelectedIndexChanged += selectedElementsListBox_SelectedIndexChanged;
+			// 
+			// statusStrip
+			// 
+			statusStrip.ImageScalingSize = new Size (24, 24);
+			statusStrip.Items.AddRange (new ToolStripItem [] { toolStripTagsCountLabel });
+			statusStrip.Location = new Point (0, 1174);
+			statusStrip.Name = "statusStrip";
+			statusStrip.Size = new Size (2100, 32);
+			statusStrip.TabIndex = 5;
+			statusStrip.Text = "statusStrip1";
+			// 
+			// toolStripTagsCountLabel
+			// 
+			toolStripTagsCountLabel.Name = "toolStripTagsCountLabel";
+			toolStripTagsCountLabel.Size = new Size (190, 25);
+			toolStripTagsCountLabel.Text = "Selected Tags Count: 0";
+			// 
 			// WebUIPageStudioScreen
 			// 
 			AutoScaleDimensions = new SizeF (10F, 25F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size (2107, 1097);
+			BackColor = SystemColors.Control;
+			ClientSize = new Size (2100, 1206);
+			Controls.Add (statusStrip);
+			Controls.Add (selectedElementsGroupBox);
 			Controls.Add (navigateButton);
 			Controls.Add (appPageUrlTextBox);
 			Controls.Add (appPageUrlLabel);
@@ -104,6 +161,10 @@ namespace OOSelenium.WebUIPageStudio
 			Load += WebUIPageStudioScreen_Load;
 			Resize += WebUIPageStudioScreen_Resize;
 			((System.ComponentModel.ISupportInitialize) appPageWebView).EndInit ();
+			selectedElementsGroupBox.ResumeLayout (false);
+			((System.ComponentModel.ISupportInitialize) tagRenderAreaPictureBox).EndInit ();
+			statusStrip.ResumeLayout (false);
+			statusStrip.PerformLayout ();
 			ResumeLayout (false);
 			PerformLayout ();
 		}
@@ -114,5 +175,10 @@ namespace OOSelenium.WebUIPageStudio
 		private Label appPageUrlLabel;
 		private TextBox appPageUrlTextBox;
 		private Button navigateButton;
+		private GroupBox selectedElementsGroupBox;
+		private ListBox selectedElementsListBox;
+		private StatusStrip statusStrip;
+		private ToolStripStatusLabel toolStripTagsCountLabel;
+		private PictureBox tagRenderAreaPictureBox;
 	}
 }
