@@ -1,31 +1,37 @@
+using System.ComponentModel;
+using System.Text;
+using System.Text.Json;
+
 using Microsoft.Web.WebView2.Core;
+
 using OOSelenium.WebUIPageStudio.Entities;
 using OOSelenium.WebUIPageStudio.Resources;
-using System.ComponentModel;
-using System.Text.Json;
 
 namespace OOSelenium.WebUIPageStudio
 {
 	public partial class WebUIPageStudioScreen : Form
 	{
 		private HtmlTagInfo? receivedElementInfo;
-		private BindingList<HtmlTagInfo> selectedElements = new BindingList<HtmlTagInfo> ();
-		private float scalingFactor;
+		private BindingList<HtmlTagInfo> selectedElements = [];
+		private float displayScalingFactor;
 
 		public WebUIPageStudioScreen ()
 		{
-			InitializeComponent ();
+			this.InitializeComponent ();
 		}
 
 		private async void WebUIPageStudioScreen_Load (object sender, EventArgs e)
 		{
-			this.scalingFactor = DpiHelper.GetScalingFactor (this);
+			this.displayScalingFactor = DpiHelper.GetScalingFactor (this);
 
-			await this.appPageWebView.EnsureCoreWebView2Async ();
-
+			// Listbox for selected elements binding
 			this.selectedElementsListBox.DataSource = this.selectedElements;
 			this.selectedElementsListBox.DisplayMember = nameof (HtmlTagInfo.Description);
 
+			// Set the initial image for the tag render area
+			await this.appPageWebView.EnsureCoreWebView2Async ();
+
+			// Event handlers for the WebView2 control
 			this.appPageWebView.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
 			this.appPageWebView.CoreWebView2.NavigationCompleted += this.CoreWebView2_NavigationCompleted;
 
@@ -37,6 +43,7 @@ namespace OOSelenium.WebUIPageStudio
 
 		private void CoreWebView2_NavigationStarting (object? sender, CoreWebView2NavigationStartingEventArgs e)
 		{
+			// If the user has selected elements on the current page, prompt them before navigating away.
 			if (this.selectedElements.Count > 0)
 			{
 				var result = MessageBox.Show (
@@ -84,7 +91,6 @@ namespace OOSelenium.WebUIPageStudio
                         }
                     }
 
-
                     document.addEventListener('contextmenu', function(e) {
                         const el = e.target;
 						const rect = el.getBoundingClientRect();
@@ -115,25 +121,23 @@ namespace OOSelenium.WebUIPageStudio
 
 			await this.appPageWebView.ExecuteScriptAsync (js);
 
-			try
-			{
-				this.appPageUrlTextBox.Text = this.appPageWebView.Source.ToString ();
-			}
-			catch
-			{
-			}
+			// Now that the user has navigated to the new URL, we can update the URL text box.
+			this.appPageUrlTextBox.Text = this.appPageWebView?.Source?.ToString () ?? this.appPageUrlTextBox.Text;
 		}
 
 		private void appPageWebView_ContextMenuRequested (object? sender, CoreWebView2ContextMenuRequestedEventArgs e)
 		{
+			// Supress showing the default context menu
 			e.Handled = true;
 
 			if (this.receivedElementInfo != null)
 			{
+				// Check if the element is already in the selected elements list
 				var elementAlreadyAdded = this.selectedElements.Any (x => x.XPath == this.receivedElementInfo.XPath);
 
-				var menu = new ContextMenuStrip ();
-				menu.Items.Add ($"{(elementAlreadyAdded ? "Remove" : "Add")} {this.receivedElementInfo} element {(elementAlreadyAdded ? "from" : "to")} list", null, (s, args) =>
+				var customContextMenu = new ContextMenuStrip ();
+				// Add an item to the context menu to add/remove the element
+				customContextMenu.Items.Add ($"{(elementAlreadyAdded ? "Remove" : "Add")} {this.receivedElementInfo} element {(elementAlreadyAdded ? "from" : "to")} list", null, (s, args) =>
 				{
 					if (elementAlreadyAdded)
 					{
@@ -145,14 +149,18 @@ namespace OOSelenium.WebUIPageStudio
 						this.selectedElements.Add (this.receivedElementInfo);
 					}
 
+					// Refresh the list box and select the newly added element
 					this.selectedElementsListBox.SelectedIndex = this.selectedElementsListBox.Items.Count - 1;
 					this.ShowElementPreviw ();
+
+					// Enable the build page code button if there are selected elements
+					this.buildPageCodeButton.Enabled = (this.selectedElements.Count > 0);
 
 					this.receivedElementInfo = null;
 				});
 
-				var point = Cursor.Position;
-				menu.Show (point);
+				// Show the context menu at the cursor position
+				customContextMenu.Show (Cursor.Position);
 			}
 		}
 
@@ -165,31 +173,37 @@ namespace OOSelenium.WebUIPageStudio
 					PropertyNameCaseInsensitive = true
 				};
 
+				// Deserialize the received JSON message into HtmlTagInfo object
 				this.receivedElementInfo = JsonSerializer.Deserialize<HtmlTagInfo> (e.WebMessageAsJson, options);
 
 				if (this.receivedElementInfo != null)
 				{
-					using var stream = new MemoryStream ();
-					await this.appPageWebView.CoreWebView2.CapturePreviewAsync (CoreWebView2CapturePreviewImageFormat.Png, stream);
-					stream.Position = 0;
+					// Capture the preview of rendered web page
+					using var renderedPageStream = new MemoryStream ();
+					await this.appPageWebView.CoreWebView2.CapturePreviewAsync (CoreWebView2CapturePreviewImageFormat.Png, renderedPageStream);
+					renderedPageStream.Position = 0;
 
-					using var fullBitmap = new Bitmap (stream);
+					using var renderedPageBitmap = new Bitmap (renderedPageStream);
 
+					// If the receivedElementInfo is still null due to race condition, deserialize it again
 					if (this.receivedElementInfo == null)
 					{
 						this.receivedElementInfo = JsonSerializer.Deserialize<HtmlTagInfo> (e.WebMessageAsJson, options);
 					}
 
+					// Calculate the crop area based on the received element's render area
 					var cropArea = new Rectangle (
-						(int) (receivedElementInfo.TagRenderArea.Left * this.scalingFactor),
-						(int) (receivedElementInfo.TagRenderArea.Top * this.scalingFactor),
-						(int) (receivedElementInfo.TagRenderArea.Width * this.scalingFactor),
-						(int) (receivedElementInfo.TagRenderArea.Height * this.scalingFactor)
+						(int) (receivedElementInfo.TagRenderArea.Left * this.displayScalingFactor),
+						(int) (receivedElementInfo.TagRenderArea.Top * this.displayScalingFactor),
+						(int) (receivedElementInfo.TagRenderArea.Width * this.displayScalingFactor),
+						(int) (receivedElementInfo.TagRenderArea.Height * this.displayScalingFactor)
 					);
 
 					// Ensure crop area is within bounds
-					cropArea.Intersect (new Rectangle (Point.Empty, fullBitmap.Size));
-					this.receivedElementInfo.TagRender = fullBitmap.Clone (cropArea, fullBitmap.PixelFormat);
+					cropArea.Intersect (new Rectangle (Point.Empty, renderedPageBitmap.Size));
+
+					// Obtain the cropped image corresponding to the element in question
+					this.receivedElementInfo.TagRenderImage = renderedPageBitmap.Clone (cropArea, renderedPageBitmap.PixelFormat);
 				}
 			}
 			catch
@@ -203,15 +217,16 @@ namespace OOSelenium.WebUIPageStudio
 			this.ShowElementPreviw ();
 		}
 
-
 		private void navigateButton_Click (object sender, EventArgs e)
 		{
+			// Is the URL in the text box the same as the current page URL?
 			if (this.appPageUrlTextBox.Text == this.appPageWebView?.Source?.ToString ())
 			{
 				MessageBox.Show ("You're already on this page!", "Navigation not required", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
+			// Has the user selected any elements on the current page?
 			if (this.selectedElements.Count > 0)
 			{
 				var result = MessageBox.Show (
@@ -228,6 +243,7 @@ namespace OOSelenium.WebUIPageStudio
 
 			try
 			{
+				// Now that the user has consented to navigate to the specified URL, we can clear the current selections.
 				this.StartFresh ();
 
 				if (this.appPageWebView.CoreWebView2 != null)
@@ -288,12 +304,15 @@ namespace OOSelenium.WebUIPageStudio
 				this.selectedElementsGroupBox.Width = width - this.selectedElementsGroupBox.Left - doubleGap;
 				this.selectedElementsGroupBox.Height = this.appPageWebView.Height;
 
+				this.buildPageCodeButton.Location = new Point (interControlGap, this.selectedElementsGroupBox.Height - interControlGap * 5 + 5);
+				this.buildPageCodeButton.Width = this.selectedElementsGroupBox.Width - doubleGap;
+
 				this.tagRenderAreaPictureBox.Location  = new Point (interControlGap, doubleGap);
 				this.tagRenderAreaPictureBox.Width = this.selectedElementsGroupBox.Width - doubleGap;
 
 				this.selectedElementsListBox.Location = new Point (interControlGap, this.tagRenderAreaPictureBox.Bottom + interControlGap);
 				this.selectedElementsListBox.Width = this.selectedElementsGroupBox.Width - doubleGap;
-				this.selectedElementsListBox.Height = this.selectedElementsGroupBox.Height - doubleGap;
+				this.selectedElementsListBox.Height = this.selectedElementsGroupBox.Height - this.tagRenderAreaPictureBox.Height - this.buildPageCodeButton.Height - doubleGap * 2;
 			}
 			catch { }
 		}
@@ -302,6 +321,7 @@ namespace OOSelenium.WebUIPageStudio
 		{
 			this.receivedElementInfo = null;
 			this.selectedElements.Clear ();
+			this.buildPageCodeButton.Enabled = false;
 			this.tagRenderAreaPictureBox.Image?.Dispose ();
 			this.tagRenderAreaPictureBox.Image = Image.FromStream (new MemoryStream (StudioResources.PreviewImage));
 		}
@@ -313,10 +333,54 @@ namespace OOSelenium.WebUIPageStudio
 				var selectedItem = this.selectedElementsListBox.SelectedItem as HtmlTagInfo;
 				if (selectedItem != null)
 				{
-					this.tagRenderAreaPictureBox.Image = selectedItem.TagRender;
+					this.tagRenderAreaPictureBox.Image = selectedItem.TagRenderImage;
 				}
 			}
 		}
 
+		private void buildPageCodeButton_Click (object sender, EventArgs e)
+		{
+			if (this.selectedElements.Count == 0)
+			{
+				MessageBox.Show ("Please select at least one element to build the page code.", "No Elements Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			var pageCodeBuilder = new StringBuilder ();
+			var webPageModelTemplate = StudioResources.WebPageModelTemplate;
+		}
+
+		private void selectedElementsListBox_KeyDown (object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Delete)
+			{
+				if (selectedElementsListBox.SelectedItem != null)
+				{
+					// Get the selected element
+					var selectedElement = selectedElementsListBox.SelectedItem as HtmlTagInfo;
+
+					DialogResult result = MessageBox.Show (
+						$"Are you sure you want to delete the element '{selectedElement?.Description}'?",
+						"Confirm Deletion",
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question
+					);
+
+					if (result == DialogResult.Yes)
+					{
+						// Since the selectedElementsListBox is bound to the selectedElements list, it would automatically remove this entry too.
+						this.selectedElements.Remove (selectedElement);
+						this.ShowElementPreviw ();
+					}
+
+					e.Handled = true;
+					e.SuppressKeyPress = true;
+				}
+				else
+				{
+					MessageBox.Show ("Please select an element to delete.", "No element selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				}
+			}
+		}
 	}
 }

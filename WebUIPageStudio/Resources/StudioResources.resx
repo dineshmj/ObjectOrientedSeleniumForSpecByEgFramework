@@ -122,4 +122,8 @@
     <value>PreviewImage.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>Default image for Preview picture box.</comment>
   </data>
+  <data name="WebPageModelTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TextFiles\WebPageTemplate.txt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>Template for Web Page Model</comment>
+  </data>
 </root>

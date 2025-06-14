@@ -25,7 +25,7 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 		public TagRenderArea TagRenderArea { get; set; }
 
-		public Bitmap TagRender { get; set; }
+		public Bitmap TagRenderImage { get; set; }
 
 		public string? Description { get { return this.ToString (); }}
 

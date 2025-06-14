@@ -69,5 +69,15 @@ namespace OOSelenium.WebUIPageStudio.Resources {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WebPageModelTemplate {
+            get {
+                object obj = ResourceManager.GetObject("WebPageModelTemplate", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

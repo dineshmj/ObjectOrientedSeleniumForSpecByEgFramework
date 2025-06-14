@@ -201,10 +201,10 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Tests
 					bmwCheckBox = letsKodePage.BmwCheckBox;
 				});
 
-			"Then I should see the check-boxes with the correct values"
+			"Then I should see the check-boxes with the correct texts"
 				.x (() =>
 				{
-					bmwCheckBox.Text.Should ().Be ("BMW");
+					bmwCheckBox.Text.Should ().Be ("Bmw");
 					bmwCheckBox.Value.Should ().Be ("bmw");
 					bmwCheckBox.IsChecked.Should ().BeFalse ();
 				});

@@ -39,6 +39,7 @@ namespace OOSelenium.WebUIPageStudio
 			appPageUrlTextBox = new TextBox ();
 			navigateButton = new Button ();
 			selectedElementsGroupBox = new GroupBox ();
+			buildPageCodeButton = new Button ();
 			tagRenderAreaPictureBox = new PictureBox ();
 			selectedElementsListBox = new ListBox ();
 			statusStrip = new StatusStrip ();
@@ -95,6 +96,7 @@ namespace OOSelenium.WebUIPageStudio
 			// 
 			// selectedElementsGroupBox
 			// 
+			selectedElementsGroupBox.Controls.Add (buildPageCodeButton);
 			selectedElementsGroupBox.Controls.Add (tagRenderAreaPictureBox);
 			selectedElementsGroupBox.Controls.Add (selectedElementsListBox);
 			selectedElementsGroupBox.Location = new Point (1730, 74);
@@ -103,6 +105,19 @@ namespace OOSelenium.WebUIPageStudio
 			selectedElementsGroupBox.TabIndex = 4;
 			selectedElementsGroupBox.TabStop = false;
 			selectedElementsGroupBox.Text = "Selected HTML Tags";
+			// 
+			// buildPageCodeButton
+			// 
+			buildPageCodeButton.Enabled = false;
+			buildPageCodeButton.Font = new Font ("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point,  0);
+			buildPageCodeButton.ForeColor = Color.Green;
+			buildPageCodeButton.Location = new Point (12, 1030);
+			buildPageCodeButton.Name = "buildPageCodeButton";
+			buildPageCodeButton.Size = new Size (339, 57);
+			buildPageCodeButton.TabIndex = 2;
+			buildPageCodeButton.Text = "Build Web Page C# Code";
+			buildPageCodeButton.UseVisualStyleBackColor = true;
+			buildPageCodeButton.Click += buildPageCodeButton_Click;
 			// 
 			// tagRenderAreaPictureBox
 			// 
@@ -120,9 +135,10 @@ namespace OOSelenium.WebUIPageStudio
 			selectedElementsListBox.ItemHeight = 25;
 			selectedElementsListBox.Location = new Point (8, 157);
 			selectedElementsListBox.Name = "selectedElementsListBox";
-			selectedElementsListBox.Size = new Size (343, 954);
+			selectedElementsListBox.Size = new Size (343, 854);
 			selectedElementsListBox.TabIndex = 0;
 			selectedElementsListBox.SelectedIndexChanged += selectedElementsListBox_SelectedIndexChanged;
+			selectedElementsListBox.KeyDown += selectedElementsListBox_KeyDown;
 			// 
 			// statusStrip
 			// 
@@ -180,5 +196,6 @@ namespace OOSelenium.WebUIPageStudio
 		private StatusStrip statusStrip;
 		private ToolStripStatusLabel toolStripTagsCountLabel;
 		private PictureBox tagRenderAreaPictureBox;
+		private Button buildPageCodeButton;
 	}
 }
