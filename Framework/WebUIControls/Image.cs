@@ -7,12 +7,17 @@ using OOSelenium.Framework.Abstractions;
 
 namespace OOSelenium.Framework.WebUIControls
 {
-	public sealed class Picture
+	public sealed class Image
 		: WebUiControlBase
 	{
-		public Picture (IWebElement element, string id, IWebDriver webDriver)
+		public Image (IWebElement element, string id, IWebDriver webDriver)
 			: base (element, id, webDriver)
 		{
+			if (element.TagName.ToLower () != "img")
+			{
+				throw new ArgumentException ("Element is not a picture", nameof (element));
+			}
+
 			var base64string
 				= base.webDriver.ExecuteJavaScript<string>
 					(
@@ -35,7 +40,7 @@ namespace OOSelenium.Framework.WebUIControls
 			}
 		}
 	
-		~Picture ()
+		~Image ()
 		{
 			this.ImageBitmap?.Dispose ();
 		}

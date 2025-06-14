@@ -59,12 +59,21 @@ namespace OOSelenium.WebUIPageStudio
 				}
 			}
 
+			// Flash "page is loading" label.
+			this.pageIsLoadingLabel.Visible = true;
+			this.pageLoadingTimer.Enabled = false;
+			this.pageLoadingTimer.Start ();
+
 			// The user wants to navigate to a new page, so we clear the current selections.
 			this.StartFresh ();
 		}
 
 		private async void CoreWebView2_NavigationCompleted (object? sender, CoreWebView2NavigationCompletedEventArgs e)
 		{
+			this.pageIsLoadingLabel.Visible = false;
+			this.pageLoadingTimer.Stop ();
+			this.pageLoadingTimer.Enabled = false;
+
 			string js = @"
                 (function() {
                     function getXPath(element) {
@@ -93,18 +102,24 @@ namespace OOSelenium.WebUIPageStudio
 
                     document.addEventListener('contextmenu', function(e) {
                         const el = e.target;
+						const parent = el.parentElement;
 						const rect = el.getBoundingClientRect();
 
                         const details = {
                             Tag: el.tagName,
 							Text: el.innerText,
                             Id: el.id,
-                            CssClass: el.className,
+							Value: el.value,
+                            CssClassName: el.className,
                             Name: el.getAttribute('name'),
                             Source: el.getAttribute('src'),
                             LinkURL: el.getAttribute('href'),
                             Type: el.getAttribute('type'),
                             XPath: getXPath(el),
+							ParentTag: parent ? parent.tagName : null,
+					        ParentHasMultiple: parent ? parent.hasAttribute('multiple') : false,
+							ParentXPath: getXPath(parent),
+							ParentName: parent ? parent.getAttribute('name') : null,
 							TagRenderArea: {
 								Top: rect.top,
 								Left: rect.left,
@@ -313,6 +328,9 @@ namespace OOSelenium.WebUIPageStudio
 				this.selectedElementsListBox.Location = new Point (interControlGap, this.tagRenderAreaPictureBox.Bottom + interControlGap);
 				this.selectedElementsListBox.Width = this.selectedElementsGroupBox.Width - doubleGap;
 				this.selectedElementsListBox.Height = this.selectedElementsGroupBox.Height - this.tagRenderAreaPictureBox.Height - this.buildPageCodeButton.Height - doubleGap * 2;
+
+				this.pageIsLoadingLabel.Left = (this.appPageWebView.Width - this.pageIsLoadingLabel.Width) / 2;
+				this.pageIsLoadingLabel.Top = (this.appPageWebView.Height - this.pageIsLoadingLabel.Height) / 2;
 			}
 			catch { }
 		}
@@ -345,6 +363,9 @@ namespace OOSelenium.WebUIPageStudio
 				MessageBox.Show ("Please select at least one element to build the page code.", "No Elements Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
+
+			WebPageModelDetailsScreen.DefinedInstance.LoadSelectedElements (this.selectedElements);
+			WebPageModelDetailsScreen.DefinedInstance.ShowDialog (this);
 
 			var pageCodeBuilder = new StringBuilder ();
 			var webPageModelTemplate = StudioResources.WebPageModelTemplate;
@@ -381,6 +402,11 @@ namespace OOSelenium.WebUIPageStudio
 					MessageBox.Show ("Please select an element to delete.", "No element selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
+		}
+
+		private void pageLoadingTimer_Tick (object sender, EventArgs e)
+		{
+			this.pageIsLoadingLabel.Visible = !this.pageIsLoadingLabel.Visible;
 		}
 	}
 }

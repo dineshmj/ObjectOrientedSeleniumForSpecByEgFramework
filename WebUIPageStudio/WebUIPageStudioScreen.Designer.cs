@@ -33,6 +33,7 @@ namespace OOSelenium.WebUIPageStudio
 		/// </summary>
 		private void InitializeComponent ()
 		{
+			components = new System.ComponentModel.Container ();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager (typeof (WebUIPageStudioScreen));
 			appPageWebView = new Microsoft.Web.WebView2.WinForms.WebView2 ();
 			appPageUrlLabel = new Label ();
@@ -44,6 +45,8 @@ namespace OOSelenium.WebUIPageStudio
 			selectedElementsListBox = new ListBox ();
 			statusStrip = new StatusStrip ();
 			toolStripTagsCountLabel = new ToolStripStatusLabel ();
+			pageLoadingTimer = new System.Windows.Forms.Timer (components);
+			pageIsLoadingLabel = new Label ();
 			((System.ComponentModel.ISupportInitialize) appPageWebView).BeginInit ();
 			selectedElementsGroupBox.SuspendLayout ();
 			((System.ComponentModel.ISupportInitialize) tagRenderAreaPictureBox).BeginInit ();
@@ -80,7 +83,7 @@ namespace OOSelenium.WebUIPageStudio
 			appPageUrlTextBox.Name = "appPageUrlTextBox";
 			appPageUrlTextBox.Size = new Size (1853, 30);
 			appPageUrlTextBox.TabIndex = 2;
-			appPageUrlTextBox.Text = "https://www.cba.com.au";
+			appPageUrlTextBox.Text = "https://www.letskodeit.com/practice";
 			appPageUrlTextBox.TextChanged += appPageUrlTextBox_TextChanged;
 			// 
 			// navigateButton
@@ -156,12 +159,31 @@ namespace OOSelenium.WebUIPageStudio
 			toolStripTagsCountLabel.Size = new Size (190, 25);
 			toolStripTagsCountLabel.Text = "Selected Tags Count: 0";
 			// 
+			// pageLoadingTimer
+			// 
+			pageLoadingTimer.Interval = 300;
+			pageLoadingTimer.Tick += pageLoadingTimer_Tick;
+			// 
+			// pageIsLoadingLabel
+			// 
+			pageIsLoadingLabel.AutoSize = true;
+			pageIsLoadingLabel.BackColor = Color.Transparent;
+			pageIsLoadingLabel.Font = new Font ("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point,  0);
+			pageIsLoadingLabel.ForeColor = Color.Maroon;
+			pageIsLoadingLabel.Location = new Point (33, 108);
+			pageIsLoadingLabel.Name = "pageIsLoadingLabel";
+			pageIsLoadingLabel.Size = new Size (556, 54);
+			pageIsLoadingLabel.TabIndex = 6;
+			pageIsLoadingLabel.Text = "Page is loading. Please wait!";
+			pageIsLoadingLabel.Visible = false;
+			// 
 			// WebUIPageStudioScreen
 			// 
 			AutoScaleDimensions = new SizeF (10F, 25F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.Control;
 			ClientSize = new Size (2100, 1206);
+			Controls.Add (pageIsLoadingLabel);
 			Controls.Add (statusStrip);
 			Controls.Add (selectedElementsGroupBox);
 			Controls.Add (navigateButton);
@@ -197,5 +219,7 @@ namespace OOSelenium.WebUIPageStudio
 		private ToolStripStatusLabel toolStripTagsCountLabel;
 		private PictureBox tagRenderAreaPictureBox;
 		private Button buildPageCodeButton;
+		private System.Windows.Forms.Timer pageLoadingTimer;
+		private Label pageIsLoadingLabel;
 	}
 }

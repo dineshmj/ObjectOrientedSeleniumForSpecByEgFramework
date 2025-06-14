@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Framework\OOSelenium.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\StudioResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -16,6 +16,11 @@ namespace OOSelenium.Framework.WebUIControls
 		public MultiSelectListBox (ReadOnlyCollection<IWebElement> multiListBoxEntryTags, string id, IWebDriver webDriver)
 			: base (multiListBoxEntryTags, id, webDriver)
 		{
+			if (multiListBoxEntryTags == null || multiListBoxEntryTags.Count == 0)
+			{
+				throw new ArgumentException ("The provided collection of multi-select list box entries is empty.", nameof (multiListBoxEntryTags));
+			}
+
 			// Get the parent "select" tag.
 			var parentTag = base.entryTags [0];
 

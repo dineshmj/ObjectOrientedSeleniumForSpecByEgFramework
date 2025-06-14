@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using OOSF = OOSelenium.Framework.WebUIControls;
+
 namespace OOSelenium.WebUIPageStudio.Entities
 {
 	public sealed class HtmlTagInfo
@@ -11,9 +13,11 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 		public string? Id { get; set; }
 
-		public string? CssClass { get; set; }
+		public string? CssClassName { get; set; }
 
 		public string? Name { get; set; }
+
+		public string? Value { get; set; }
 
 		public string? Source { get; set; }
 
@@ -23,11 +27,21 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 		public string? XPath { get; set; }
 
+		public string? ParentTag { get; set; }
+
+		public string? ParentName { get; set; }
+
+		public string? ParentXPath { get; set; }
+
+		public bool ParentHasMultiple { get; set; }
+
 		public TagRenderArea TagRenderArea { get; set; }
 
 		public Bitmap TagRenderImage { get; set; }
 
 		public string? Description { get { return this.ToString (); }}
+
+		public string UserSuggestedPropertyName { get; set; }
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -40,68 +54,96 @@ namespace OOSelenium.WebUIPageStudio.Entities
 		{
 			switch (this.Tag?.ToLowerInvariant ())
 			{
-				case "a":
-					return $"Link '{this.Text}'";
-
 				case "button":
-					return $"Button '{this.Text}'";
+					return $"{typeof (OOSF.Button).Name} '{this.Text}'";
 
 				case "input":
 					if (this.Type?.ToLowerInvariant () == "submit")
 					{
-						return $"Submit Button '{this.Text}'";
+						return $"{typeof (OOSF.SubmitButton).Name} '{this.Text}'";
 					}
 					else if (this.Type?.ToLowerInvariant () == "checkbox")
 					{
-						return $"Checkbox '{this.Text}'";
+						return $"{typeof (OOSF.CheckBox).Name} '{this.Value}'";
 					}
 					else if (this.Type?.ToLowerInvariant () == "radio")
 					{
-						return $"Radio Button '{this.Text}'";
+						return $"{typeof (OOSF.RadioButtons).Name} '{this.Name}'";
 					}
 					else
 					{
-						return $"Textbox '{this.Text}'";
+						return $"{typeof (OOSF.TextField).Name} '{this.Id}'";
 					}
 
+				case "div":
+					return $"{typeof (OOSF.Div).Name} '{this.CssClassName}'";
+
 				case "select":
-					return $"Dropdown '{this.Text}'";
+					return $"{typeof (OOSF.DropDownList).Name} '{this.Name}'";
 
-				case "textarea":
-					return $"Textarea '{this.Text}'";
+				case "h1":
+					return $"{typeof (OOSF.HeaderOne).Name} '{this.Text}'";
 
-				case "img":
-					return $"Image '{this.Source.Substring (this.Source.LastIndexOf ('/') + 1)}'";
+				case "h2":
+					return $"{typeof (OOSF.HeaderTwo).Name} '{this.Text}'";
+
+				case "h3":
+					return $"{typeof (OOSF.HeaderThree).Name} '{this.Text}'";
+
+				case "h4":
+					return $"{typeof (OOSF.HeaderFour).Name} '{this.Text}'";
+
+				case "h5":
+					return $"{typeof (OOSF.HeaderFive).Name} '{this.Text}'";
+
+				case "h6":
+					return $"{typeof (OOSF.HeaderSix).Name} '{this.Text}'";
 
 				case "label":
-					return $"Label '{this.Text}'";
+					return $"{typeof (OOSF.Label).Name} '{this.Text}'";
+
+				case "legend":
+					return $"{typeof (OOSF.Legend).Name} '{this.Text}'";
+
+				case "a":
+					return $"{typeof (OOSF.Link).Name} '{this.Text}'";
+
+				case "link":
+					return $"{typeof (OOSF.Link).Name} '{this.Text}'";
+
+				case "option":
+					if (this.ParentTag?.ToLowerInvariant () == "select" && this.ParentHasMultiple)
+					{
+						return $"{typeof (OOSF.MultiSelectListBox).Name} '{this.ParentName}'";
+					}
+					break;
+
+				case "textarea":
+					return $"{typeof (OOSF.TextArea).Name} '{this.Text}'";
+
+				case "img":
+					return $"{typeof (OOSF.Image).Name} '{this.Source.Substring (this.Source.LastIndexOf ('/') + 1)}'";
+
+				case "span":
+					return $"{typeof (OOSF.Span).Name} '{this.Text}'";
 
 				case "form":
 					return $"Form '{this.Text}'";
 
 				case "table":
-					return $"Table '{this.Text}'";
+					return $"Table '{this.Name}'";
 
 				case "tr":
-					return $"Table Row '{this.Text}'";
+					return $"TableRow '{this.Text}'";
 
 				case "td":
-					return $"Table Cell '{this.Text}'";
+					return $"TableCell '{this.Text}'";
 
 				case "ul":
-					return $"Unordered List '{this.Text}'";
+					return $"UnorderedList '{this.Text}'";
 
 				case "ol":
-					return $"Ordered List '{this.Text}'";
-
-				case "li":
-					return $"List Item '{this.Text}'";
-
-				case "div":
-					return $"Div";
-
-				case "span":
-					return $"Span '{this.Text}'";
+					return $"OrderedList '{this.Text}'";
 
 				case "header":
 					return $"Header";
@@ -120,14 +162,6 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 				case "aside":
 					return $"Aside '{this.Text}'";
-
-				case "h1":
-				case "h2":
-				case "h3":
-				case "h4":
-				case "h5":
-				case "h6":
-					return $"Heading '{this.Text}'";
 
 				case "p":
 					return $"Paragraph '{this.Text}'";
@@ -150,18 +184,14 @@ namespace OOSelenium.WebUIPageStudio.Entities
 				case "script":
 					return $"Script '{this.Text}'";
 
-				case "link":
-					return $"Link '{this.Text}'";
-
 				case "meta":
 					return $"Meta Tag '{this.Text}'";
 
 				case "style":
 					return $"Style Tag '{this.Text}'";
-
-				default:
-					return $"Tag '{this.Text}'";
 			}
+
+			return $"Tag '{this.Tag}'";
 		}
 	}
 }

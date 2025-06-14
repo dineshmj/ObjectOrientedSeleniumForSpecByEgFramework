@@ -133,10 +133,10 @@ namespace OOSelenium.Framework.Abstractions
 			}
 		}
 
-		protected Picture FindImageById (string imageId)
+		protected Image FindImageById (string imageId)
 		{
 			var imageElement = this.GetElementById (imageId);
-			return new Picture (imageElement, imageId, this.webDriver);
+			return new Image (imageElement, imageId, this.webDriver);
 		}
 
 

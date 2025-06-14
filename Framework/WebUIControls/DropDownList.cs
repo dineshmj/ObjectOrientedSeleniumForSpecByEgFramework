@@ -13,6 +13,14 @@ namespace OOSelenium.Framework.WebUIControls
 		public DropDownList (ReadOnlyCollection<IWebElement> dropDownEntryTags, string id, IWebDriver webDriver)
 			: base (dropDownEntryTags, id, webDriver)
 		{
+			if (dropDownEntryTags == null || dropDownEntryTags.Count == 0)
+			{
+				throw new ArgumentException ("The provided collection of drop-down entries is empty.", nameof (dropDownEntryTags));
+			}
+			if (dropDownEntryTags [0].TagName.ToLower () != "select")
+			{
+				throw new ArgumentException ("The provided element is not a <select> tag.", nameof (dropDownEntryTags));
+			}
 		}
 
 		public IList<TextValuePair> DropDownEntries

@@ -11,6 +11,14 @@ namespace OOSelenium.Framework.WebUIControls
 		public ValidationLabel (IWebElement element, string id, IWebDriver webDriver)
 			: base (element, id, webDriver)
 		{
+			if (element.TagName.ToLower () != "span" && element.TagName.ToLower () != "label")
+			{
+				throw new ArgumentException ("Element is not a span or label", nameof (element));
+			}
+			if (!element.GetAttribute ("class").Contains ("validation"))
+			{
+				throw new ArgumentException ("Element does not have a validation class", nameof (element));
+			}
 		}
 
 		public override string Text

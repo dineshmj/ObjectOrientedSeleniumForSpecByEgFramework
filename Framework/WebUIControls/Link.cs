@@ -11,6 +11,10 @@ namespace OOSelenium.Framework.WebUIControls
 		public Link (IWebElement element, string id, IWebDriver webDriver)
 			: base (element, id, webDriver)
 		{
+			if (element.TagName.ToLower () != "a")
+			{
+				throw new ArgumentException ("Element is not a link", nameof (element));
+			}
 		}
 
 		public override string Text

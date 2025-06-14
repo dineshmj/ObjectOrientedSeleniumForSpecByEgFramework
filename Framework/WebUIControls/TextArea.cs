@@ -5,25 +5,16 @@ using OOSelenium.Framework.Extensions;
 
 namespace OOSelenium.Framework.WebUIControls
 {
-	public sealed class TextField
+	public sealed class TextArea
 		: WebUiControlBase
 	{
-		public TextField (IWebElement element, string id, IWebDriver webDriver)
+		public TextArea (IWebElement element, string id, IWebDriver webDriver)
 			: base (element, id, webDriver)
 		{
-			if (element.TagName.ToLower () != "input")
+			if (element.TagName.ToLowerInvariant () != "textarea")
 			{
-				throw new ArgumentException ("Element is not a text field", nameof (element));
+				throw new ArgumentException ("The provided element is not a textarea.", nameof (element));
 			}
-			if (element.GetAttribute ("type")?.ToLower () != "text" && element.GetAttribute ("type")?.ToLower () != "password")
-			{
-				throw new ArgumentException ("Element is not a text or password field", nameof (element));
-			}
-		}
-
-		public bool IsPassword
-		{
-			get { return (base.GetAttribute ("type")?.ToLower ()?.Trim ()).Equals ("password");  }
 		}
 
 		public string PlaceHolderText

@@ -13,6 +13,14 @@ namespace OOSelenium.Framework.WebUIControls
 		public RadioButtons (ReadOnlyCollection<IWebElement> radioTags, string id, IWebDriver webDriver)
 			: base (radioTags, id, webDriver)
 		{
+			if (radioTags == null || radioTags.Count == 0)
+			{
+				throw new ArgumentException ("The provided collection of radio buttons is empty.", nameof (radioTags));
+			}
+			if (radioTags [0].TagName.ToLower () != "input" || radioTags [0].GetAttribute ("type").ToLower () != "radio")
+			{
+				throw new ArgumentException ("The provided element is not a <input type='radio'> tag.", nameof (radioTags));
+			}
 		}
 
 		public IList<TextValuePair> RadioOptions

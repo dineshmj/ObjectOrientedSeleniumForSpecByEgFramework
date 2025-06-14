@@ -38,7 +38,7 @@ namespace SampleWebApp.UiTests.LoginTests.Tests
 			var pageTitle = string.Empty;
 			var userIdFieldCssClass = string.Empty; var userIdFieldPlaceholder = string.Empty;
 			var passwordFieldCssClass = string.Empty; var passwordFieldPlaceholder = string.Empty;
-			var isPasswordFieldObscured = false; var logoPicture = (Picture) null;
+			var isPasswordFieldObscured = false; var logoPicture = (Image) null;
 
 			"Given that Four Walls Inc. Insurance One Login page is accessible"
 				.x (() =>

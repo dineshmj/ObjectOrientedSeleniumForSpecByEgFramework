@@ -10,7 +10,7 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 		: WebUiPageBase
 	{
 		// Application logo.
-		public Picture ApplicationLogo { get; private set; }
+		public Image ApplicationLogo { get; private set; }
 
 		// Validation summary.
 		public ValidationSummary ValidationSummary
