@@ -2,14 +2,15 @@
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Extensions;
+using OOSelenium.Framework.Entities;
 
 namespace OOSelenium.Framework.WebUIControls
 {
 	public sealed class TextArea
 		: WebUiControlBase
 	{
-		public TextArea (IWebElement element, string id, IWebDriver webDriver)
-			: base (element, id, webDriver)
+		public TextArea (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
 			if (element.TagName.ToLowerInvariant () != "textarea")
 			{

@@ -204,7 +204,7 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Tests
 			"Then I should see the check-boxes with the correct texts"
 				.x (() =>
 				{
-					bmwCheckBox.Text.Should ().Be ("Bmw");
+					bmwCheckBox.Text.Should ().Be ("BMW");
 					bmwCheckBox.Value.Should ().Be ("bmw");
 					bmwCheckBox.IsChecked.Should ().BeFalse ();
 				});

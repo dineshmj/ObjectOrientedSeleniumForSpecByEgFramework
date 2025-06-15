@@ -4,6 +4,7 @@ using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.WebUIControls;
 
 using GitHubServerSearch.Background;
+using OOSelenium.Framework.Entities;
 
 namespace GitHubServerSearch.Pages
 {
@@ -19,9 +20,21 @@ namespace GitHubServerSearch.Pages
 		public GitHubLoginPage (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
-			this.UsernameTextField = this.FindTextFieldById (ElementIds.ID_LOGIN_ID_FIELD);
-			this.PasswordTextField = this.FindTextFieldById (ElementIds.ID_LOGIN_PASSWORD_FIELD);
-			this.LoginButton = this.FindButtonByName (ElementNames.NAME_LOGIN_BUTTON);
+			this.UsernameTextField
+				= this.FindById<TextField> (
+					ElementIds.ID_LOGIN_ID_FIELD,
+					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
+
+
+			this.PasswordTextField
+				= this.FindById<TextField> (
+					ElementIds.ID_LOGIN_PASSWORD_FIELD,
+					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
+
+			this.LoginButton
+				= this.FindByName<Button> (
+					ElementNames.NAME_LOGIN_BUTTON,
+					(identifier, webElement, webDriver) => new Button (webElement, identifier, LocateByWhat.Id, webDriver));
 		}
 
 		public void Login (string username, string password)

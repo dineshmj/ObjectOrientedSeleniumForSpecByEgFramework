@@ -13,8 +13,8 @@ namespace OOSelenium.Framework.Abstractions
 		protected readonly ReadOnlyCollection<IWebElement> entryTags;
 		protected readonly IList<TextValuePair> entries;
 
-		public MultiValuedControlBase (ReadOnlyCollection<IWebElement> entryTags, string id, IWebDriver webDriver)
-			: base (entryTags ?[0], id, webDriver)
+		public MultiValuedControlBase (ReadOnlyCollection<IWebElement> entryTags, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (entryTags ?[0], uniqueIdentifierText, byWhat, webDriver)
 		{
 			// The radio tags collection.
 			this.entryTags = entryTags;
@@ -23,7 +23,7 @@ namespace OOSelenium.Framework.Abstractions
 			this.entries
 				= new ReadOnlyCollection<TextValuePair> (this.entryTags
 					.ToList ()
-					.Select (et => new TextValuePair (et.GetInnerText (this.webDriver, this.id), et.GetAttribute ("value")))
+					.Select (et => new TextValuePair (et.GetInnerText (this.webDriver, this.uniqueIdentifierText), et.GetAttribute ("value")))
 					.ToList ());
 		}
 
@@ -32,7 +32,7 @@ namespace OOSelenium.Framework.Abstractions
 			return new ReadOnlyCollection<TextValuePair> (
 				this.entryTags
 					.Where (et => et.GetAttribute ("checked") == "true")
-					.Select (et => new TextValuePair (et.GetInnerText (this.webDriver, this.id), et.GetAttribute ("value")))
+					.Select (et => new TextValuePair (et.GetInnerText (this.webDriver, this.uniqueIdentifierText), et.GetAttribute ("value")))
 					.ToList ());
 		}
 
@@ -40,7 +40,7 @@ namespace OOSelenium.Framework.Abstractions
 		{
 			foreach (var oneTag in this.entryTags)
 			{
-				if (oneTag.GetInnerText (this.webDriver, this.id) == entryText)
+				if (oneTag.GetInnerText (this.webDriver, this.uniqueIdentifierText) == entryText)
 				{
 					oneTag.Click ();
 					break;

@@ -6,6 +6,7 @@ using SeleniumExtras.WaitHelpers;
 
 using OOSelenium.Framework.Extensions;
 using OOSelenium.Framework.WebUIControls;
+using OOSelenium.Framework.Entities;
 
 namespace OOSelenium.Framework.Abstractions
 {
@@ -17,7 +18,6 @@ namespace OOSelenium.Framework.Abstractions
 			public readonly string FindRadioButtonGroupByName = nameof (WebUiPageBase.FindRadioButtonGroupByName);
 			public readonly string FindDropDownList = nameof (WebUiPageBase.FindDropDownList);
 			public readonly string FindMultiSelectListBox = nameof (WebUiPageBase.FindMultiSelectListBox);
-			public readonly string FindCheckBoxById = nameof (WebUiPageBase.FindCheckBoxById);
 		}
 
 		// Protected fields.
@@ -46,18 +46,77 @@ namespace OOSelenium.Framework.Abstractions
 			this.webDriver.Navigate ().GoToUrl (this.baseUrl);
 		}
 
-		// Protected methods.
+		// Protected methods - "Find" methods for various Web UI controls.
 
-		protected Link FindLinkById (string linkId)
+		protected TWebUiControl FindById<TWebUiControl> (string uniqueIdentifier, Func<string, IWebElement, IWebDriver, TWebUiControl> factory)
+			where TWebUiControl : WebUiControlBase
 		{
-			var linkElement = this.GetElementById (linkId);
-			return new Link (linkElement, linkId, this.webDriver);
+			var element = this.GetElementById (uniqueIdentifier);
+			var webUiControl = factory (uniqueIdentifier, element, this.WebDriver);
+			return webUiControl;
 		}
 
-		protected Link FindLinkByCss (string refinedCssClassName)
+		protected TWebUiControl FindByXPath<TWebUiControl> (string xPath, Func<string, IWebElement, IWebDriver, TWebUiControl> factory)
+			where TWebUiControl : WebUiControlBase
 		{
-			var linkElement = this.GetElementByCss (refinedCssClassName);
-			return new Link (linkElement, refinedCssClassName, this.webDriver);
+			var webElement = this.GetElementByXPath (xPath);
+			var webUiControl = factory (xPath, webElement, this.WebDriver);
+			return webUiControl;
+		}
+
+		protected TWebUiControl FindByName<TWebUiControl> (string cssClassName, Func<string, IWebElement, IWebDriver, TWebUiControl> factory)
+			where TWebUiControl : WebUiControlBase
+		{
+			var webElement = this.GetElementByName (cssClassName);
+			var webUiControl = factory (cssClassName, webElement, this.WebDriver);
+			return webUiControl;
+		}
+
+		protected TWebUiControl FindByCssClass<TWebUiControl> (string cssClassName, Func<string, IWebElement, IWebDriver, TWebUiControl> factory)
+			where TWebUiControl : WebUiControlBase
+		{
+			var webElement = this.GetElementByCss(cssClassName);
+			var webUiControl = factory (cssClassName, webElement, this.WebDriver);
+			return webUiControl;
+		}
+
+		protected RadioButtons FindRadioButtonGroupByName (string radioButtonGroupName)
+		{
+			var radioButtons = this.GetAllElementsByXPath ($"//input[@name=\"{radioButtonGroupName}\" and @type=\"radio\"]");
+			return new RadioButtons (new ReadOnlyCollection<IWebElement> (radioButtons), radioButtonGroupName, LocateByWhat.Name, this.webDriver);
+		}
+
+		protected DropDownList FindDropDownList (string dropDownName)
+		{
+			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ dropDownName }\"]");
+
+			if (selectElement == null)
+			{
+				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
+				// Try getting the select tag based on "id".
+				selectElement = this.GetElementById (dropDownName);
+			}
+
+			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
+
+			return new DropDownList (selectOptionElements, dropDownName, LocateByWhat.Name, this.webDriver);
+		}
+
+		protected MultiSelectListBox FindMultiSelectListBox (string multiListName)
+		{
+			// "multiple" attribute must be present for a multi-select list box.
+			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ multiListName }\" and @multiple]");
+
+			if (selectElement == null)
+			{
+				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
+				// Try getting the select tag based on "id".
+				selectElement = this.GetElementById (multiListName);
+			}
+
+			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
+
+			return new MultiSelectListBox (selectOptionElements, multiListName, LocateByWhat.Name, this.webDriver);
 		}
 
 		protected IList<Link> FindAllLinksByCss (string cssClassNameFromHtmlAsIs)
@@ -69,7 +128,7 @@ namespace OOSelenium.Framework.Abstractions
 
 				foreach (var oneLinkElement in linkElements)
 				{
-					links.Add (new Link (oneLinkElement, cssClassNameFromHtmlAsIs, this.webDriver));
+					links.Add (new Link (oneLinkElement, cssClassNameFromHtmlAsIs, LocateByWhat.CssClass, this.webDriver));
 				}
 
 				return links;
@@ -89,7 +148,7 @@ namespace OOSelenium.Framework.Abstractions
 
 				foreach (var oneDivElement in divElements)
 				{
-					divs.Add (new Div (oneDivElement, cssClassNameFromHtmlAsIs, this.webDriver));
+					divs.Add (new Div (oneDivElement, cssClassNameFromHtmlAsIs, LocateByWhat.CssClass, this.webDriver));
 				}
 
 				return divs;
@@ -100,127 +159,7 @@ namespace OOSelenium.Framework.Abstractions
 			}
 		}
 
-		protected TWebUiControl FindByXPath<TWebUiControl> (
-				string xPath,
-				Func<string, IWebElement, IWebDriver, TWebUiControl> factory
-			)
-				where TWebUiControl : WebUiControlBase
-		{
-			var webElement = this.GetElementByXPath (xPath);
-			var webUiControl = factory (xPath, webElement, this.WebDriver);
-			return webUiControl;
-		}
-
-		protected TWebUiControl FindById<TWebUiControl> (
-				string id,
-				Func<string, IWebElement, IWebDriver, TWebUiControl> factory
-			)
-				where TWebUiControl : WebUiControlBase
-		{
-			var element = this.GetElementById (id);
-			var webUiControl = factory (id, element, this.WebDriver);
-			return webUiControl;
-		}
-
-		protected Image FindImageById (string imageId)
-		{
-			var imageElement = this.GetElementById (imageId);
-			return new Image (imageElement, imageId, this.webDriver);
-		}
-
-
-		protected Label FindLabelById (string labelId)
-		{
-			var labelElement = this.GetElementById (labelId);
-			return new Label (labelElement, labelId, this.webDriver);
-		}
-
-		protected ValidationSummary FindValidationSummaryById (string validationSummaryId)
-		{
-			var validationSummaryElement = this.GetElementById (validationSummaryId);
-			return new ValidationSummary (validationSummaryElement, validationSummaryId, this.webDriver);
-		}
-
-		protected ValidationLabel FindValidationLabelById (string validationLabelId)
-		{
-			var validationLabelElement = this.GetElementById (validationLabelId);
-			return new ValidationLabel (validationLabelElement, validationLabelId, this.webDriver);
-		}
-
-		protected TextField FindTextFieldById (string textFieldId)
-		{
-			var textFieldElement = this.GetElementById (textFieldId);
-			return new TextField (textFieldElement, textFieldId, this.webDriver);
-		}
-
-		protected Span FindSpanById (string spanId)
-		{
-			var spanElement = this.GetElementById (spanId);
-			return new Span (spanElement, spanId, this.webDriver);
-		}
-
-		protected CheckBox FindCheckBoxById (string checkBoxId)
-		{
-			var checkBoxElement = this.GetElementById (checkBoxId);
-			return new CheckBox (checkBoxElement, checkBoxId, this.webDriver);
-		}
-
-		protected Button FindButtonById (string buttonId)
-		{
-			var buttonElement = this.GetElementById (buttonId);
-			return new Button (buttonElement, buttonId, this.webDriver);
-		}
-
-		protected Button FindButtonByName (string buttonName)
-		{
-			var buttonElement = this.GetElementByName (buttonName);
-			return new Button (buttonElement, buttonName, this.webDriver);
-		}
-
-		protected Button FindButtonByCss (string refinedCssClassName)
-		{
-			var buttonElement = this.GetElementByCss (refinedCssClassName);
-			return new Button (buttonElement, refinedCssClassName, this.webDriver);
-		}
-
-		protected RadioButtons FindRadioButtonGroupByName (string radioButtonGroupName)
-		{
-			var radioButtons = this.GetAllElementsByXPath ($"//input[@name=\"{radioButtonGroupName}\" and @type=\"radio\"]");
-			return new RadioButtons (new ReadOnlyCollection<IWebElement> (radioButtons), radioButtonGroupName, this.webDriver);
-		}
-
-		protected DropDownList FindDropDownList (string dropDownName)
-		{
-			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ dropDownName }\"]");
-
-			if (selectElement == null)
-			{
-				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
-				// Try getting the select tag based on "id".
-				selectElement = this.GetElementById (dropDownName);
-			}
-
-			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
-
-			return new DropDownList (selectOptionElements, dropDownName, this.webDriver);
-		}
-
-		protected MultiSelectListBox FindMultiSelectListBox (string multiListName)
-		{
-			// "multiple" attribute must be present for a multi-select list box.
-			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ multiListName }\" and @multiple]");
-
-			if (selectElement == null)
-			{
-				// Perhaps, the test engineer would have passed "id" instead of the name attribute.
-				// Try getting the select tag based on "id".
-				selectElement = this.GetElementById (multiListName);
-			}
-
-			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
-
-			return new MultiSelectListBox (selectOptionElements, multiListName, this.webDriver);
-		}
+		// Protected methods - "Get" methods for various Web UI elements.
 
 		protected IWebElement GetElementById (string elementId)
 		{

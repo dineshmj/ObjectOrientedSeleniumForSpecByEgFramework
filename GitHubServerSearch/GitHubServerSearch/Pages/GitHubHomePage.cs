@@ -8,6 +8,7 @@ using OOSelenium.Framework.WebUIControls;
 
 using GitHubServerSearch.Background;
 using GitHubServerSearch.Entities;
+using OOSelenium.Framework.Entities;
 
 namespace GitHubServerSearch.Pages
 {
@@ -30,8 +31,15 @@ namespace GitHubServerSearch.Pages
 			: base (webDriver, baseUrl)
 		{
 			Thread.Sleep (3000);
-			this.KeywordSearchSpan = base.FindSpanById (ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_SPAN);
-			this.KeywordSearchTextField = this.FindTextFieldById (ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_FIELD);
+			this.KeywordSearchSpan
+				= this.FindById<Span> (
+					ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_SPAN,
+					(identifier, webElement, webDriver) => new Span (webElement, identifier, LocateByWhat.Id, webDriver));
+
+			this.KeywordSearchTextField
+				= this.FindById<TextField> (
+					ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_FIELD,
+					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
 		}
 
 		public void ConfineSearchToExtensions (IList<string> extensions)
@@ -63,7 +71,11 @@ namespace GitHubServerSearch.Pages
 				var divElement = base.GetElementByCss (CssClasses.CSS_SEARCH_TEXT_BOX_DIV.RefineForDiv ());
 				divElement.Click ();
 
-				this.KeywordSearchTextField = this.FindTextFieldById (ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_FIELD);
+				this.KeywordSearchTextField
+					= this.FindById<TextField> (
+						ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_FIELD,
+						(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
+
 				this.KeywordSearchTextField.SetFocus ();
 			}
 
@@ -75,7 +87,12 @@ namespace GitHubServerSearch.Pages
 			Thread.Sleep (5000);
 
 			// Click on the "Code" link on the left pane to get the search results.
-			this.CodeLinkOnLeftPane = this.FindLinkById (ElementIds.ID_HOME_PAGE_CODE_ANCHOR_ON_LEFT_PANE);
+			// this.CodeLinkOnLeftPane = this.FindLinkById (ElementIds.ID_HOME_PAGE_CODE_ANCHOR_ON_LEFT_PANE);
+			this.CodeLinkOnLeftPane
+				= this.FindById<Link> (
+					ElementIds.ID_HOME_PAGE_CODE_ANCHOR_ON_LEFT_PANE,
+					(identifier, webElement, webDriver) => new Link (webElement, identifier, LocateByWhat.Id, webDriver));
+
 			this.CodeLinkOnLeftPane.Click ();
 
 			this.searchResults.Clear ();
@@ -102,7 +119,7 @@ namespace GitHubServerSearch.Pages
 				{
 					foreach (var oneLink in showMoreLinks)
 					{
-						var showMoreLink = new Link (oneLink, string.Empty, base.webDriver);
+						var showMoreLink = new Link (oneLink, string.Empty, LocateByWhat.Id, base.webDriver);
 						if (showMoreLink.WebElement.IsAnchorClickable ())
 						{
 							showMoreLink.Click ();
@@ -245,7 +262,7 @@ namespace GitHubServerSearch.Pages
 					break;
 				}
 
-				var nextPageButton = new Link (paginationButtons [paginationButtons.Count - 1], string.Empty, base.webDriver);
+				var nextPageButton = new Link (paginationButtons [paginationButtons.Count - 1], string.Empty, LocateByWhat.Id, base.webDriver);
 
 				if (nextPageButton.WebElement.IsAnchorClickable ())
 				{

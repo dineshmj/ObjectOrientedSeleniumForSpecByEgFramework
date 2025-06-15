@@ -10,14 +10,17 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class DropDownList
 		: MultiValuedControlBase
 	{
-		public DropDownList (ReadOnlyCollection<IWebElement> dropDownEntryTags, string id, IWebDriver webDriver)
-			: base (dropDownEntryTags, id, webDriver)
+		public DropDownList (ReadOnlyCollection<IWebElement> dropDownEntryTags, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (dropDownEntryTags, uniqueIdentifierText, byWhat, webDriver)
 		{
 			if (dropDownEntryTags == null || dropDownEntryTags.Count == 0)
 			{
 				throw new ArgumentException ("The provided collection of drop-down entries is empty.", nameof (dropDownEntryTags));
 			}
-			if (dropDownEntryTags [0].TagName.ToLower () != "select")
+
+			var firstTagName = dropDownEntryTags [0].TagName;
+
+			if (firstTagName.ToLower () != "option")
 			{
 				throw new ArgumentException ("The provided element is not a <select> tag.", nameof (dropDownEntryTags));
 			}

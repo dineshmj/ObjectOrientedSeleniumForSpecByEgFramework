@@ -2,19 +2,23 @@
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Extensions;
+using OOSelenium.Framework.Entities;
 
 namespace OOSelenium.Framework.WebUIControls
 {
 	public sealed class ValidationSummary
 		: WebUiControlBase
 	{
-		public ValidationSummary (IWebElement element, string id, IWebDriver webDriver)
-			: base (element, id, webDriver)
+		public ValidationSummary (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "ul")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "div")
 			{
-				throw new ArgumentException ("Element is not a <ul> tag", nameof (element));
+				throw new ArgumentException ("Element is not a <div> tag", nameof (element));
 			}
+
 			if (!element.GetAttribute ("class").Contains ("validation"))
 			{
 				throw new ArgumentException ("Element does not have a validation class", nameof (element));
@@ -23,7 +27,7 @@ namespace OOSelenium.Framework.WebUIControls
 
 		public IList<string> ValidationFailureMessages
 		{
-			get { return base.remoteElement.ReadBulletEntries (base.webDriver, base.id); }
+			get { return base.remoteElement.ReadBulletEntries (base.webDriver, base.uniqueIdentifierText); }
 		}
 	}
 }

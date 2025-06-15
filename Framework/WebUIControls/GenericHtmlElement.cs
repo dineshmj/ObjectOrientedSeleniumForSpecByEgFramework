@@ -1,14 +1,15 @@
 ﻿using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
+using OOSelenium.Framework.Entities;
 
 namespace OOSelenium.Framework.WebUIControls
 {
 	public sealed class GenericHtmlElement
 		: WebUiControlBase
 	{
-		public GenericHtmlElement (IWebElement element, string id, IWebDriver webDriver)
-			: base (element, id, webDriver)
+		public GenericHtmlElement (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
 		}
 

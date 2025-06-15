@@ -1,14 +1,15 @@
 ﻿using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
+using OOSelenium.Framework.Entities;
 
 namespace OOSelenium.Framework.WebUIControls
 {
 	public sealed class CheckBox
 		: WebUiControlBase
 	{
-		public CheckBox (IWebElement element, string id, IWebDriver webDriver)
-			: base (element, id, webDriver)
+		public CheckBox (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
 			if (element.TagName.ToLower () != "input" || element.GetAttribute ("type").ToLower () != "checkbox")
 			{
@@ -25,6 +26,7 @@ namespace OOSelenium.Framework.WebUIControls
 		{
 			get { return base.remoteElement.FindElement (By.XPath ("..")).Text;  }
 		}
+
 		public string Value
 		{
 			get { return base.remoteElement.GetAttribute ("value"); }

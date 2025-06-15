@@ -10,8 +10,8 @@ namespace OOSelenium.Framework.WebUIControls
 	public sealed class RadioButtons
 		: MultiValuedControlBase
 	{
-		public RadioButtons (ReadOnlyCollection<IWebElement> radioTags, string id, IWebDriver webDriver)
-			: base (radioTags, id, webDriver)
+		public RadioButtons (ReadOnlyCollection<IWebElement> radioTags, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (radioTags, uniqueIdentifierText, byWhat, webDriver)
 		{
 			if (radioTags == null || radioTags.Count == 0)
 			{

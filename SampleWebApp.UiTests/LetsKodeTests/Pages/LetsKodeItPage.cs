@@ -2,6 +2,7 @@
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.WebUIControls;
+using OOSelenium.Framework.Entities;
 
 namespace SampleWebApp.UiTests.LetsKodeTests.Pages
 {
@@ -28,9 +29,20 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Pages
 			FruitsMultiListBox = FindMultiSelectListBox ("multiple-select-example");
 
 			// Check boxes.
-			BmwCheckBox = FindCheckBoxById ("bmwcheck");
-			BenzCheckBox = FindCheckBoxById ("benzcheck");
-			HondaCheckBox = FindCheckBoxById ("hondacheck");
+			BmwCheckBox
+				= this.FindById<CheckBox> (
+					"bmwcheck",
+					(identifier, webElement, webDriver) => new CheckBox (webElement, identifier, LocateByWhat.Id, webDriver));
+
+			BenzCheckBox
+				= this.FindById<CheckBox> (
+					"benzcheck",
+					(identifier, webElement, webDriver) => new CheckBox (webElement, identifier, LocateByWhat.Id, webDriver));
+
+			HondaCheckBox
+				= this.FindById<CheckBox> (
+					"hondacheck",
+					(identifier, webElement, webDriver) => new CheckBox (webElement, identifier, LocateByWhat.Id, webDriver));
 		}
 	}
 }

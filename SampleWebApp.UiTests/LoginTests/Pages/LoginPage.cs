@@ -3,6 +3,7 @@
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.WebUIControls;
 using SampleWebApp.UiTests.LoginTests.Background.ElementIDs;
+using OOSelenium.Framework.Entities;
 
 namespace SampleWebApp.UiTests.LoginTests.Pages
 {
@@ -17,7 +18,10 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 		{
 			get
 			{
-				return FindValidationSummaryById (LoginPageElementIDs.ID_VALIDATION_SUMMARY);
+				return
+					this.FindById<ValidationSummary> (
+						LoginPageElementIDs.ID_VALIDATION_SUMMARY,
+						(identifier, webElement, webDriver) => new ValidationSummary (webElement, identifier, LocateByWhat.Id, webDriver));
 			}
 		}
 
@@ -38,21 +42,42 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 			: base (webDriver, baseUrl)
 		{
 			// Application logo.
-			ApplicationLogo = FindImageById (LoginPageElementIDs.ID_APPLICATION_LOGO);
+			ApplicationLogo
+				= this.FindById<Image> (
+					LoginPageElementIDs.ID_APPLICATION_LOGO,
+					(identifier, webElement, webDriver) => new Image (webElement, identifier, LocateByWhat.Id, webDriver));
+
 
 			// Validation summary is intentionally left out because when the page loads, the
 			// DIV tag for validation summary would not be there.
 
 			// User ID.
-			UserIdLabel = FindLabelById (LoginPageElementIDs.ID_USER_ID_LABEL);
-			UserIdField = FindTextFieldById (LoginPageElementIDs.ID_USER_ID_TEXT_FIELD);
+			UserIdLabel
+				= this.FindById<Label> (
+					LoginPageElementIDs.ID_USER_ID_LABEL,
+					(identifier, webElement, webDriver) => new Label (webElement, identifier, LocateByWhat.Id, webDriver));
+
+			UserIdField
+				= this.FindById<TextField> (
+					LoginPageElementIDs.ID_USER_ID_TEXT_FIELD,
+					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
 
 			// Password.
-			PasswordLabel = FindLabelById (LoginPageElementIDs.ID_PASSWORD_LABEL);
-			PasswordField = FindTextFieldById (LoginPageElementIDs.ID_PASSWORD_TEXT_FIELD);
+			PasswordLabel
+				= this.FindById<Label> (
+					LoginPageElementIDs.ID_PASSWORD_LABEL,
+					(identifier, webElement, webDriver) => new Label (webElement, identifier, LocateByWhat.Id, webDriver));
+
+			PasswordField
+				= this.FindById<TextField> (
+					LoginPageElementIDs.ID_PASSWORD_TEXT_FIELD,
+					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
 
 			// Login button.
-			LoginButton = FindButtonById (LoginPageElementIDs.ID_LOGIN_BUTTON);
+			LoginButton
+				= this.FindById<Button> (
+					LoginPageElementIDs.ID_LOGIN_BUTTON,
+					(identifier, webElement, webDriver) => new Button (webElement, identifier, LocateByWhat.Id, webDriver));
 		}
 	}
 }

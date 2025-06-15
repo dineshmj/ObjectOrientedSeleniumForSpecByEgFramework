@@ -13,8 +13,8 @@ namespace OOSelenium.Framework.WebUIControls
 	{
 		private readonly SelectElement parentSelectTag;
 
-		public MultiSelectListBox (ReadOnlyCollection<IWebElement> multiListBoxEntryTags, string id, IWebDriver webDriver)
-			: base (multiListBoxEntryTags, id, webDriver)
+		public MultiSelectListBox (ReadOnlyCollection<IWebElement> multiListBoxEntryTags, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (multiListBoxEntryTags, uniqueIdentifierText, byWhat, webDriver)
 		{
 			if (multiListBoxEntryTags == null || multiListBoxEntryTags.Count == 0)
 			{

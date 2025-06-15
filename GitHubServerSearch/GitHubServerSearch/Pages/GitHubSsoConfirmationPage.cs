@@ -5,6 +5,7 @@ using OOSelenium.Framework.WebUIControls;
 
 using GitHubServerSearch.Background;
 using OOSelenium.Framework.Extensions;
+using OOSelenium.Framework.Entities;
 
 namespace GitHubServerSearch.Pages
 {
@@ -17,7 +18,10 @@ namespace GitHubServerSearch.Pages
 			: base (webDriver, baseUrl)
 		{
 			Thread.Sleep (3000);
-			this.ConfirmSsoButton = base.FindButtonByCss (CssClasses.CSS_SSO_CONFIRMATION_SUBMIT_BUTTON.RefineForButton ());
+			this.ConfirmSsoButton
+				= this.FindByCssClass<Button> (
+					CssClasses.CSS_SSO_CONFIRMATION_SUBMIT_BUTTON.RefineForButton (),
+					(identifier, webElement, webDriver) => new Button (webElement, identifier, LocateByWhat.Id, webDriver));
 		}
 
 		public void ConfirmSso ()
