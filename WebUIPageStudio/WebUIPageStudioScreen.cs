@@ -390,6 +390,10 @@ namespace OOSelenium.WebUIPageStudio
 					this.tagRenderAreaPictureBox.Image = selectedItem.TagRenderImage;
 				}
 			}
+			else
+			{
+				this.tagRenderAreaPictureBox.Image = Image.FromStream (new MemoryStream (StudioResources.PreviewImage));
+			}
 		}
 
 		private void buildPageCodeButton_Click (object sender, EventArgs e)

@@ -12,6 +12,14 @@ namespace OOSelenium.Framework.Abstractions
 	public abstract class WebUiPageBase
 		: IDisposable
 	{
+		public sealed class CodeDomHelper
+		{
+			public readonly string FindRadioButtonGroupByName = nameof (WebUiPageBase.FindRadioButtonGroupByName);
+			public readonly string FindDropDownList = nameof (WebUiPageBase.FindDropDownList);
+			public readonly string FindMultiSelectListBox = nameof (WebUiPageBase.FindMultiSelectListBox);
+			public readonly string FindCheckBoxById = nameof (WebUiPageBase.FindCheckBoxById);
+		}
+
 		// Protected fields.
 		protected readonly IWebDriver webDriver;
 		protected readonly string baseUrl;
@@ -39,47 +47,6 @@ namespace OOSelenium.Framework.Abstractions
 		}
 
 		// Protected methods.
-		protected IWebElement GetElementById (string elementId)
-		{
-			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
-			var element = wait.Until (ExpectedConditions.ElementExists (By.Id (elementId)));
-			return element;
-		}
-
-		protected IWebElement GetElementByName (string elementName)
-		{
-			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
-			var element = wait.Until (ExpectedConditions.ElementExists (By.Name (elementName)));
-			return element;
-		}
-
-		protected IWebElement GetElementByCss (string refinedCssClassName)
-		{
-			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
-			var element = wait.Until (ExpectedConditions.ElementExists (By.CssSelector (refinedCssClassName)));
-			return element;
-		}
-
-		protected IWebElement GetElementByXPath (string xPath)
-		{
-			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
-			var element = wait.Until (ExpectedConditions.ElementExists (By.XPath (xPath)));
-			return element;
-		}
-
-		protected IList<IWebElement> GetAllElementsByCss (string refinedCssClassName)
-		{
-			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
-			var elements = wait.Until (ExpectedConditions.PresenceOfAllElementsLocatedBy (By.CssSelector (refinedCssClassName)));
-			return elements;
-		}
-
-		protected IList<IWebElement> GetAllElementsByXPath (string xPath)
-		{
-			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
-			var elements = wait.Until (ExpectedConditions.PresenceOfAllElementsLocatedBy (By.XPath (xPath)));
-			return elements;
-		}
 
 		protected Link FindLinkById (string linkId)
 		{
@@ -131,6 +98,28 @@ namespace OOSelenium.Framework.Abstractions
 			{
 				return default;
 			}
+		}
+
+		protected TWebUiControl FindByXPath<TWebUiControl> (
+				string xPath,
+				Func<string, IWebElement, IWebDriver, TWebUiControl> factory
+			)
+				where TWebUiControl : WebUiControlBase
+		{
+			var webElement = this.GetElementByXPath (xPath);
+			var webUiControl = factory (xPath, webElement, this.WebDriver);
+			return webUiControl;
+		}
+
+		protected TWebUiControl FindById<TWebUiControl> (
+				string id,
+				Func<string, IWebElement, IWebDriver, TWebUiControl> factory
+			)
+				where TWebUiControl : WebUiControlBase
+		{
+			var element = this.GetElementById (id);
+			var webUiControl = factory (id, element, this.WebDriver);
+			return webUiControl;
 		}
 
 		protected Image FindImageById (string imageId)
@@ -231,6 +220,48 @@ namespace OOSelenium.Framework.Abstractions
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
 			return new MultiSelectListBox (selectOptionElements, multiListName, this.webDriver);
+		}
+
+		protected IWebElement GetElementById (string elementId)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.Id (elementId)));
+			return element;
+		}
+
+		protected IWebElement GetElementByName (string elementName)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.Name (elementName)));
+			return element;
+		}
+
+		protected IWebElement GetElementByCss (string refinedCssClassName)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.CssSelector (refinedCssClassName)));
+			return element;
+		}
+
+		protected IWebElement GetElementByXPath (string xPath)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var element = wait.Until (ExpectedConditions.ElementExists (By.XPath (xPath)));
+			return element;
+		}
+
+		protected IList<IWebElement> GetAllElementsByCss (string refinedCssClassName)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var elements = wait.Until (ExpectedConditions.PresenceOfAllElementsLocatedBy (By.CssSelector (refinedCssClassName)));
+			return elements;
+		}
+
+		protected IList<IWebElement> GetAllElementsByXPath (string xPath)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (20));
+			var elements = wait.Until (ExpectedConditions.PresenceOfAllElementsLocatedBy (By.XPath (xPath)));
+			return elements;
 		}
 
 		public virtual void Dispose ()

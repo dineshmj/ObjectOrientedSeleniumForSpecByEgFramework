@@ -118,7 +118,7 @@ namespace OOSelenium.WebUIPageStudio
 			buildPageCodeButton.Name = "buildPageCodeButton";
 			buildPageCodeButton.Size = new Size (339, 57);
 			buildPageCodeButton.TabIndex = 2;
-			buildPageCodeButton.Text = "Build Web Page C# Code";
+			buildPageCodeButton.Text = "Proceed to Build Page Code";
 			buildPageCodeButton.UseVisualStyleBackColor = true;
 			buildPageCodeButton.Click += buildPageCodeButton_Click;
 			// 

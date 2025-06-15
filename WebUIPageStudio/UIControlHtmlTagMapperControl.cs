@@ -27,6 +27,21 @@ namespace OOSelenium.WebUIPageStudio
 				});
 		}
 
+		public HtmlTagInfo HtmlTagInfo { get { return this.htmlTagInfo; } }
+
+		public string UserSuggestedPropertyName { get { return this.pageModelPropertyNameTextBox.Text; } }
+
+		public string MappedOOSFWebUIControlName { get { return this.mappedControlNameValueLabel.Text; } }
+
+		public bool IsNameValid
+		{
+			get
+			{
+				var firstChar = pageModelPropertyNameTextBox.Text? [0];
+				return firstChar >= 'A' && firstChar <= 'Z' && pageModelPropertyNameTextBox.Text.EndsWith (this.mappedControlNameValueLabel.Text);
+			}
+		}
+
 		public void MapHtmlTagInfo (HtmlTagInfo htmlTagInfo, int index, int totalCount)
 		{
 			if (htmlTagInfo == null)
@@ -45,7 +60,8 @@ namespace OOSelenium.WebUIPageStudio
 			this.nOfTotalLabel.Text = $"({index} of {totalCount})";
 			this.htmlTagNameValueLabel.Text = htmlTagInfo.Description;
 			this.mappedControlNameValueLabel.Text = this.MapOosfControlNameFrom (htmlTagInfo.Description);
-			this.pageModelPropertyNameTextBox.Text = $"{this.ExtractDescriptionFrom (htmlTagInfo.Description).FormPascalCaseNameFromDescription ()}{this.mappedControlNameValueLabel.Text}";
+
+			this.pageModelPropertyNameTextBox.Text = $"{this.ExtractDescriptionFrom (htmlTagInfo.Description).FormPascalCaseNameFromDescription ()}{this.mappedControlNameValueLabel.Text}".StripNonAlphaPrefix ();
 			this.previewPictureBox.Image = htmlTagInfo.TagRenderImage;
 		}
 

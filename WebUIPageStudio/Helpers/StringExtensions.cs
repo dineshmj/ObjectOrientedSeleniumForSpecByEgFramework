@@ -1,7 +1,31 @@
-﻿namespace OOSelenium.WebUIPageStudio.Helpers
+﻿using System.Text.RegularExpressions;
+
+namespace OOSelenium.WebUIPageStudio.Helpers
 {
 	public static class StringExtensions
 	{
+		public static string StripNonAlphaPrefix (this string text)
+		{
+			if (string.IsNullOrEmpty (text))
+			{
+				return text;
+			}
+
+			var strippedText = Regex.Replace (text, @"^[^a-zA-Z]*", "", RegexOptions.CultureInvariant).Trim ();
+
+			if (string.IsNullOrEmpty (strippedText))
+			{
+				return string.Empty;
+			}
+
+			if (strippedText.Length == 1)
+			{
+				return $"{strippedText [0].ToString ().ToUpper ()}";
+			}
+
+			return $"{strippedText [0].ToString ().ToUpper ()}{strippedText.Substring (1)}";
+		}
+
 		public static string FormPascalCaseNameFromDescription (this string? description)
 		{
 			if (string.IsNullOrWhiteSpace (description))
