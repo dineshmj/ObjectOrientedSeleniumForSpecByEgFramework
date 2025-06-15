@@ -6,8 +6,7 @@
 		{
 			if (string.IsNullOrWhiteSpace (description))
 			{
-				return string.Empty;
-				// throw new ArgumentException ("Description cannot be null or empty.", nameof (description));
+				throw new ArgumentException ("Description cannot be null or empty.", nameof (description));
 			}
 
 			// Remove non-alphanumeric characters except for spaces, hyphens, and underscores.

@@ -1,9 +1,7 @@
-﻿using OOSelenium.Framework.Abstractions;
+﻿using OOSelenium.Framework.WebUIControls;
 using OOSelenium.WebUIPageStudio.Entities;
 using OOSelenium.WebUIPageStudio.Helpers;
 using OOSelenium.WebUIPageStudio.Resources;
-
-using OOSF = OOSelenium.Framework.WebUIControls;
 
 namespace OOSelenium.WebUIPageStudio
 {
@@ -11,47 +9,25 @@ namespace OOSelenium.WebUIPageStudio
 		: UserControl
 	{
 		private HtmlTagInfo htmlTagInfo;
-		private readonly IList<Type> webUiControlTypes
-			= [
-				typeof (OOSF.Button),
-				typeof (OOSF.CheckBox),
-				typeof (OOSF.Div),
-				typeof (OOSF.DropDownList),
-				typeof (OOSF.HeaderOne),
-				typeof (OOSF.HeaderTwo),
-				typeof (OOSF.HeaderThree),
-				typeof (OOSF.HeaderFour),
-				typeof (OOSF.HeaderFive),
-				typeof (OOSF.HeaderSix),
-				typeof (OOSF.Image),
-				typeof (OOSF.Label),
-				typeof (OOSF.Legend),
-				typeof (OOSF.Link),
-				typeof (OOSF.MultiSelectListBox),
-				typeof (OOSF.RadioButtons),
-				typeof (OOSF.Span),
-				typeof (OOSF.SubmitButton),
-				typeof (OOSF.TextArea),
-				typeof (OOSF.TextField),
-				typeof (OOSF.ValidationLabel),
-				typeof (OOSF.ValidationSummary)
-			];
-		private readonly IDictionary<string, Type> webUiControlsDictionary = new Dictionary<string, Type> ();
+		private readonly IDictionary<string, Type> webUiControlsMappingDictionary = new Dictionary<string, Type> ();
 
 		public UIControlHtmlTagMapperControl ()
 		{
-			InitializeComponent ();
-			this.webUiControlTypes.ToList ().ForEach (type =>
-			{
-				// Add the control type to the dictionary.
-				if (!this.webUiControlsDictionary.ContainsKey (type.Name))
+			this.InitializeComponent ();
+			WebUIControlsHelper
+				.GetSupportedWebUiControls ()
+				.ToList ()
+				.ForEach (supportedWebUiControlType =>
 				{
-					this.webUiControlsDictionary.Add (type.Name, type);
-				}
-			});
+					// Add the control type to the dictionary.
+					if (!this.webUiControlsMappingDictionary.ContainsKey (supportedWebUiControlType.Name))
+					{
+						this.webUiControlsMappingDictionary.Add (supportedWebUiControlType.Name, supportedWebUiControlType);
+					}
+				});
 		}
 
-		public void MapHtmlTagInfo (HtmlTagInfo htmlTagInfo, int index, int total)
+		public void MapHtmlTagInfo (HtmlTagInfo htmlTagInfo, int index, int totalCount)
 		{
 			if (htmlTagInfo == null)
 			{
@@ -60,13 +36,13 @@ namespace OOSelenium.WebUIPageStudio
 
 			this.htmlTagInfo = htmlTagInfo;
 
-			if (index < 0 || index > total)
+			if (index < 1 || index > totalCount)
 			{
-				throw new ArgumentOutOfRangeException (nameof (index), "Index must be between 0 and total number of HTML Tag Info instances in the collection.");
+				throw new ArgumentOutOfRangeException (nameof (index), "Index must be between 1 and total number of HTML Tag Info instances in the collection.");
 			}
 
 			// Map the HTML tag info to the UI controls.
-			this.nOfTotalLabel.Text = $"({index + 1} of {total})";
+			this.nOfTotalLabel.Text = $"({index} of {totalCount})";
 			this.htmlTagNameValueLabel.Text = htmlTagInfo.Description;
 			this.mappedControlNameValueLabel.Text = this.MapOosfControlNameFrom (htmlTagInfo.Description);
 			this.pageModelPropertyNameTextBox.Text = $"{this.ExtractDescriptionFrom (htmlTagInfo.Description).FormPascalCaseNameFromDescription ()}{this.mappedControlNameValueLabel.Text}";
@@ -82,7 +58,7 @@ namespace OOSelenium.WebUIPageStudio
 				// Extract the control name from the description.
 				var controlTypeAsText = description.Substring (0, firstSingleQuoteIndex.Value).Trim ();
 
-				if (this.webUiControlsDictionary.TryGetValue (controlTypeAsText, out var controlType))
+				if (this.webUiControlsMappingDictionary.TryGetValue (controlTypeAsText, out var controlType))
 				{
 					return controlType.Name;
 				}
@@ -108,7 +84,11 @@ namespace OOSelenium.WebUIPageStudio
 
 		private void pageModelPropertyNameTextBox_TextChanged (object sender, EventArgs e)
 		{
-			var isNameOk = pageModelPropertyNameTextBox.Text.EndsWith (this.mappedControlNameValueLabel.Text);
+			var firstChar = pageModelPropertyNameTextBox.Text? [0];
+			var isNameOk
+				= firstChar >= 'A'
+					&& firstChar <= 'Z'
+					&& pageModelPropertyNameTextBox.Text.EndsWith (this.mappedControlNameValueLabel.Text);
 
 			this.nameOkPictureBox.Image
 				= isNameOk
@@ -117,7 +97,8 @@ namespace OOSelenium.WebUIPageStudio
 
 			if (!isNameOk)
 			{
-				this.whyNameNotOkTooltip.SetToolTip (this.nameOkPictureBox, $"Page Model Proprty's name must end with '{this.mappedControlNameValueLabel.Text}'.");
+				this.whyNameNotOkTooltip.ToolTipTitle = "Invalid name for Page Model Proprty";
+				this.whyNameNotOkTooltip.SetToolTip (this.nameOkPictureBox, $"Page Model Proprty's name must begin with an Upper case alphabetic character, and end with '{this.mappedControlNameValueLabel.Text}'.");
 			}
 			else
 			{

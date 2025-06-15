@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text;
 using System.Text.Json;
 
@@ -106,27 +106,27 @@ namespace OOSelenium.WebUIPageStudio
 						const rect = el.getBoundingClientRect();
 
                         const details = {
-                            Tag: el.tagName,
-							Text: el.innerText,
-                            Id: el.id,
-							Value: el.value,
-                            CssClassName: el.className,
-                            Name: el.getAttribute('name'),
-                            Source: el.getAttribute('src'),
-                            LinkURL: el.getAttribute('href'),
-                            Type: el.getAttribute('type'),
-                            XPath: getXPath(el),
-							ParentTag: parent ? parent.tagName : null,
-					        ParentHasMultiple: parent ? parent.hasAttribute('multiple') : false,
-							ParentXPath: getXPath(parent),
-							ParentName: parent ? parent.getAttribute('name') : null,
-							TagRenderArea: {
-								Top: rect.top,
-								Left: rect.left,
-								Width: rect.width,
-								Height: rect.height,
-								ClickX: e.clientX,
-								ClickY: e.clientY
+                            " + nameof (HtmlTagInfo.Tag) + @": el.tagName,
+							" + nameof (HtmlTagInfo.Text) + @": el.innerText,
+                            " + nameof (HtmlTagInfo.Id) + @": el.id,
+							" + nameof (HtmlTagInfo.Value) + @": el.value,
+                            " + nameof (HtmlTagInfo.CssClassName) + @": el.className,
+                            " + nameof (HtmlTagInfo.Name) + @": el.getAttribute('name'),
+                            " + nameof (HtmlTagInfo.Source) + @": el.getAttribute('src'),
+                            " + nameof (HtmlTagInfo.LinkURL) + @": el.getAttribute('href'),
+                            " + nameof (HtmlTagInfo.Type) + @": el.getAttribute('type'),
+                            " + nameof (HtmlTagInfo.XPath) + @": getXPath(el),
+							" + nameof (HtmlTagInfo.ParentTag) + @": parent ? parent.tagName : null,
+					        " + nameof (HtmlTagInfo.ParentHasMultiple) + @": parent ? parent.hasAttribute('multiple') : false,
+							" + nameof (HtmlTagInfo.ParentXPath) + @": getXPath(parent),
+							" + nameof (HtmlTagInfo.ParentName) + @": parent ? parent.getAttribute('name') : null,
+							" + nameof (HtmlTagInfo.TagRenderArea) + @": {
+								" + nameof (HtmlTagInfo.TagRenderArea.Top) + @": rect.top,
+								" + nameof (HtmlTagInfo.TagRenderArea.Left) + @": rect.left,
+								" + nameof (HtmlTagInfo.TagRenderArea.Width) + @": rect.width,
+								" + nameof (HtmlTagInfo.TagRenderArea.Height) + @": rect.height,
+								" + nameof (HtmlTagInfo.TagRenderArea.ClickX) + @": e.clientX,
+								" + nameof (HtmlTagInfo.TagRenderArea.ClickY) + @": e.clientY
 							}
                         };
                         window.chrome.webview.postMessage(details);
@@ -147,32 +147,68 @@ namespace OOSelenium.WebUIPageStudio
 
 			if (this.receivedElementInfo != null)
 			{
-				// Check if the element is already in the selected elements list
-				var elementAlreadyAdded = this.selectedElements.Any (x => x.XPath == this.receivedElementInfo.XPath);
-
+				const string UN_SUPPORTED_TAG = "Un-supported Tag";
 				var customContextMenu = new ContextMenuStrip ();
-				// Add an item to the context menu to add/remove the element
-				customContextMenu.Items.Add ($"{(elementAlreadyAdded ? "Remove" : "Add")} {this.receivedElementInfo} element {(elementAlreadyAdded ? "from" : "to")} list", null, (s, args) =>
+
+				var elementDescription = string.IsNullOrWhiteSpace (this.receivedElementInfo.Description)
+					? string.Empty
+					: this.receivedElementInfo.Description;
+
+				if (elementDescription.StartsWith (UN_SUPPORTED_TAG, StringComparison.OrdinalIgnoreCase))
 				{
-					if (elementAlreadyAdded)
+					var elementTagName
+						= elementDescription
+							.Replace (UN_SUPPORTED_TAG, string.Empty)
+							.Replace ("'", string.Empty)
+							.ToLowerInvariant ()
+							.Trim ();
+
+					var menuItemText = $"⚠ '{elementTagName}' is currently not supported. Consider selecting its parent ";
+
+					switch (elementTagName)
 					{
-						var elementToRemove = this.selectedElements.FirstOrDefault (x => x.XPath == this.receivedElementInfo.XPath);
-						this.selectedElements.Remove (elementToRemove);
+						case "th":
+						case "tr":
+						case "td":
+						case "tbody":
+							menuItemText = $"{menuItemText}table.";
+							break;
+
+						default:
+							menuItemText = $"{menuItemText}element.";
+							break;
 					}
-					else
+
+					customContextMenu.Items.Add (menuItemText, null, null);
+				}
+				else
+				{
+					// Check if the element is already in the selected elements list
+					var elementAlreadyAdded = this.selectedElements.Any (x => x.XPath == this.receivedElementInfo.XPath);
+
+					// Add an item to the context menu to add/remove the element
+					customContextMenu.Items.Add ($"{(elementAlreadyAdded ? "Remove" : "Add")} {this.receivedElementInfo} element {(elementAlreadyAdded ? "from" : "to")} list", null, (s, args) =>
 					{
-						this.selectedElements.Add (this.receivedElementInfo);
-					}
+						if (elementAlreadyAdded)
+						{
+							var elementToRemove = this.selectedElements.FirstOrDefault (x => x.XPath == this.receivedElementInfo.XPath);
+							this.selectedElements.Remove (elementToRemove);
+						}
+						else
+						{
+							this.selectedElements.Add (this.receivedElementInfo);
+						}
 
-					// Refresh the list box and select the newly added element
-					this.selectedElementsListBox.SelectedIndex = this.selectedElementsListBox.Items.Count - 1;
-					this.ShowElementPreviw ();
+						// Refresh the list box and select the newly added element
+						this.selectedElementsListBox.SelectedIndex = this.selectedElementsListBox.Items.Count - 1;
+						this.ShowElementPreviw ();
 
-					// Enable the build page code button if there are selected elements
-					this.buildPageCodeButton.Enabled = (this.selectedElements.Count > 0);
+						// Enable the build page code button if there are selected elements
+						this.buildPageCodeButton.Enabled = (this.selectedElements.Count > 0);
 
-					this.receivedElementInfo = null;
-				});
+						this.receivedElementInfo = null;
+					});
+				}
 
 				// Show the context menu at the cursor position
 				customContextMenu.Show (Cursor.Position);

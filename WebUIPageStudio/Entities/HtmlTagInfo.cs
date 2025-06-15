@@ -60,7 +60,7 @@ namespace OOSelenium.WebUIPageStudio.Entities
 				case "input":
 					if (this.Type?.ToLowerInvariant () == "submit")
 					{
-						return $"{typeof (OOSF.SubmitButton).Name} '{this.Text}'";
+						return $"{typeof (OOSF.SubmitButton).Name} '{this.Value}'";
 					}
 					else if (this.Type?.ToLowerInvariant () == "checkbox")
 					{
@@ -118,6 +118,9 @@ namespace OOSelenium.WebUIPageStudio.Entities
 					}
 					break;
 
+				case "p":
+					return $"{typeof (OOSF.Paragraph).Name} '{this.Text}'";
+
 				case "textarea":
 					return $"{typeof (OOSF.TextArea).Name} '{this.Text}'";
 
@@ -131,67 +134,10 @@ namespace OOSelenium.WebUIPageStudio.Entities
 					return $"Form '{this.Text}'";
 
 				case "table":
-					return $"Table '{this.Name}'";
-
-				case "tr":
-					return $"TableRow '{this.Text}'";
-
-				case "td":
-					return $"TableCell '{this.Text}'";
-
-				case "ul":
-					return $"UnorderedList '{this.Text}'";
-
-				case "ol":
-					return $"OrderedList '{this.Text}'";
-
-				case "header":
-					return $"Header";
-
-				case "footer":
-					return $"Footer";
-
-				case "nav":
-					return $"Navigation '{this.Text}'";
-
-				case "section":
-					return $"Section '{this.Text}'";
-
-				case "article":
-					return $"Article '{this.Text}'";
-
-				case "aside":
-					return $"Aside '{this.Text}'";
-
-				case "p":
-					return $"Paragraph '{this.Text}'";
-
-				case "video":
-					return $"Video '{this.Text}'";
-
-				case "audio":
-					return $"Audio '{this.Text}'";
-
-				case "canvas":
-					return $"Canvas '{this.Text}'";
-
-				case "svg":
-					return $"SVG '{this.Text}'";
-
-				case "iframe":
-					return $"Iframe '{this.Text}'";
-
-				case "script":
-					return $"Script '{this.Text}'";
-
-				case "meta":
-					return $"Meta Tag '{this.Text}'";
-
-				case "style":
-					return $"Style Tag '{this.Text}'";
+					return $"{typeof (OOSF.Table).Name} '{this.Name}'";
 			}
 
-			return $"Tag '{this.Tag}'";
+			return $"Un-supported Tag '{this.Tag}'";
 		}
 	}
 }

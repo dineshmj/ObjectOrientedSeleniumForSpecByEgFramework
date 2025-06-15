@@ -60,7 +60,7 @@
 			htmlTagNameLabel.Font = new Font ("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point,  0);
 			htmlTagNameLabel.Location = new Point (145, 20);
 			htmlTagNameLabel.Name = "htmlTagNameLabel";
-			htmlTagNameLabel.Size = new Size (320, 36);
+			htmlTagNameLabel.Size = new Size (400, 36);
 			htmlTagNameLabel.TabIndex = 1;
 			htmlTagNameLabel.Text = "HTML Tag Name";
 			// 
@@ -70,14 +70,14 @@
 			htmlTagNameValueLabel.Font = new Font ("Consolas", 10F, FontStyle.Bold, GraphicsUnit.Point,  0);
 			htmlTagNameValueLabel.Location = new Point (150, 60);
 			htmlTagNameValueLabel.Name = "htmlTagNameValueLabel";
-			htmlTagNameValueLabel.Size = new Size (320, 36);
+			htmlTagNameValueLabel.Size = new Size (400, 36);
 			htmlTagNameValueLabel.TabIndex = 2;
 			htmlTagNameValueLabel.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// previewPictureBox
 			// 
 			previewPictureBox.BorderStyle = BorderStyle.FixedSingle;
-			previewPictureBox.Location = new Point (1260, 10);
+			previewPictureBox.Location = new Point (1500, 10);
 			previewPictureBox.Name = "previewPictureBox";
 			previewPictureBox.Size = new Size (300, 100);
 			previewPictureBox.TabIndex = 3;
@@ -89,9 +89,9 @@
 			mappedControlNameValueLabel.BorderStyle = BorderStyle.FixedSingle;
 			mappedControlNameValueLabel.Font = new Font ("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point,  0);
 			mappedControlNameValueLabel.ForeColor = Color.Lime;
-			mappedControlNameValueLabel.Location = new Point (480, 60);
+			mappedControlNameValueLabel.Location = new Point (560, 60);
 			mappedControlNameValueLabel.Name = "mappedControlNameValueLabel";
-			mappedControlNameValueLabel.Size = new Size (320, 36);
+			mappedControlNameValueLabel.Size = new Size (400, 36);
 			mappedControlNameValueLabel.TabIndex = 2;
 			mappedControlNameValueLabel.TextAlign = ContentAlignment.MiddleLeft;
 			// 
@@ -99,9 +99,9 @@
 			// 
 			mappedControlNameLabel.BackColor = Color.LightCyan;
 			mappedControlNameLabel.Font = new Font ("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point,  0);
-			mappedControlNameLabel.Location = new Point (475, 20);
+			mappedControlNameLabel.Location = new Point (560, 20);
 			mappedControlNameLabel.Name = "mappedControlNameLabel";
-			mappedControlNameLabel.Size = new Size (320, 36);
+			mappedControlNameLabel.Size = new Size (400, 36);
 			mappedControlNameLabel.TabIndex = 1;
 			mappedControlNameLabel.Text = "Mapped OOSF Control";
 			// 
@@ -111,16 +111,16 @@
 			backgroundLabel.BorderStyle = BorderStyle.Fixed3D;
 			backgroundLabel.Location = new Point (140, 10);
 			backgroundLabel.Name = "backgroundLabel";
-			backgroundLabel.Size = new Size (1110, 100);
+			backgroundLabel.Size = new Size (1350, 100);
 			backgroundLabel.TabIndex = 4;
 			// 
 			// pageModelPropertyNameLabel
 			// 
 			pageModelPropertyNameLabel.BackColor = Color.LightCyan;
 			pageModelPropertyNameLabel.Font = new Font ("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point,  0);
-			pageModelPropertyNameLabel.Location = new Point (805, 20);
+			pageModelPropertyNameLabel.Location = new Point (970, 20);
 			pageModelPropertyNameLabel.Name = "pageModelPropertyNameLabel";
-			pageModelPropertyNameLabel.Size = new Size (320, 36);
+			pageModelPropertyNameLabel.Size = new Size (400, 36);
 			pageModelPropertyNameLabel.TabIndex = 1;
 			pageModelPropertyNameLabel.Text = "Enter Page Model Property Name here";
 			// 
@@ -130,16 +130,16 @@
 			pageModelPropertyNameTextBox.BorderStyle = BorderStyle.FixedSingle;
 			pageModelPropertyNameTextBox.Font = new Font ("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point,  0);
 			pageModelPropertyNameTextBox.ForeColor = Color.White;
-			pageModelPropertyNameTextBox.Location = new Point (810, 60);
+			pageModelPropertyNameTextBox.Location = new Point (970, 60);
 			pageModelPropertyNameTextBox.Name = "pageModelPropertyNameTextBox";
-			pageModelPropertyNameTextBox.Size = new Size (320, 36);
-			pageModelPropertyNameTextBox.TabIndex = 5;
+			pageModelPropertyNameTextBox.Size = new Size (400, 36);
+			pageModelPropertyNameTextBox.TabIndex = 0;
 			pageModelPropertyNameTextBox.TextChanged += pageModelPropertyNameTextBox_TextChanged;
 			// 
 			// nameOkPictureBox
 			// 
 			nameOkPictureBox.Image = Resources.StudioResources.Ok;
-			nameOkPictureBox.Location = new Point (1140, 60);
+			nameOkPictureBox.Location = new Point (1380, 60);
 			nameOkPictureBox.Name = "nameOkPictureBox";
 			nameOkPictureBox.Size = new Size (36, 36);
 			nameOkPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -150,7 +150,7 @@
 			// 
 			nameOkLabel.BackColor = Color.LightCyan;
 			nameOkLabel.Font = new Font ("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point,  0);
-			nameOkLabel.Location = new Point (1135, 20);
+			nameOkLabel.Location = new Point (1375, 20);
 			nameOkLabel.Name = "nameOkLabel";
 			nameOkLabel.Size = new Size (100, 36);
 			nameOkLabel.TabIndex = 1;
@@ -177,7 +177,7 @@
 			Controls.Add (nOfTotalLabel);
 			Controls.Add (backgroundLabel);
 			Name = "UIControlHtmlTagMapperControl";
-			Size = new Size (1570, 120);
+			Size = new Size (1810, 120);
 			((System.ComponentModel.ISupportInitialize) previewPictureBox).EndInit ();
 			((System.ComponentModel.ISupportInitialize) nameOkPictureBox).EndInit ();
 			ResumeLayout (false);
