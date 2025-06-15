@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using OOSelenium.Framework.Extensions;
+using System.ComponentModel;
 
 using OOSF = OOSelenium.Framework.WebUIControls;
 
@@ -106,7 +107,7 @@ namespace OOSelenium.WebUIPageStudio.Entities
 					return $"{typeof (OOSF.Legend).Name} '{this.Text}'";
 
 				case "a":
-					return $"{typeof (OOSF.Link).Name} '{this.Text}'";
+					return $"{typeof (OOSF.Link).Name} '{this.LinkURL}'";
 
 				case "link":
 					return $"{typeof (OOSF.Link).Name} '{this.Text}'";
@@ -129,9 +130,6 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 				case "span":
 					return $"{typeof (OOSF.Span).Name} '{this.Text}'";
-
-				case "form":
-					return $"Form '{this.Text}'";
 
 				case "table":
 					return $"{typeof (OOSF.Table).Name} '{this.Name}'";

@@ -41,5 +41,36 @@ namespace OOSelenium.WebUIPageStudio.Helpers
 			var pascalCaseName = string.Concat (words.Select (word => char.ToUpperInvariant (word [0]) + word.Substring (1).ToLowerInvariant ()));
 			return pascalCaseName;
 		}
+
+		public static string GetAndJoinFirstTwoWords (this string sentence)
+		{
+			// Handle null or empty input gracefully
+			if (string.IsNullOrWhiteSpace (sentence))
+			{
+				return string.Empty;
+			}
+
+			// Use Regex.Matches to find all sequences of one or more English alphabetic characters.
+			var matches = Regex.Matches (sentence, "[a-zA-Z]+");
+
+			// Check how many words were found
+			if (matches.Count < 2)
+			{
+				// If only one word is found, PascalCase it and return
+				if (matches.Count == 1)
+				{
+					return matches [0].Value.FormPascalCaseNameFromDescription ();
+				}
+				// If no words are found, return an empty string
+				return string.Empty;
+			}
+
+			// Extract the first and second matched words
+			string firstWord = matches [0].Value.FormPascalCaseNameFromDescription ();
+			string secondWord = matches [1].Value.FormPascalCaseNameFromDescription ();
+
+			// Join the two PascalCased words and return the result
+			return $"{firstWord}{secondWord}";
+		}
 	}
 }

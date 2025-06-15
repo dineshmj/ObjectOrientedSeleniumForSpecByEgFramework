@@ -83,7 +83,7 @@ namespace OOSelenium.WebUIPageStudio
 			appPageUrlTextBox.Name = "appPageUrlTextBox";
 			appPageUrlTextBox.Size = new Size (1853, 30);
 			appPageUrlTextBox.TabIndex = 2;
-			appPageUrlTextBox.Text = "https://www.letskodeit.com/practice";
+			appPageUrlTextBox.Text = "https://www.amazon.in";
 			appPageUrlTextBox.TextChanged += appPageUrlTextBox_TextChanged;
 			// 
 			// navigateButton

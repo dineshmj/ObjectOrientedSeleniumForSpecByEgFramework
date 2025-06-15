@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.Web.WebView2.Core;
 
 using OOSelenium.WebUIPageStudio.Entities;
+using OOSelenium.WebUIPageStudio.Helpers;
 using OOSelenium.WebUIPageStudio.Resources;
 
 namespace OOSelenium.WebUIPageStudio
@@ -15,6 +16,7 @@ namespace OOSelenium.WebUIPageStudio
 		private HtmlTagInfo? receivedElementInfo;
 		private BindingList<HtmlTagInfo> selectedElements = [];
 		private float displayScalingFactor;
+		private string suggestedPageModelName;
 
 		public WebUIPageStudioScreen ()
 		{
@@ -136,6 +138,8 @@ namespace OOSelenium.WebUIPageStudio
             ";
 
 			await this.appPageWebView.ExecuteScriptAsync (js);
+
+			this.suggestedPageModelName = $"{this.appPageWebView.CoreWebView2.DocumentTitle.GetAndJoinFirstTwoWords ()}Page";
 
 			// Now that the user has navigated to the new URL, we can update the URL text box.
 			this.appPageUrlTextBox.Text = this.appPageWebView?.Source?.ToString () ?? this.appPageUrlTextBox.Text;
@@ -405,6 +409,7 @@ namespace OOSelenium.WebUIPageStudio
 				return;
 			}
 
+			WebPageModelDetailsScreen.DefinedInstance.SetSuggestedPageName (this.suggestedPageModelName);
 			WebPageModelDetailsScreen.DefinedInstance.LoadSelectedElements (this.selectedElements);
 			WebPageModelDetailsScreen.DefinedInstance.ShowDialog (this);
 		}

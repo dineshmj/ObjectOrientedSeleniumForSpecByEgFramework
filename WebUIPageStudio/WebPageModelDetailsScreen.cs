@@ -38,6 +38,11 @@ namespace OOSelenium.WebUIPageStudio
 			InitializeComponent ();
 		}
 
+		public void SetSuggestedPageName (string suggestedPageName)
+		{
+			this.pageModelNameTextBox.Text = suggestedPageName;
+		}
+
 		public void LoadSelectedElements (IEnumerable<HtmlTagInfo> htmlTagInfos)
 		{
 			if (htmlTagInfos == null || !htmlTagInfos.Any ())
@@ -100,6 +105,7 @@ namespace OOSelenium.WebUIPageStudio
 				// Add necessary imports to the namespace.
 				globalNamespace.Imports.Add (new CodeNamespaceImport ("OpenQA.Selenium"));
 				globalNamespace.Imports.Add (new CodeNamespaceImport ("OOSelenium.Framework.Abstractions"));
+				globalNamespace.Imports.Add (new CodeNamespaceImport ("OOSelenium.Framework.Entities"));
 				globalNamespace.Imports.Add (new CodeNamespaceImport ("OOSelenium.Framework.WebUIControls"));
 
 				compileUnit.Namespaces.Add (globalNamespace);

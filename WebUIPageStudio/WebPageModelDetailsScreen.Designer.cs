@@ -48,7 +48,7 @@
 			// 
 			// customSpecificationsLabel
 			// 
-			customSpecificationsLabel.Font = new Font ("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			customSpecificationsLabel.Font = new Font ("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point,  0);
 			customSpecificationsLabel.Location = new Point (14, 10);
 			customSpecificationsLabel.Name = "customSpecificationsLabel";
 			customSpecificationsLabel.Size = new Size (840, 50);
@@ -72,7 +72,7 @@
 			// 
 			// namespaceTextBox
 			// 
-			namespaceTextBox.BackColor = Color.FromArgb (64, 64, 64);
+			namespaceTextBox.BackColor = Color.FromArgb (  64,   64,   64);
 			namespaceTextBox.Font = new Font ("Consolas", 12F, FontStyle.Bold);
 			namespaceTextBox.ForeColor = Color.White;
 			namespaceTextBox.Location = new Point (363, 92);
@@ -83,7 +83,7 @@
 			// 
 			// pageModelNameTextBox
 			// 
-			pageModelNameTextBox.BackColor = Color.FromArgb (64, 64, 64);
+			pageModelNameTextBox.BackColor = Color.FromArgb (  64,   64,   64);
 			pageModelNameTextBox.Font = new Font ("Consolas", 12F, FontStyle.Bold);
 			pageModelNameTextBox.ForeColor = Color.White;
 			pageModelNameTextBox.Location = new Point (363, 42);
@@ -138,17 +138,17 @@
 			groupBox1.TabStop = false;
 			groupBox1.Text = "Web Page UI Controls && HTML Tags Mapping";
 			// 
-			// flowLayoutPanel1
+			// htmlTagInfoFlowLayoutPanel
 			// 
 			htmlTagInfoFlowLayoutPanel.AutoScroll = true;
 			htmlTagInfoFlowLayoutPanel.Location = new Point (12, 30);
-			htmlTagInfoFlowLayoutPanel.Name = "flowLayoutPanel1";
+			htmlTagInfoFlowLayoutPanel.Name = "htmlTagInfoFlowLayoutPanel";
 			htmlTagInfoFlowLayoutPanel.Size = new Size (1900, 1005);
 			htmlTagInfoFlowLayoutPanel.TabIndex = 2;
 			// 
 			// buildPageCodeButton
 			// 
-			buildPageCodeButton.Font = new Font ("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+			buildPageCodeButton.Font = new Font ("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point,  0);
 			buildPageCodeButton.ForeColor = Color.Green;
 			buildPageCodeButton.Location = new Point (1606, 1298);
 			buildPageCodeButton.Name = "buildPageCodeButton";
@@ -160,7 +160,7 @@
 			// 
 			// quitButton
 			// 
-			quitButton.Font = new Font ("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			quitButton.Font = new Font ("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point,  0);
 			quitButton.ForeColor = Color.Black;
 			quitButton.Location = new Point (1455, 1298);
 			quitButton.Name = "quitButton";
@@ -173,7 +173,6 @@
 			// savePageModelCodeFileDialog
 			// 
 			savePageModelCodeFileDialog.AddToRecent = false;
-			savePageModelCodeFileDialog.CheckFileExists = true;
 			savePageModelCodeFileDialog.DefaultExt = "cs";
 			savePageModelCodeFileDialog.Filter = "C# code files | *.cs";
 			savePageModelCodeFileDialog.FilterIndex = 0;
