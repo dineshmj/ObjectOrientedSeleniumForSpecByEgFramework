@@ -46,6 +46,7 @@ namespace GitHubServerSearch.Navigation
 		{
 			var ssoConfirmationPage
 				= this.LoginAndGetSsoConfirmationPage (encryptedUsername, encryptedPassword);
+
 			ssoConfirmationPage.ConfirmSso ();
 
 			//

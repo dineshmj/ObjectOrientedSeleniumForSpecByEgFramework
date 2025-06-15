@@ -38,7 +38,7 @@
 			pageModelNameExamplesLabel = new Label ();
 			pageModelNameLabel = new Label ();
 			groupBox1 = new GroupBox ();
-			flowLayoutPanel1 = new FlowLayoutPanel ();
+			htmlTagInfoFlowLayoutPanel = new FlowLayoutPanel ();
 			buildPageCodeButton = new Button ();
 			quitButton = new Button ();
 			savePageModelCodeFileDialog = new SaveFileDialog ();
@@ -130,7 +130,7 @@
 			// 
 			// groupBox1
 			// 
-			groupBox1.Controls.Add (flowLayoutPanel1);
+			groupBox1.Controls.Add (htmlTagInfoFlowLayoutPanel);
 			groupBox1.Location = new Point (18, 238);
 			groupBox1.Name = "groupBox1";
 			groupBox1.Size = new Size (1924, 1049);
@@ -140,11 +140,11 @@
 			// 
 			// flowLayoutPanel1
 			// 
-			flowLayoutPanel1.AutoScroll = true;
-			flowLayoutPanel1.Location = new Point (12, 30);
-			flowLayoutPanel1.Name = "flowLayoutPanel1";
-			flowLayoutPanel1.Size = new Size (1900, 1005);
-			flowLayoutPanel1.TabIndex = 2;
+			htmlTagInfoFlowLayoutPanel.AutoScroll = true;
+			htmlTagInfoFlowLayoutPanel.Location = new Point (12, 30);
+			htmlTagInfoFlowLayoutPanel.Name = "flowLayoutPanel1";
+			htmlTagInfoFlowLayoutPanel.Size = new Size (1900, 1005);
+			htmlTagInfoFlowLayoutPanel.TabIndex = 2;
 			// 
 			// buildPageCodeButton
 			// 
@@ -213,7 +213,7 @@
 		private Label pageModelNameExamplesLabel;
 		private Label label1;
 		private GroupBox groupBox1;
-		private FlowLayoutPanel flowLayoutPanel1;
+		private FlowLayoutPanel htmlTagInfoFlowLayoutPanel;
 		private Button buildPageCodeButton;
 		private Button quitButton;
 		private SaveFileDialog savePageModelCodeFileDialog;

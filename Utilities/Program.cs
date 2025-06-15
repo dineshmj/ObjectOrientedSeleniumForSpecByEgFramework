@@ -12,7 +12,7 @@ using OOSelenium.Utilities.Entities.WebBrowsers.IE;
 
 public class Program
 {
-	private static IConfigManager? _configManager;
+	private static IConfigManager? configManager;
 	private static AppSettings? appSettings;
 
 	public static async Task Main ()
@@ -34,7 +34,7 @@ public class Program
 		var downloadManagers = serviceProvider.GetRequiredService<IEnumerable<ISoftwareDownloadManager>> ();
 
 		// Read the configuration for various download directories.
-		_configManager = serviceProvider.GetRequiredService<IConfigManager> ();
+		configManager = serviceProvider.GetRequiredService<IConfigManager> ();
 
 		// Work with each software download manager.
 		foreach (var oneDownloadManager in downloadManagers)
@@ -51,7 +51,7 @@ public class Program
 				Console.WriteLine ($"\r\nSoftware '{softwareToDownload}' downloaded successfully!\r\n");
 
 				// Update the Configuration source such that last specified download folder for the software type is saved.
-				_configManager.UpdateLastUsedPath (Program.appSettings, downloadPath, softwareToDownload);
+				configManager.UpdateLastUsedPath (Program.appSettings, downloadPath, softwareToDownload);
 			}
 			else
 			{
@@ -66,7 +66,7 @@ public class Program
 	private static string GetDownloadPathFromUser (Software softwareToDownload)
 	{
 		// Get the folder path where it was downloaded for this software.
-		var lastUsedPath = _configManager?.ReadLastUsedPath (ref Program.appSettings, softwareToDownload);
+		var lastUsedPath = configManager?.ReadLastUsedPath (ref Program.appSettings, softwareToDownload);
 
 		Console.Write ($"Enter download path for '{ softwareToDownload }' [{lastUsedPath}]: ");
 		var inputPath = Console.ReadLine ()?.Trim ();

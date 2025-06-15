@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
+using System.Text.RegularExpressions;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.Framework.Entities;
-using System.Text.RegularExpressions;
 
 namespace OOSelenium.Framework.WebUIControls
 {
@@ -15,23 +15,29 @@ namespace OOSelenium.Framework.WebUIControls
 		public Image (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "img")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "img")
 			{
 				throw new ArgumentException ("Element is not a picture", nameof (element));
 			}
 
-			var javaScriptPart = string.Empty;
+			var elementLocatingJavaScriptPart = string.Empty;
+
 			switch (base.uniqueIdentifierType)
 			{
 				case LocateByWhat.Id:
-					var id1 = base.uniqueIdentifierText;
-					javaScriptPart
-						= @"var image = document.getElementById ('" + id1 + @"');;";
+					var id = base.uniqueIdentifierText;
+
+					elementLocatingJavaScriptPart
+						= @"var image = document.getElementById ('" + id + @"');;";
+
 					break;
 
 				case LocateByWhat.XPath:
 					var xPath = base.uniqueIdentifierText;
-					javaScriptPart
+
+					elementLocatingJavaScriptPart
 						= @"var xpathResult = document.evaluate(
 								" + Regex.Escape (xPath) + @",
 								document, // where to start search
@@ -42,6 +48,7 @@ namespace OOSelenium.Framework.WebUIControls
 
 							var image = xpathResult.singleNodeValue;";
 					break;
+
 				default:
 					throw new NotSupportedException ($"ByWhat type `{base.uniqueIdentifierType}` is not supported for Image control.");
 			}
@@ -51,7 +58,7 @@ namespace OOSelenium.Framework.WebUIControls
 					(
 						@"var imageCanvas = document.createElement('canvas');
 						var context = imageCanvas.getContext('2d');
-						" + javaScriptPart + @"
+						" + elementLocatingJavaScriptPart + @"
 
 						imageCanvas.height = image.naturalHeight;
 						imageCanvas.width = image.naturalWidth;
@@ -62,6 +69,7 @@ namespace OOSelenium.Framework.WebUIControls
 					);
 
 			this.Base64String = base64string.Split (',').Last ();
+
 			using (var stream = new MemoryStream (Convert.FromBase64String (this.Base64String)))
 			{
 				this.ImageBitmap = new Bitmap (stream);

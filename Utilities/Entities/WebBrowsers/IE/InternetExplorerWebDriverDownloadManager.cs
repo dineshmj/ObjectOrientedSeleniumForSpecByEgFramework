@@ -8,9 +8,9 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.IE
 	public sealed class InternetExplorerWebDriverDownloadManager
 		: ISoftwareDownloadManager
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly IDownloadAndCleanUpManager _downloadAndCleanUp;
-		private readonly ISoftwareDownloadLogger _downloadLogger;
+		private readonly IHttpClientFactory httpClientFactory;
+		private readonly IDownloadAndCleanUpManager downloadAndCleanUp;
+		private readonly ISoftwareDownloadLogger downloadLogger;
 
 		private const string SELENIUM_DOWNLOADS_BASE_URL = "https://www.selenium.dev/downloads/";
 
@@ -21,16 +21,16 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.IE
 			IDownloadAndCleanUpManager downloadAndCleanUp,
 			ISoftwareDownloadLogger downloadLogger)
 		{
-			_httpClientFactory = httpClientFactory;
-			_downloadAndCleanUp = downloadAndCleanUp;
-			_downloadLogger = downloadLogger;
+			this.httpClientFactory = httpClientFactory;
+			this.downloadAndCleanUp = downloadAndCleanUp;
+			this.downloadLogger = downloadLogger;
 		}
 
 		public async Task<bool> DownloadLatestSoftwareAsync (string downloadPath)
 		{
 			try
 			{
-				var httpClient = _httpClientFactory.CreateClient ();
+				var httpClient = this.httpClientFactory.CreateClient ();
 
 				// Get Selenium downloads page HTML document.
 				var pageContent = await httpClient.GetStringAsync (SELENIUM_DOWNLOADS_BASE_URL);
@@ -53,7 +53,7 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.IE
 
 				var ieWebDriverFromSeleniumUrl = downloadLink.StartsWith ("http") ? downloadLink : "https://www.selenium.dev" + downloadLink;
 
-				await _downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, ieWebDriverFromSeleniumUrl);
+				await this.downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, ieWebDriverFromSeleniumUrl);
 
 				// Prepare to read the version of the IE Web Driver from Selenium's download page.
 				var version = string.Empty;
@@ -66,7 +66,7 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.IE
 					version = versionInfo.FileVersion;
 				}
 
-				await _downloadLogger
+				await this.downloadLogger
 					.LogWebDriverInfo (
 						DownloadsSoftware,
 						downloadPath,
@@ -78,7 +78,7 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.IE
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine ($"Error: {ex.Message}\nStackTrace: {ex.StackTrace}");
+				Console.WriteLine ($"Error while downloading latest web driver software.\r\n\r\nMessage: {ex.Message}\r\n\r\nStackTrace: {ex.StackTrace}");
 				return false;
 			}
 		}

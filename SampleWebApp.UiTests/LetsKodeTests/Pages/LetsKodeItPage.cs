@@ -24,9 +24,9 @@ namespace SampleWebApp.UiTests.LetsKodeTests.Pages
 		public LetsKodeItPage (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
-			CarRadioButtonGroup = FindRadioButtonGroupByName ("cars");
-			CarDropDown = FindDropDownList ("cars");
-			FruitsMultiListBox = FindMultiSelectListBox ("multiple-select-example");
+			this.CarRadioButtonGroup = base.FindRadioButtonGroupByName ("cars");
+			this.CarDropDown = base.FindDropDownList ("cars");
+			this.FruitsMultiListBox = base.FindMultiSelectListBox ("multiple-select-example");
 
 			// Check boxes.
 			BmwCheckBox

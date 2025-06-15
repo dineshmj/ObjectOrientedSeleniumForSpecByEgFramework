@@ -1,6 +1,7 @@
-﻿using OOSelenium.Framework.Entities;
+﻿using OpenQA.Selenium;
+
+using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Extensions;
-using OpenQA.Selenium;
 
 namespace OOSelenium.Framework.Abstractions
 {
@@ -14,7 +15,7 @@ namespace OOSelenium.Framework.Abstractions
 		protected WebUiControlBase (IWebElement element, string identifierText, LocateByWhat byWhat, IWebDriver webDriver)
 		{
 			this.uniqueIdentifierType = byWhat;
-			this.uniqueIdentifierText = identifierText ?? throw new ArgumentNullException (nameof (identifierText), "Id cannot be null when using ByWhat.Id.");
+			this.uniqueIdentifierText = identifierText ?? throw new ArgumentNullException (nameof (identifierText), "Unique identifier cannot be null.");
 
 			this.remoteElement = element;
 			this.webDriver = webDriver;
@@ -43,6 +44,7 @@ namespace OOSelenium.Framework.Abstractions
 		{
 			this.remoteElement.SetFocus (this.webDriver);
 		}
+
 		public void Click ()
 		{
 			this.remoteElement.Click ();

@@ -2,10 +2,11 @@
 
 namespace OOSelenium.Utilities.Entities.WebBrowsers.Edge
 {
-	public sealed class EdgeWebDriverDownloadManager : ISoftwareDownloadManager
+	public sealed class EdgeWebDriverDownloadManager
+		: ISoftwareDownloadManager
 	{
-		private readonly IDownloadAndCleanUpManager _downloadAndCleanUp;
-		private readonly ISoftwareDownloadLogger _downloadLogger;
+		private readonly IDownloadAndCleanUpManager downloadAndCleanUp;
+		private readonly ISoftwareDownloadLogger downloadLogger;
 
 		public Software DownloadsSoftware => Software.MicrosoftEdgeWebDriver;
 
@@ -13,8 +14,8 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Edge
 			IDownloadAndCleanUpManager downloadAndCleanUp,
 			ISoftwareDownloadLogger downloadLogger)
 		{
-			_downloadAndCleanUp = downloadAndCleanUp;
-			_downloadLogger = downloadLogger;
+			this.downloadAndCleanUp = downloadAndCleanUp;
+			this.downloadLogger = downloadLogger;
 		}
 
 		public async Task<bool> DownloadLatestSoftwareAsync (string downloadPath)
@@ -22,7 +23,8 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Edge
 			try
 			{
 				// Retrieve the installed Edge browser version
-				string edgeVersion = GetInstalledEdgeVersion ();
+				var edgeVersion = GetInstalledEdgeVersion ();
+
 				if (string.IsNullOrEmpty (edgeVersion))
 				{
 					Console.WriteLine ("Microsoft Edge is not installed on this system.");
@@ -33,8 +35,8 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Edge
 				var edgeWebDriverUrl = $"https://msedgedriver.azureedge.net/{edgeVersion}/edgedriver_win64.zip";
 
 				// Download the edge web driver.
-				await _downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, edgeWebDriverUrl);
-				await _downloadLogger
+				await this.downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, edgeWebDriverUrl);
+				await this.downloadLogger
 					.LogWebDriverInfo (
 						DownloadsSoftware,
 						downloadPath,
@@ -45,7 +47,7 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Edge
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine ($"Error: {ex.Message}\nStackTrace: {ex.StackTrace}");
+				Console.WriteLine ($"Error while downloading latest web driver software.\r\n\r\nMessage: {ex.Message}\r\n\r\nStackTrace: {ex.StackTrace}");
 				return false;
 			}
 		}
@@ -56,12 +58,11 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Edge
 		{
 			try
 			{
-				string [] possiblePaths =
-				{
+				string [] possiblePaths = [
 					@"SOFTWARE\Microsoft\Edge\BLBeacon", // HKLM
 					@"SOFTWARE\WOW6432Node\Microsoft\Edge\BLBeacon", // HKLM 32-bit on 64-bit OS
 					@"Software\Microsoft\Edge\BLBeacon" // HKCU
-				};
+				];
 
 				foreach (var path in possiblePaths)
 				{

@@ -27,6 +27,7 @@ public static class DpiHelper
 		IntPtr hMonitor = MonitorFromWindow (form.Handle, MONITOR_DEFAULTTONEAREST);
 
 		int result = GetDpiForMonitor (hMonitor, MonitorDpiType.MDT_EFFECTIVE_DPI, out uint dpiX, out uint dpiY);
+
 		if (result != 0)
 		{
 			// Default to 96 DPI = 100%

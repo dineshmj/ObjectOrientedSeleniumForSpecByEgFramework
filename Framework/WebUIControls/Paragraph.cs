@@ -11,7 +11,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public Paragraph (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "p")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "p")
 			{
 				throw new ArgumentException ("Element is not a paragraph", nameof (element));
 			}

@@ -11,7 +11,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public Span (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "span")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "span")
 			{
 				throw new ArgumentException ("Element is not a span", nameof (element));
 			}

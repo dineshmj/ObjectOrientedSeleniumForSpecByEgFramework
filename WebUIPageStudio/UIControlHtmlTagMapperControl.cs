@@ -14,6 +14,7 @@ namespace OOSelenium.WebUIPageStudio
 		public UIControlHtmlTagMapperControl ()
 		{
 			this.InitializeComponent ();
+
 			WebUIControlsHelper
 				.GetSupportedWebUiControls ()
 				.ToList ()
@@ -100,26 +101,20 @@ namespace OOSelenium.WebUIPageStudio
 
 		private void pageModelPropertyNameTextBox_TextChanged (object sender, EventArgs e)
 		{
-			var firstChar = pageModelPropertyNameTextBox.Text? [0];
-			var isNameOk
-				= firstChar >= 'A'
-					&& firstChar <= 'Z'
-					&& pageModelPropertyNameTextBox.Text.EndsWith (this.mappedControlNameValueLabel.Text);
-
 			this.nameOkPictureBox.Image
-				= isNameOk
+				= this.IsNameValid
 					? StudioResources.Ok
 					: StudioResources.NotOk;
 
-			if (!isNameOk)
-			{
-				this.whyNameNotOkTooltip.ToolTipTitle = "Invalid name for Page Model Proprty";
-				this.whyNameNotOkTooltip.SetToolTip (this.nameOkPictureBox, $"Page Model Proprty's name must begin with an Upper case alphabetic character, and end with '{this.mappedControlNameValueLabel.Text}'.");
-			}
-			else
+			if (this.IsNameValid)
 			{
 				this.htmlTagInfo.UserSuggestedPropertyName = this.pageModelPropertyNameTextBox.Text;
 				this.whyNameNotOkTooltip.RemoveAll ();
+			}
+			else
+			{
+				this.whyNameNotOkTooltip.ToolTipTitle = "Invalid name for Page Model Proprty";
+				this.whyNameNotOkTooltip.SetToolTip (this.nameOkPictureBox, $"Page Model Proprty's name must begin with an Upper case alphabetic character, and end with '{this.mappedControlNameValueLabel.Text}'.");
 			}
 		}
 	}

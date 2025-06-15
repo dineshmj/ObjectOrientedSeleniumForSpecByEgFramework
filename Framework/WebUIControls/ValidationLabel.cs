@@ -12,7 +12,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public ValidationLabel (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "span" && element.TagName.ToLower () != "label")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "span" && tagName != "label")
 			{
 				throw new ArgumentException ("Element is not a span or label", nameof (element));
 			}

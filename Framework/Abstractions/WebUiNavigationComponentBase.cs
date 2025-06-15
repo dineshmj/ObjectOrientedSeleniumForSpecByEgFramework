@@ -31,8 +31,8 @@ namespace OOSelenium.Framework.Abstractions
 
 		// Constructors.
 		protected WebUiNavigationComponentBase (
-				IWebUiNavigationComponent<TUserRole, TExecutionEnvironment> parentNavigationComponent)
-			: this (parentNavigationComponent.ExecutionEnvironmentPageDataProvider, parentNavigationComponent.Decryptor)
+			IWebUiNavigationComponent<TUserRole, TExecutionEnvironment> parentNavigationComponent)
+				: this (parentNavigationComponent.ExecutionEnvironmentPageDataProvider, parentNavigationComponent.Decryptor)
 		{
 		}
 

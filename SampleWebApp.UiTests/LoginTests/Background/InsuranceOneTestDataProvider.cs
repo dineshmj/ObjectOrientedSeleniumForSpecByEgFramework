@@ -37,14 +37,12 @@ namespace SampleWebApp.UiTests.LoginTests.DataProviders
 
 		public string GetWebApplicationUrlFor (ExecutionEnvironment executionEnv)
 		{
-			switch (executionEnv)
-			{
-				case ExecutionEnvironment.FunctionalTest:
-					return "https://localhost:44399/";
-
-				default:
-					throw new NotImplementedException ($"Execution Environment, \" { executionEnv } \" is not yet implemented.");
-			}
+			return
+				executionEnv switch
+					{
+						ExecutionEnvironment.FunctionalTest => "https://localhost:44399/",
+						_ => throw new NotImplementedException ($"Execution Environment, \" {executionEnv} \" is not yet implemented."),
+					};
 		}
 
 		public ExecutionEnvironment GetExecutionEnvironment ()
@@ -55,14 +53,12 @@ namespace SampleWebApp.UiTests.LoginTests.DataProviders
 
 		public IDictionary<UserRole, Credential> GetCredentialsFor (ExecutionEnvironment testEnv)
 		{
-			switch (testEnv)
-			{
-				case ExecutionEnvironment.FunctionalTest:
-					return this.envRolesAndCredentialsDictionary [testEnv];
-
-				default:
-					throw new NotImplementedException ($"Test Environment, \" { testEnv } \" is not yet implemented.");
-			}
+			return
+				testEnv switch
+					{
+						ExecutionEnvironment.FunctionalTest => this.envRolesAndCredentialsDictionary [testEnv],
+						_ => throw new NotImplementedException ($"Test Environment, \" {testEnv} \" is not yet implemented."),
+					};
 		}
 
 		public WebBrowser GetPreferredWebBrowser ()

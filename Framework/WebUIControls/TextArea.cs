@@ -12,7 +12,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public TextArea (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLowerInvariant () != "textarea")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "textarea")
 			{
 				throw new ArgumentException ("The provided element is not a textarea.", nameof (element));
 			}
@@ -31,6 +33,11 @@ namespace OOSelenium.Framework.WebUIControls
 		public void Clear ()
 		{
 			base.remoteElement.Clear ();
+		}
+
+		public void SetFocus ()
+		{
+			base.remoteElement.SetFocus (base.webDriver);
 		}
 
 		public void SendKeys (string keys)

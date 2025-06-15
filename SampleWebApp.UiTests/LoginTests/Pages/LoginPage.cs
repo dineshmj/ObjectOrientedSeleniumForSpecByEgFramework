@@ -42,8 +42,8 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 			: base (webDriver, baseUrl)
 		{
 			// Application logo.
-			ApplicationLogo
-				= this.FindById<Image> (
+			this.ApplicationLogo
+				= base.FindById<Image> (
 					LoginPageElementIDs.ID_APPLICATION_LOGO,
 					(identifier, webElement, webDriver) => new Image (webElement, identifier, LocateByWhat.Id, webDriver));
 
@@ -52,30 +52,30 @@ namespace SampleWebApp.UiTests.LoginTests.Pages
 			// DIV tag for validation summary would not be there.
 
 			// User ID.
-			UserIdLabel
-				= this.FindById<Label> (
+			this.UserIdLabel
+				= base.FindById<Label> (
 					LoginPageElementIDs.ID_USER_ID_LABEL,
 					(identifier, webElement, webDriver) => new Label (webElement, identifier, LocateByWhat.Id, webDriver));
 
-			UserIdField
-				= this.FindById<TextField> (
+			this.UserIdField
+				= base.FindById<TextField> (
 					LoginPageElementIDs.ID_USER_ID_TEXT_FIELD,
 					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
 
 			// Password.
-			PasswordLabel
-				= this.FindById<Label> (
+			this.PasswordLabel
+				= base.FindById<Label> (
 					LoginPageElementIDs.ID_PASSWORD_LABEL,
 					(identifier, webElement, webDriver) => new Label (webElement, identifier, LocateByWhat.Id, webDriver));
 
-			PasswordField
-				= this.FindById<TextField> (
+			this.PasswordField
+				= base.FindById<TextField> (
 					LoginPageElementIDs.ID_PASSWORD_TEXT_FIELD,
 					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
 
 			// Login button.
 			LoginButton
-				= this.FindById<Button> (
+				= base.FindById<Button> (
 					LoginPageElementIDs.ID_LOGIN_BUTTON,
 					(identifier, webElement, webDriver) => new Button (webElement, identifier, LocateByWhat.Id, webDriver));
 		}

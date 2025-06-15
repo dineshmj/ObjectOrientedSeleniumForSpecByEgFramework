@@ -9,7 +9,8 @@ using OOSelenium.WebUIPageStudio.Resources;
 
 namespace OOSelenium.WebUIPageStudio
 {
-	public partial class WebUIPageStudioScreen : Form
+	public partial class WebUIPageStudioScreen
+		: Form
 	{
 		private HtmlTagInfo? receivedElementInfo;
 		private BindingList<HtmlTagInfo> selectedElements = [];

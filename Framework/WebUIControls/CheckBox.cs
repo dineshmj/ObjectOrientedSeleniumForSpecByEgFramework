@@ -11,7 +11,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public CheckBox (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "input" || element.GetAttribute ("type").ToLower () != "checkbox")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "input" || element.GetAttribute ("type").ToLower () != "checkbox")
 			{
 				throw new ArgumentException ("The provided element is not a <input type='checkbox'> tag.", nameof (element));
 			}

@@ -6,9 +6,9 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Firefox
 	public sealed class FirefoxWebDriverDownloadManager
 		: ISoftwareDownloadManager
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly IDownloadAndCleanUpManager _downloadAndCleanUp;
-		private readonly ISoftwareDownloadLogger _downloadLogger;
+		private readonly IHttpClientFactory httpClientFactory;
+		private readonly IDownloadAndCleanUpManager downloadAndCleanUp;
+		private readonly ISoftwareDownloadLogger downloadLogger;
 
 		private const string FIREFOX_WEB_DRIVER_PAGE_URL = "https://api.github.com/repos/mozilla/geckodriver/releases/latest";
 
@@ -19,16 +19,16 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Firefox
 			IDownloadAndCleanUpManager downloadAndCleanUp,
 			ISoftwareDownloadLogger downloadLogger)
 		{
-			_httpClientFactory = httpClientFactory;
-			_downloadAndCleanUp = downloadAndCleanUp;
-			_downloadLogger = downloadLogger;
+			this.httpClientFactory = httpClientFactory;
+			this.downloadAndCleanUp = downloadAndCleanUp;
+			this.downloadLogger = downloadLogger;
 		}
 
 		public async Task<bool> DownloadLatestSoftwareAsync (string downloadPath)
 		{
 			try
 			{
-				var httpClient = _httpClientFactory.CreateClient ();
+				var httpClient = this.httpClientFactory.CreateClient ();
 				httpClient.DefaultRequestHeaders.UserAgent.ParseAdd ("Mozilla/5.0");
 
 				var jsonResponse = await httpClient.GetStringAsync (FIREFOX_WEB_DRIVER_PAGE_URL);
@@ -44,8 +44,8 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Firefox
 								.Contains ("win64.zip"))
 						.GetProperty ("browser_download_url").GetString ();
 
-				await _downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, firefoxWebDriverUrl);
-				await _downloadLogger
+				await this.downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, firefoxWebDriverUrl);
+				await this.downloadLogger
 					.LogWebDriverInfo (
 						DownloadsSoftware,
 						downloadPath,
@@ -56,7 +56,7 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Firefox
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine ($"Error: {ex.Message}\nStackTrace: {ex.StackTrace}");
+				Console.WriteLine ($"Error while downloading latest web driver software.\r\n\r\nMessage: {ex.Message}\r\n\r\nStackTrace: {ex.StackTrace}");
 				return false;
 			}
 		}

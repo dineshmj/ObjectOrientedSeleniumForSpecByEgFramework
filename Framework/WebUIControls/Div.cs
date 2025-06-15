@@ -11,7 +11,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public Div (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "div")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "div")
 			{
 				throw new ArgumentException ("The provided element is not a <div> tag.", nameof (element));
 			}

@@ -3,19 +3,19 @@
 using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
+using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.Extensions;
 using OOSelenium.Framework.WebUIControls;
 
 using GitHubServerSearch.Background;
 using GitHubServerSearch.Entities;
-using OOSelenium.Framework.Entities;
 
 namespace GitHubServerSearch.Pages
 {
 	public sealed class GitHubHomePage
 		: WebUiPageBase
 	{
-		private readonly List<GitHubSearchResultEntry> searchResults = new List<GitHubSearchResultEntry> ();
+		private readonly List<GitHubSearchResultEntry> gitHubSearchResults = new List<GitHubSearchResultEntry> ();
 		private IList<string> confineExtensions;
 		private bool keywordSearchSpanClicked;
 
@@ -25,12 +25,14 @@ namespace GitHubServerSearch.Pages
 
 		public TextField KeywordSearchTextField { get; private set; }
 
-		public IList<GitHubSearchResultEntry> SearchResults => new ReadOnlyCollection<GitHubSearchResultEntry> (this.searchResults);
+		public IList<GitHubSearchResultEntry> SearchResults
+			=> new ReadOnlyCollection<GitHubSearchResultEntry> (this.gitHubSearchResults);
 
 		public GitHubHomePage (IWebDriver webDriver, string baseUrl)
 			: base (webDriver, baseUrl)
 		{
 			Thread.Sleep (3000);
+
 			this.KeywordSearchSpan
 				= this.FindById<Span> (
 					ElementIds.ID_HOME_PAGE_KEYWORD_SEARCH_SPAN,
@@ -52,9 +54,7 @@ namespace GitHubServerSearch.Pages
 			}
 
 			this.confineExtensions
-				= extensions
-					.Select (ext => ext.Trim ())
-					.ToList ();
+				= [.. extensions.Select (ext => ext.Trim ())];
 		}
 
 		public void SearchGitHub (string searchKeyword)
@@ -94,8 +94,7 @@ namespace GitHubServerSearch.Pages
 					(identifier, webElement, webDriver) => new Link (webElement, identifier, LocateByWhat.Id, webDriver));
 
 			this.CodeLinkOnLeftPane.Click ();
-
-			this.searchResults.Clear ();
+			this.gitHubSearchResults.Clear ();
 
 			while (true)
 			{
@@ -113,6 +112,7 @@ namespace GitHubServerSearch.Pages
 				}
 				catch
 				{
+					// No "show more" links found. This is fine.
 				}
 
 				if (showMoreLinks != null && showMoreLinks.Count > 0)
@@ -120,6 +120,7 @@ namespace GitHubServerSearch.Pages
 					foreach (var oneLink in showMoreLinks)
 					{
 						var showMoreLink = new Link (oneLink, string.Empty, LocateByWhat.Id, base.webDriver);
+
 						if (showMoreLink.WebElement.IsAnchorClickable ())
 						{
 							showMoreLink.Click ();
@@ -192,9 +193,9 @@ namespace GitHubServerSearch.Pages
 						var matchingStatements = new List<MatchingStatement> ();
 
 						// Get the line numbers.
-						List<IWebElement> lineNumberSpans = default;
-						IList<IWebElement> lineNumberSpansSetOne = default;
-						IList<IWebElement> lineNumberSpansSetTwo = default;
+						List<IWebElement>? lineNumberSpans = default;
+						IList<IWebElement>? lineNumberSpansSetOne = default;
+						IList<IWebElement>? lineNumberSpansSetTwo = default;
 
 						try
 						{
@@ -212,9 +213,7 @@ namespace GitHubServerSearch.Pages
 						{
 						}
 
-						lineNumberSpans = new List<IWebElement> ();
-						lineNumberSpans.AddRange (lineNumberSpansSetOne);
-						lineNumberSpans.AddRange (lineNumberSpansSetTwo);
+						lineNumberSpans = [.. lineNumberSpansSetOne, .. lineNumberSpansSetTwo];
 
 						// Get the matching statements.
 						var statementSpans = fileLinesBlock.FindElements (By.CssSelector (CssClasses.CSS_LINE_TEXT_SPAN.RefineForSpan ()));
@@ -237,7 +236,7 @@ namespace GitHubServerSearch.Pages
 						}
 
 						var searchResultEntry = new GitHubSearchResultEntry (projectName, fileName, matchingStatements, extension);
-						this.searchResults.Add (searchResultEntry);
+						this.gitHubSearchResults.Add (searchResultEntry);
 					}
 				}
 				else
@@ -246,7 +245,7 @@ namespace GitHubServerSearch.Pages
 					break;
 				}
 
-				IList<IWebElement> paginationButtons = default;
+				IList<IWebElement>? paginationButtons = default;
 
 				try
 				{

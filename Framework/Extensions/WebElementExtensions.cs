@@ -70,9 +70,10 @@ namespace OOSelenium.Framework.Extensions
 				"return Array.from(arguments[0].childNodes).filter(node => node.nodeType === Node.TXT_NODE).map(node => node.textContent).join('');",
 				element);
 
-			return string.IsNullOrEmpty (innerText) || string.IsNullOrWhiteSpace (innerText)
-				? text
-				: innerText;
+			return
+				innerText.IsNullEmptyOrWhitespace ()
+					? text
+					: innerText;
 		}
 
 		public static string GetInnerText (this IWebElement tagWithText, IWebDriver webDriver, string id)

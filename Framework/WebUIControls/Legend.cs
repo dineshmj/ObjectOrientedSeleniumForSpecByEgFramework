@@ -11,7 +11,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public Legend (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "legend")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "legend")
 			{
 				throw new ArgumentException ("Element is not a legend", nameof (element));
 			}

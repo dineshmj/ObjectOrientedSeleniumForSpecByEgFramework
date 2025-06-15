@@ -7,9 +7,9 @@ namespace OOSelenium.Utilities.Entities.SeleniumGridHubJAR
 	public sealed class SeleniumGridHubJarFileDownloadManager
 		: ISoftwareDownloadManager
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly IDownloadAndCleanUpManager _downloadAndCleanUp;
-		private readonly ISoftwareDownloadLogger _downloadLogger;
+		private readonly IHttpClientFactory httpClientFactory;
+		private readonly IDownloadAndCleanUpManager downloadAndCleanUp;
+		private readonly ISoftwareDownloadLogger downloadLogger;
 		private const string SeleniumBaseUrl = "https://www.selenium.dev/downloads/";
 
 		public Software DownloadsSoftware => Software.SeleniumGridHubJarFile;
@@ -19,17 +19,17 @@ namespace OOSelenium.Utilities.Entities.SeleniumGridHubJAR
 			IDownloadAndCleanUpManager downloadAndCleanUp,
 			ISoftwareDownloadLogger downloadLogger)
 		{
-			_httpClientFactory = httpClientFactory;
-			_downloadAndCleanUp = downloadAndCleanUp;
-			_downloadLogger = downloadLogger;
+			this.httpClientFactory = httpClientFactory;
+			this.downloadAndCleanUp = downloadAndCleanUp;
+			this.downloadLogger = downloadLogger;
 		}
 
 		public async Task<bool> DownloadLatestSoftwareAsync (string downloadPath)
 		{
 			try
 			{
-				var httpClient = _httpClientFactory.CreateClient ();
-				string pageContent = await httpClient.GetStringAsync (SeleniumBaseUrl);
+				var httpClient = this.httpClientFactory.CreateClient ();
+				var pageContent = await httpClient.GetStringAsync (SeleniumBaseUrl);
 
 				// Prepare to scrape the Selenium Downloads page.
 				var htmlPage = new HtmlDocument ();
@@ -47,9 +47,12 @@ namespace OOSelenium.Utilities.Entities.SeleniumGridHubJAR
 					return false;
 				}
 
-				var fullDownloadUrl = seleniumHubJarFileDownloadUrl.StartsWith ("http") ? seleniumHubJarFileDownloadUrl : "https://www.selenium.dev" + seleniumHubJarFileDownloadUrl;
+				var fullDownloadUrl
+					= seleniumHubJarFileDownloadUrl.StartsWith ("http")
+						? seleniumHubJarFileDownloadUrl
+						: "https://www.selenium.dev" + seleniumHubJarFileDownloadUrl;
 
-				await _downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, fullDownloadUrl, false);
+				await this.downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, fullDownloadUrl, false);
 
 				var seleniumHubJarFileVersion = string.Empty;
 				var lastForwardSlashLocation = fullDownloadUrl.LastIndexOf ("/");
@@ -60,7 +63,7 @@ namespace OOSelenium.Utilities.Entities.SeleniumGridHubJAR
 					seleniumHubJarFileVersion = jarFileName.Replace ("selenium-server-", string.Empty).Replace (".jar", string.Empty);	
 				}
 
-				await _downloadLogger
+				await this.downloadLogger
 					.LogWebDriverInfo (
 						this.DownloadsSoftware,
 						downloadPath,
@@ -71,7 +74,7 @@ namespace OOSelenium.Utilities.Entities.SeleniumGridHubJAR
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine ($"Error: {ex.Message}\nStackTrace: {ex.StackTrace}");
+				Console.WriteLine ($"Error while downloading latest web driver software.\r\n\r\nMessage: {ex.Message}\r\n\r\nStackTrace: {ex.StackTrace}");
 				return false;
 			}
 		}

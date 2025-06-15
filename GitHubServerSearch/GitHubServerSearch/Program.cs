@@ -29,7 +29,8 @@ var decorator = new PassThroughDecrypter ();
 using (var gitHubNavigationComponent = new GitHubNavigationComponent<UserRole, ExecutionEnvironment> (gitHubPageDataProvider, decorator))
 using (var gitHubHomePage = gitHubNavigationComponent.LoginConfirmSsoAndGoToGitHubHomePage (username, password))
 {
-	var searchTerms = new [] { "storedProcedureNameOne", "storedProcedureNameTwo", /* Add more, or read from a file if required */ };
+	var searchTerms 
+		= new [] { "storedProcedureNameOne", "storedProcedureNameTwo", /* Add more, or read from a file if required */ };
 
 	var searchResultsOutputFile = "GitHubSearchResults.txt";
 

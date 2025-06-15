@@ -1,10 +1,10 @@
 ﻿using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
+using OOSelenium.Framework.Entities;
 using OOSelenium.Framework.WebUIControls;
 
 using GitHubServerSearch.Background;
-using OOSelenium.Framework.Entities;
 
 namespace GitHubServerSearch.Pages
 {
@@ -24,7 +24,6 @@ namespace GitHubServerSearch.Pages
 				= this.FindById<TextField> (
 					ElementIds.ID_LOGIN_ID_FIELD,
 					(identifier, webElement, webDriver) => new TextField (webElement, identifier, LocateByWhat.Id, webDriver));
-
 
 			this.PasswordTextField
 				= this.FindById<TextField> (

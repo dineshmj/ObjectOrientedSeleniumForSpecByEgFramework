@@ -12,7 +12,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public TextField (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "input")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "input")
 			{
 				throw new ArgumentException ("Element is not a text field", nameof (element));
 			}
@@ -40,6 +42,11 @@ namespace OOSelenium.Framework.WebUIControls
 		public void Clear ()
 		{
 			base.remoteElement.Clear ();
+		}
+
+		public void SetFocus ()
+		{
+			base.remoteElement.SetFocus (base.webDriver);
 		}
 
 		public void SendKeys (string keys)

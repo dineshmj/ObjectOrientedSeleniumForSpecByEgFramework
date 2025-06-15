@@ -1,11 +1,14 @@
-﻿using OOSelenium.Framework.Abstractions;
-using OOSelenium.WebUIPageStudio.Entities;
-using OpenQA.Selenium;
-using System.CodeDom;
+﻿using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Reflection;
-using System.Text.RegularExpressions;
+
+using OpenQA.Selenium;
+
+using OOSelenium.Framework.Abstractions;
+using OOSelenium.WebUIPageStudio.Entities;
 using OOSF = OOSelenium.Framework.WebUIControls;
+using OOSelenium.Framework.Extensions;
+using OOSelenium.Framework.WebUIControls;
 
 namespace OOSelenium.WebUIPageStudio
 {
@@ -42,7 +45,7 @@ namespace OOSelenium.WebUIPageStudio
 				throw new ArgumentNullException (nameof (htmlTagInfos), "The collection of HTML Tag Info instances cannot be null or empty.");
 			}
 
-			this.flowLayoutPanel1.Controls.Clear ();
+			this.htmlTagInfoFlowLayoutPanel.Controls.Clear ();
 
 			int index = 1;
 			int total = htmlTagInfos.Count ();
@@ -52,14 +55,14 @@ namespace OOSelenium.WebUIPageStudio
 				var control = new UIControlHtmlTagMapperControl ();
 				control.MapHtmlTagInfo (htmlTagInfo, index, total);
 
-				this.flowLayoutPanel1.Controls.Add (control);
+				this.htmlTagInfoFlowLayoutPanel.Controls.Add (control);
 				index++;
 			}
 		}
 
 		private void buildPageCodeButton_Click (object sender, EventArgs e)
 		{
-			foreach (var oneHtmlTagCustomControl in this.flowLayoutPanel1.Controls.OfType<UIControlHtmlTagMapperControl> ())
+			foreach (var oneHtmlTagCustomControl in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
 			{
 				if (oneHtmlTagCustomControl.IsNameValid == false)
 				{
@@ -113,7 +116,7 @@ namespace OOSelenium.WebUIPageStudio
 				// Add the page model class to the namespace.
 				pageModelNamespace.Types.Add (pageModelClass);
 
-				foreach (var oneHtmlTagCustomControl in this.flowLayoutPanel1.Controls.OfType<UIControlHtmlTagMapperControl> ())
+				foreach (var oneHtmlTagCustomControl in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
 				{
 					// Create a field for each HTML tag info.
 					var property = new CodeSnippetTypeMember ($"\t\tpublic {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} {oneHtmlTagCustomControl.UserSuggestedPropertyName} {{ get; init; }}\r\n");
@@ -135,7 +138,8 @@ namespace OOSelenium.WebUIPageStudio
 				pageModelClass.Members.Add (constructor);
 
 				// Loop through each Tag Info control instance..
-				foreach (var oneHtmlTagCustomControl in this.flowLayoutPanel1.Controls.OfType<UIControlHtmlTagMapperControl> ())
+				var index = 0;
+				foreach (var oneHtmlTagCustomControl in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
 				{
 					var fieldType = oneHtmlTagCustomControl.MappedOOSFWebUIControlName;
 
@@ -192,17 +196,37 @@ namespace OOSelenium.WebUIPageStudio
 					}
 					else
 					{
-						constructor.Statements.Add (
-							new CodeSnippetStatement (
-								$"            {oneHtmlTagCustomControl.UserSuggestedPropertyName} = base.FindByXPath<{oneHtmlTagCustomControl.MappedOOSFWebUIControlName}>(" +
-								$"\"{oneHtmlTagCustomControl.HtmlTagInfo.XPath.Replace ("\"", "\\\"")}\", " +
-								$"(xPath, webElement, webDriver) => new {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} (webElement, xPath, webDriver)" +
-								");"
-							)
-						);
+						if (oneHtmlTagCustomControl.HtmlTagInfo.Id.IsNotNullEmptyOrWhitespace ())
+						{
+							// "id" of the HTML tag is present; use it to find the control.
+							constructor.Statements.Add (
+								new CodeSnippetStatement (
+									$"            {oneHtmlTagCustomControl.UserSuggestedPropertyName} = base.FindById<{oneHtmlTagCustomControl.MappedOOSFWebUIControlName}>(" +
+									$"\"{oneHtmlTagCustomControl.HtmlTagInfo.Id}\", " +
+									$"(id, webElement, webDriver) => new {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} (webElement, id, LocateByWhat.Id, webDriver)" +
+									");"
+								)
+							);
+						}
+						else
+						{
+							// "id" of the HTML tag is not present; use XPath to find the control.
+							constructor.Statements.Add (
+								new CodeSnippetStatement (
+									$"            {oneHtmlTagCustomControl.UserSuggestedPropertyName} = base.FindByXPath<{oneHtmlTagCustomControl.MappedOOSFWebUIControlName}>(" +
+									$"\"{oneHtmlTagCustomControl.HtmlTagInfo.XPath.Replace ("\"", "\\\"")}\", " +
+									$"(xPath, webElement, webDriver) => new {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} (webElement, xPath, LocateByWhat.XPath, webDriver)" +
+									");"
+								)
+							);
+						}
 					}
 
-					constructor.Statements.Add (new CodeSnippetStatement (string.Empty));
+					index++;
+					if (index < this.htmlTagInfoFlowLayoutPanel.Controls.Count)
+					{
+						constructor.Statements.Add (new CodeSnippetStatement (string.Empty)); // Add a blank line between statements for readability.
+					}
 				}
 
 				using (CodeDomProvider provider = CodeDomProvider.CreateProvider ("CSharp"))

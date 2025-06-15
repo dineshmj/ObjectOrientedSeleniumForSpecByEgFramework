@@ -12,7 +12,9 @@ namespace OOSelenium.Framework.WebUIControls
 		public Link (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "a")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "a" && tagName != "link")
 			{
 				throw new ArgumentException ("Element is not a link", nameof (element));
 			}

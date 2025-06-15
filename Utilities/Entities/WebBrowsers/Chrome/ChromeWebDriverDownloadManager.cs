@@ -8,9 +8,9 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Chrome
 	{
 		private const string CHROME_WEB_DRIVER_JSON_URL = "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json";
 
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly ISoftwareDownloadLogger _downloadLogger;
-		private readonly IDownloadAndCleanUpManager _downloadAndCleanUp;
+		private readonly IHttpClientFactory httpClientFactory;
+		private readonly ISoftwareDownloadLogger downloadLogger;
+		private readonly IDownloadAndCleanUpManager downloadAndCleanUp;
 
 		public Software DownloadsSoftware => Software.GoogleChromeWebDriver;
 
@@ -19,16 +19,16 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Chrome
 			IDownloadAndCleanUpManager downloadAndCleanUp,
 			ISoftwareDownloadLogger downloadLogger)
 		{
-			_httpClientFactory = httpClientFactory;
-			_downloadAndCleanUp = downloadAndCleanUp;
-			_downloadLogger = downloadLogger;
+			this.httpClientFactory = httpClientFactory;
+			this.downloadAndCleanUp = downloadAndCleanUp;
+			this.downloadLogger = downloadLogger;
 		}
 
 		public async Task<bool> DownloadLatestSoftwareAsync (string downloadPath)
 		{
 			try
 			{
-				var httpClient = _httpClientFactory.CreateClient ();
+				var httpClient = this.httpClientFactory.CreateClient ();
 				var jsonResponse = await httpClient.GetStringAsync (CHROME_WEB_DRIVER_JSON_URL);
 
 				var parsedData
@@ -51,8 +51,8 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Chrome
 					return false;
 				}
 
-				await _downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, chromeWebDriverUrl);
-				await _downloadLogger
+				await this.downloadAndCleanUp.DownloadSoftwareAndCleanUp (downloadPath, chromeWebDriverUrl);
+				await this.downloadLogger
 					.LogWebDriverInfo (
 						DownloadsSoftware,
 						downloadPath,
@@ -63,7 +63,7 @@ namespace OOSelenium.Utilities.Entities.WebBrowsers.Chrome
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine ($"Error while downloading Chrome Driver. Error message: {ex.Message}");
+				Console.WriteLine ($"Error while downloading latest web driver software.\r\n\r\nMessage: {ex.Message}\r\n\r\nStackTrace: {ex.StackTrace}");
 				return false;
 			}
 		}

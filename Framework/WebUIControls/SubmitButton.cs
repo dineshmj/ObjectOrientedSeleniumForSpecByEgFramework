@@ -11,9 +11,11 @@ namespace OOSelenium.Framework.WebUIControls
 		public SubmitButton (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
 			: base (element, uniqueIdentifierText, byWhat, webDriver)
 		{
-			if (element.TagName.ToLower () != "input")
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "input")
 			{
-				throw new ArgumentException ("The provided element is not a <input> tag.", nameof (element));
+				throw new ArgumentException ("The provided element is not a <input type=submit> tag.", nameof (element));
 			}
 		}
 

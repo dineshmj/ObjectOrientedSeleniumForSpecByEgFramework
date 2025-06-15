@@ -15,7 +15,7 @@ namespace OOSelenium.Framework.WebUIControls
 
 			if (tagName != "button" && tagName != "input")
 			{
-				throw new ArgumentException ("The provided element is not a <button> tag.", nameof (element));
+				throw new ArgumentException ("The provided element is not a <button> or <input> tag.", nameof (element));
 			}
 		}
 
