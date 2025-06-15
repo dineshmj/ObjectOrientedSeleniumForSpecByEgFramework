@@ -407,9 +407,6 @@ namespace OOSelenium.WebUIPageStudio
 
 			WebPageModelDetailsScreen.DefinedInstance.LoadSelectedElements (this.selectedElements);
 			WebPageModelDetailsScreen.DefinedInstance.ShowDialog (this);
-
-			var pageCodeBuilder = new StringBuilder ();
-			var webPageModelTemplate = StudioResources.WebPageModelTemplate;
 		}
 
 		private void selectedElementsListBox_KeyDown (object sender, KeyEventArgs e)
