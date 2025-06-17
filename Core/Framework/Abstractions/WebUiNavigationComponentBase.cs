@@ -70,29 +70,35 @@ namespace OOSelenium.Framework.Abstractions
 				}
 
 				string? browserExeAbsolutePath;
-				string? webDriverExeDirectoryAbsolutePath;
+				string? webDriverExeDirectoryRelativeToCallingExePath;
+
+				var appDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
 
 				// Browser and web driver executable paths.
 				switch (this.PreferredWebBrowser)
 				{
 					case WebBrowser.MicrosoftEdge:
 						browserExeAbsolutePath = appSettings [ConfigKeys.EDGE_BROWSER_EXE_ABSOLUTE_PATH];
-						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.EDGE_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						var relativePath = appSettings [ConfigKeys.EDGE_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH];
+						webDriverExeDirectoryRelativeToCallingExePath = Path.GetFullPath (Path.Combine (appDirectoryPath, relativePath));
 						break;
 
 					case WebBrowser.GoogleChrome:
 						browserExeAbsolutePath = appSettings [ConfigKeys.CHROME_BROWSER_EXE_ABSOLUTE_PATH];
-						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.CHROME_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						relativePath = appSettings [ConfigKeys.CHROME_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH];
+						webDriverExeDirectoryRelativeToCallingExePath = Path.GetFullPath (Path.Combine (appDirectoryPath, relativePath));
 						break;
 
 					case WebBrowser.MozillaFirefox:
 						browserExeAbsolutePath = appSettings [ConfigKeys.FIREFOX_BROWSER_EXE_ABSOLUTE_PATH];
-						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.FIREFOX_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						relativePath = appSettings [ConfigKeys.FIREFOX_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH];
+						webDriverExeDirectoryRelativeToCallingExePath = Path.GetFullPath (Path.Combine (appDirectoryPath, relativePath));
 						break;
 
 					case WebBrowser.InternetExplorer:
 						browserExeAbsolutePath = appSettings [ConfigKeys.IE_BROWSER_EXE_ABSOLUTE_PATH];
-						webDriverExeDirectoryAbsolutePath = appSettings [ConfigKeys.IE_WEB_DRIVER_EXE_DIRECTORY_PATH];
+						relativePath = appSettings [ConfigKeys.IE_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH];
+						webDriverExeDirectoryRelativeToCallingExePath = Path.GetFullPath (Path.Combine (appDirectoryPath, relativePath));
 						break;
 
 					default:
@@ -109,7 +115,7 @@ namespace OOSelenium.Framework.Abstractions
 
 							firefoxOptions.AcceptInsecureCertificates = true;
 
-							this.WebDriver = new FirefoxDriver (webDriverExeDirectoryAbsolutePath, firefoxOptions);
+							this.WebDriver = new FirefoxDriver (webDriverExeDirectoryRelativeToCallingExePath, firefoxOptions);
 						}
 						else
 						{
@@ -131,7 +137,7 @@ namespace OOSelenium.Framework.Abstractions
 							chromeOptions.AddAdditionalChromeOption ("useAutomationExtension", false);
 							chromeOptions.AddArgument ("no-sandbox");
 
-							this.WebDriver = new ChromeDriver (webDriverExeDirectoryAbsolutePath, chromeOptions);
+							this.WebDriver = new ChromeDriver (webDriverExeDirectoryRelativeToCallingExePath, chromeOptions);
 						}
 						else
 						{
@@ -156,7 +162,7 @@ namespace OOSelenium.Framework.Abstractions
 
 							edgeOptions.AddArguments ("--ignore-certificate-errors");
 
-							var edgeService = EdgeDriverService.CreateDefaultService (webDriverExeDirectoryAbsolutePath, "msedgedriver.exe");
+							var edgeService = EdgeDriverService.CreateDefaultService (webDriverExeDirectoryRelativeToCallingExePath, "msedgedriver.exe");
 							this.WebDriver = new EdgeDriver (edgeService, edgeOptions);
 						}
 						else
@@ -181,7 +187,7 @@ namespace OOSelenium.Framework.Abstractions
 								};
 
 							ieOptions.AcceptInsecureCertificates = true;
-							this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryAbsolutePath, ieOptions);
+							this.WebDriver = new InternetExplorerDriver (webDriverExeDirectoryRelativeToCallingExePath, ieOptions);
 						}
 						else
 						{

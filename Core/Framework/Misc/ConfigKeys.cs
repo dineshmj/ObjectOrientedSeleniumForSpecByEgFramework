@@ -12,15 +12,15 @@
 
 		// Web drivers.
 		public const string EDGE_BROWSER_EXE_ABSOLUTE_PATH = "webUITestConfig:webDriverConfig:MicrosoftEdge:exeAbsolutePath";
-		public const string EDGE_WEB_DRIVER_EXE_DIRECTORY_PATH = "webUITestConfig:webDriverConfig:MicrosoftEdge:webDriverExeDirectoryAbsolutePath";
+		public const string EDGE_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH = "webUITestConfig:webDriverConfig:MicrosoftEdge:webDriverExeDirectoryRelativeToCallingExePath";
 
 		public const string CHROME_BROWSER_EXE_ABSOLUTE_PATH = "webUITestConfig:webDriverConfig:GoogleChrome:exeAbsolutePath";
-		public const string CHROME_WEB_DRIVER_EXE_DIRECTORY_PATH = "webUITestConfig:webDriverConfig:GoogleChrome:webDriverExeDirectoryAbsolutePath";
+		public const string CHROME_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH = "webUITestConfig:webDriverConfig:GoogleChrome:webDriverExeDirectoryRelativeToCallingExePath";
 
 		public const string FIREFOX_BROWSER_EXE_ABSOLUTE_PATH = "webUITestConfig:webDriverConfig:MozillaFirefox:exeAbsolutePath";
-		public const string FIREFOX_WEB_DRIVER_EXE_DIRECTORY_PATH = "webUITestConfig:webDriverConfig:MozillaFirefox:webDriverExeDirectoryAbsolutePath";
+		public const string FIREFOX_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH = "webUITestConfig:webDriverConfig:MozillaFirefox:webDriverExeDirectoryRelativeToCallingExePath";
 
 		public const string IE_BROWSER_EXE_ABSOLUTE_PATH = "webUITestConfig:webDriverConfig:InternetExplorer:exeAbsolutePath";
-		public const string IE_WEB_DRIVER_EXE_DIRECTORY_PATH = "webUITestConfig:webDriverConfig:InternetExplorer:webDriverExeDirectoryAbsolutePath";
+		public const string IE_WEB_DRIVER_EXE_DIRECTORY_RELATIVE_PATH = "webUITestConfig:webDriverConfig:InternetExplorer:webDriverExeDirectoryRelativeToCallingExePath";
 	}
 }

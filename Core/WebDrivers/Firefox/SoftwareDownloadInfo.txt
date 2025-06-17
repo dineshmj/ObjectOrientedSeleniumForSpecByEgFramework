@@ -1,6 +1,11 @@
 Software = MozillaFirefoxWebDriver
 Version = v0.36.0
 Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 17-Jun-2025 10:40:19 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
 Downloaded on = 13-Jun-2025 11:21:52 PM, +05:30
 
 Software = MozillaFirefoxWebDriver

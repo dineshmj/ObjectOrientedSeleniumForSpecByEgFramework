@@ -11,57 +11,56 @@ namespace OOSelenium.Utilities.Entities.Abstractions
 
 		public string? ReadLastUsedPath (ref AppSettings appSettings, Software softwareToDownload)
 		{
-			var currentDirectory = Directory.GetCurrentDirectory ();
-
 			if (File.Exists (CONFIG_FILE_NAME))
 			{
-				try
-				{
-					var json = File.ReadAllText (CONFIG_FILE_NAME);
-					appSettings = JsonSerializer.Deserialize<AppSettings> (json);
+				var applicationExePath = AppDomain.CurrentDomain.BaseDirectory;
 
-					return
-						softwareToDownload switch
-						{
-							Software.MicrosoftEdgeWebDriver => appSettings.LastUsedEdgeDriverFolderPath,
-							Software.GoogleChromeWebDriver => appSettings.LastUsedChromeDriverFolderPath,
-							Software.MozillaFirefoxWebDriver => appSettings.LastUsedFirefoxDriverFolderPath,
-							Software.InternetExplorerWebDriver => appSettings.LastUsedIeDriverFolderPath,
-							Software.SeleniumGridHubJarFile => appSettings.LastUsedSeleniumHubJarFileFolderPath,
-							_ => throw new NotSupportedException ($"Unrecognized software '{softwareToDownload}'")
-						};
-				}
-				catch
-				{
-					return currentDirectory;
-				}
+				var json = File.ReadAllText (CONFIG_FILE_NAME);
+				appSettings = JsonSerializer.Deserialize<AppSettings> (json);
+
+				var relativePath
+					= softwareToDownload switch
+					{
+						Software.MicrosoftEdgeWebDriver => appSettings.LastUsedEdgeDriverFolderRelativeToThisExePath,
+						Software.GoogleChromeWebDriver => appSettings.LastUsedChromeDriverFolderRelativeToThisExePath,
+						Software.MozillaFirefoxWebDriver => appSettings.LastUsedFirefoxDriverFolderRelativeToThisExePath,
+						Software.InternetExplorerWebDriver => appSettings.LastUsedIeDriverFolderRelativeToThisExePath,
+						Software.SeleniumGridHubJarFile => appSettings.LastUsedSeleniumHubJarFileFolderRelativeToThisExePath,
+						_ => throw new NotSupportedException ($"Unrecognized software '{softwareToDownload}'")
+					};
+
+				return
+					Path.GetFullPath (Path.Combine (applicationExePath, relativePath));
 			}
 
-			return currentDirectory;
+			throw new FileNotFoundException (CONFIG_FILE_NAME + " not found. Please ensure the file exists and is properly formatted.");
 		}
 
 		public void UpdateLastUsedPath (AppSettings appSettings, string downloadPath, Software softwareToDownload)
 		{
+			var applicationExePath = AppDomain.CurrentDomain.BaseDirectory;
+			var relativePath = Path.GetRelativePath (applicationExePath, downloadPath);
+
 			switch (softwareToDownload)
 			{
 				case Software.MicrosoftEdgeWebDriver:
-					appSettings.LastUsedEdgeDriverFolderPath = downloadPath;
+					appSettings.LastUsedEdgeDriverFolderRelativeToThisExePath = relativePath;
 					break;
 
 				case Software.GoogleChromeWebDriver:
-					appSettings.LastUsedChromeDriverFolderPath = downloadPath;
+					appSettings.LastUsedChromeDriverFolderRelativeToThisExePath = relativePath;
 					break;
 
 				case Software.MozillaFirefoxWebDriver:
-					appSettings.LastUsedFirefoxDriverFolderPath = downloadPath;
+					appSettings.LastUsedFirefoxDriverFolderRelativeToThisExePath = relativePath;
 					break;
 
 				case Software.InternetExplorerWebDriver:
-					appSettings.LastUsedIeDriverFolderPath = downloadPath;
+					appSettings.LastUsedIeDriverFolderRelativeToThisExePath = relativePath;
 					break;
 
 				case Software.SeleniumGridHubJarFile:
-					appSettings.LastUsedSeleniumHubJarFileFolderPath = downloadPath;
+					appSettings.LastUsedSeleniumHubJarFileFolderRelativeToThisExePath = relativePath;
 					break;
 
 				default:

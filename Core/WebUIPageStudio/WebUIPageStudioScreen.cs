@@ -352,6 +352,8 @@ namespace OOSelenium.WebUIPageStudio
 				this.appPageUrlTextBox.Left = this.appPageUrlLabel.Right + interControlGap;
 				this.appPageUrlTextBox.Width = this.navigateButton.Left - this.appPageUrlTextBox.Left - interControlGap;
 
+				this.navigateButton.Size = new Size (this.navigateButton.Width, this.appPageUrlTextBox.Height);
+
 				this.appPageWebView.Top = this.appPageUrlTextBox.Bottom + interControlGap;
 				this.appPageWebView.Left = interControlGap;
 				this.appPageWebView.Width = width * browserWidthPercentage / 100;
