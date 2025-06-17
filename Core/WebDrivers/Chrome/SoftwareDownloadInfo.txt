@@ -1,0 +1,65 @@
+Software = GoogleChromeWebDriver
+Version = 137.0.7151.70
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/137.0.7151.70/win64/chromedriver-win64.zip
+Downloaded on = 13-Jun-2025 11:21:01 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:52:32 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:41:54 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:35:36 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:34:55 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:26:57 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:22:38 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:22:03 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:14:39 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:09:45 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:08:04 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:07:02 PM, +05:30
+
+Software = GoogleChromeWebDriver
+Version = 134.0.6998.165
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/win64/chromedriver-win64.zip
+Downloaded on = 22-Mar-2025 04:00:29 PM, +05:30
+

@@ -1,0 +1,45 @@
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 13-Jun-2025 11:21:52 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:52:36 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:41:57 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:35:39 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:34:59 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:27:01 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:22:39 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:22:06 PM, +05:30
+
+Software = MozillaFirefoxWebDriver
+Version = v0.36.0
+Download URL = https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-win64.zip
+Downloaded on = 22-Mar-2025 04:14:43 PM, +05:30
+
