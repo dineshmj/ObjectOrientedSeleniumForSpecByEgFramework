@@ -61,3 +61,5 @@
 /UseCases/WebApp.UiTests/bin/Debug
 /UseCases/WebApp.UiTests/obj
 /Tools/TestWebApp/packages
+/UseCases/WebApp.UiTests/OtherTests/Pages
+/UseCases/WebApp.UiTests/OtherTests/ICICIBank
