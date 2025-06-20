@@ -3,6 +3,7 @@ using System.Text.Json;
 
 using Microsoft.Web.WebView2.Core;
 
+using OOSelenium.Framework.Extensions;
 using OOSelenium.WebUIPageStudio.Entities;
 using OOSelenium.WebUIPageStudio.Helpers;
 using OOSelenium.WebUIPageStudio.Resources;
@@ -78,15 +79,67 @@ namespace OOSelenium.WebUIPageStudio
 
 			string js = @"
                 (function() {
+					function buildXPathInfo (element) {
+						if (!element || !element.tagName) {
+							return null;
+						}
+
+						xPathInfo = {
+							xPathById: null,
+							xPathByDataTestId: null,
+							xPathByName: null,
+							xPathByCssClass: null,
+							xPathByDomPath: null
+						};
+
+						if (element === document.body) {
+							xPathInfo.xPathByDomPath = '/html/body';
+							return xPathInfo;
+						}
+
+						const id = element.getAttribute('id');
+						if (id) {
+							xPathInfo.xPathById = `//*[@id='${id}']`;
+						}
+
+						const dataTestId = element.getAttribute('data-testid');
+						if (dataTestId) {
+							xPathInfo.xPathByDataTestId = `//*[@data-testid='${dataTestId}']`;
+						}
+
+						const name = element.getAttribute('name');
+						if (name) {
+							xPathInfo.xPathByName = `//*[@name='${name}']`;
+						}
+
+						const className = element.className;
+						if (className) {
+							const classNames = className.split(' ').map(c => c.trim()).filter(c => c.length > 0);
+							if (classNames.length > 0) {
+								xPathInfo.xPathByCssClass = classNames.map(c => `//*[contains(concat(' ', normalize-space(@class), ' '), ' ${c} ')]`).join(' | ');
+							}
+						}
+
+						xPathInfo.xPathByDomPath = getXPath(element);
+						return xPathInfo;
+					}
+
                     function getXPath(element) {
-                        if (element.id !== '') {
-                            return 'id(""' + element.id + '"")';
-                        }
+						if (element === document.documentElement) {
+							return '/html';
+						}
+
+						if (element === document.head) {
+							return '/html/head';
+						}
+
                         if (element === document.body) {
                             return '/html/body';
                         }
+
                         let ix = 0;
                         let siblings = element.parentNode.childNodes;
+
                         for (let i = 0; i < siblings.length; i++) {
                             let sibling = siblings[i];
                             if (sibling === element) {
@@ -96,15 +149,64 @@ namespace OOSelenium.WebUIPageStudio
                                 }
                                 return path;
                             }
+
                             if (sibling.nodeType === 1 && sibling.tagName === element.tagName) {
                                 ix++;
                             }
                         }
                     }
 
+					function getNearByRadioOrCheckbox (target, type) {
+						if (target?.parentElement) {
+							siblings = target.parentElement.children;
+
+							for (let i = 0; i < siblings.length; i++) {
+								const sibling = siblings[i];
+								const typeValue = sibling?.getAttribute('type')?.toLowerCase ();
+
+								if (sibling!= target && sibling?.tagName?.toLowerCase() === 'input' && typeValue === type) {
+									return sibling;
+								}
+							}
+						}
+
+						if (target?.parentElement?.parentElement) {
+							siblings = target.parentElement.parentElement.children;
+
+							for (let j = 0; j < siblings.length; j++) {
+								const sibling = siblings[j];
+								const typeValue = sibling?.getAttribute('type')?.toLowerCase ();
+
+								if (sibling!= target && sibling?.tagName?.toLowerCase() === 'input' && typeValue === type) {
+									return sibling;
+								}
+							}
+						}
+
+						if (target?.parentElement?.parentElement?.parentElement) {
+							siblings = target.parentElement.parentElement.parentElement.children;
+
+							for (let k = 0; k < siblings.length; k++) {
+								const sibling = siblings[k];
+								const typeValue = sibling?.getAttribute('type')?.toLowerCase ();
+
+								if (sibling!= target && sibling?.tagName?.toLowerCase() === 'input' && typeValue === type) {
+									return sibling;
+								}
+							}
+						}
+
+						return null;
+					}
+
                     document.addEventListener('contextmenu', function(e) {
                         const el = e.target;
 						const parent = el.parentElement;
+
+						// Get nearby radio or checkbox if present.
+						const nearByRadio = getNearByRadioOrCheckbox(el, 'radio');
+						const nearByCheckbox = getNearByRadioOrCheckbox(el, 'checkbox');
+
 						const rect = el.getBoundingClientRect();
 
                         const details = {
@@ -117,11 +219,21 @@ namespace OOSelenium.WebUIPageStudio
                             " + nameof (HtmlTagInfo.Source) + @": el.getAttribute('src'),
                             " + nameof (HtmlTagInfo.LinkURL) + @": el.getAttribute('href'),
                             " + nameof (HtmlTagInfo.Type) + @": el.getAttribute('type'),
-                            " + nameof (HtmlTagInfo.XPath) + @": getXPath(el),
+                            " + nameof (HtmlTagInfo.XPathInfo) + @": el ? buildXPathInfo (el) : null,
+
 							" + nameof (HtmlTagInfo.ParentTag) + @": parent ? parent.tagName : null,
 					        " + nameof (HtmlTagInfo.ParentHasMultiple) + @": parent ? parent.hasAttribute('multiple') : false,
-							" + nameof (HtmlTagInfo.ParentXPath) + @": getXPath(parent),
 							" + nameof (HtmlTagInfo.ParentName) + @": parent ? parent.getAttribute('name') : null,
+							" + nameof (HtmlTagInfo.ParentXPathInfo) + @": parent? buildXPathInfo (parent) : null,
+
+							" + nameof (HtmlTagInfo.NearbyRadioId) + @": nearByRadio ? nearByRadio?.getAttribute('id') : null,
+							" + nameof (HtmlTagInfo.NearbyRadioName) + @": nearByRadio ? nearByRadio?.getAttribute('name') : null,
+							" + nameof (HtmlTagInfo.NearbyRadioXPathInfo) + @": nearByRadio ? buildXPathInfo (nearByRadio) : null,
+							" + nameof (HtmlTagInfo.NearbyCheckBoxId) + @": nearByCheckbox ? nearByCheckbox?.getAttribute('id') : null,
+							" + nameof (HtmlTagInfo.NearbyCheckBoxName) + @": nearByCheckbox ? nearByCheckbox?.getAttribute('name') : null,
+							" + nameof (HtmlTagInfo.NearbyCheckBoxXPathInfo) + @": nearByCheckbox ? buildXPathInfo (nearByCheckbox) : null,
+
+
 							" + nameof (HtmlTagInfo.TagRenderArea) + @": {
 								" + nameof (HtmlTagInfo.TagRenderArea.Top) + @": rect.top,
 								" + nameof (HtmlTagInfo.TagRenderArea.Left) + @": rect.left,
@@ -188,14 +300,14 @@ namespace OOSelenium.WebUIPageStudio
 				else
 				{
 					// Check if the element is already in the selected elements list
-					var elementAlreadyAdded = this.selectedElements.Any (x => x.XPath == this.receivedElementInfo.XPath);
+					var elementAlreadyAdded = this.selectedElements.Any (x => x.XPathInfo.XPathByDomPath == this.receivedElementInfo.XPathInfo.XPathByDomPath);
 
 					// Add an item to the context menu to add/remove the element
 					customContextMenu.Items.Add ($"{(elementAlreadyAdded ? "Remove" : "Add")} {this.receivedElementInfo} element {(elementAlreadyAdded ? "from" : "to")} list", null, (s, args) =>
 					{
 						if (elementAlreadyAdded)
 						{
-							var elementToRemove = this.selectedElements.FirstOrDefault (x => x.XPath == this.receivedElementInfo.XPath);
+							var elementToRemove = this.selectedElements.FirstOrDefault (x => x.XPathInfo.XPathByDomPath == this.receivedElementInfo.XPathInfo.XPathByDomPath);
 							this.selectedElements.Remove (elementToRemove);
 						}
 						else
@@ -236,6 +348,51 @@ namespace OOSelenium.WebUIPageStudio
 
 				if (this.receivedElementInfo != null)
 				{
+					var nearByRadioPresent
+						= this.receivedElementInfo.NearbyRadioId.IsNotNullEmptyOrWhitespace ()
+							|| this.receivedElementInfo.NearbyRadioName.IsNotNullEmptyOrWhitespace ()
+							|| (this.receivedElementInfo.NearbyRadioXPathInfo != null && this.receivedElementInfo.NearbyRadioXPathInfo.XPathByDomPath.IsNotNullEmptyOrWhitespace ());
+
+					var nearByCheckBoxPresent
+						= this.receivedElementInfo.NearbyCheckBoxId.IsNotNullEmptyOrWhitespace ()
+							|| this.receivedElementInfo.NearbyCheckBoxName.IsNotNullEmptyOrWhitespace ()
+							|| (this.receivedElementInfo.NearbyCheckBoxXPathInfo != null && this.receivedElementInfo.NearbyCheckBoxXPathInfo.XPathByDomPath.IsNotNullEmptyOrWhitespace ());
+
+					if (nearByRadioPresent)
+					{
+						if (MessageBox.Show ("Did you mean to select the \"Radio\" button at this location?", "Radio Button Detected", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							this.receivedElementInfo = new HtmlTagInfo
+							{
+								Tag = "input",
+								Type = "radio",
+								Id = this.receivedElementInfo.NearbyRadioId,
+								Name = this.receivedElementInfo.NearbyRadioName,
+								Text = this.receivedElementInfo.Text,
+								Value = this.receivedElementInfo.Value,
+								XPathInfo = this.receivedElementInfo.NearbyRadioXPathInfo,
+								TagRenderArea = this.receivedElementInfo.TagRenderArea
+							};
+						}
+					}
+					else if (nearByCheckBoxPresent)
+					{
+						if (MessageBox.Show ("Did you mean to select the \"Check Box\" at this location?", "Check Box Detected", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							this.receivedElementInfo = new HtmlTagInfo
+							{
+								Tag = "input",
+								Type = "checkbox",
+								Id = this.receivedElementInfo.NearbyCheckBoxId,
+								Name = this.receivedElementInfo.NearbyCheckBoxName,
+								Text = this.receivedElementInfo.Text,
+								Value = this.receivedElementInfo.Value,
+								XPathInfo = this.receivedElementInfo.NearbyCheckBoxXPathInfo,
+								TagRenderArea = this.receivedElementInfo.TagRenderArea
+							};
+						}
+					}
+
 					// Capture the preview of rendered web page
 					using var renderedPageStream = new MemoryStream ();
 					await this.appPageWebView.CoreWebView2.CapturePreviewAsync (CoreWebView2CapturePreviewImageFormat.Png, renderedPageStream);
@@ -249,13 +406,23 @@ namespace OOSelenium.WebUIPageStudio
 						this.receivedElementInfo = JsonSerializer.Deserialize<HtmlTagInfo> (e.WebMessageAsJson, options);
 					}
 
-					// Calculate the crop area based on the received element's render area
-					var cropArea = new Rectangle (
-						(int) (receivedElementInfo.TagRenderArea.Left * this.displayScalingFactor),
-						(int) (receivedElementInfo.TagRenderArea.Top * this.displayScalingFactor),
-						(int) (receivedElementInfo.TagRenderArea.Width * this.displayScalingFactor),
-						(int) (receivedElementInfo.TagRenderArea.Height * this.displayScalingFactor)
-					);
+					// Original dimensions, scaled for display DPI
+					int left = (int) (receivedElementInfo.TagRenderArea.Left * this.displayScalingFactor);
+					int top = (int) (receivedElementInfo.TagRenderArea.Top * this.displayScalingFactor);
+					int width = (int) (receivedElementInfo.TagRenderArea.Width * this.displayScalingFactor);
+					int height = (int) (receivedElementInfo.TagRenderArea.Height * this.displayScalingFactor);
+
+					// Padding: 80% of height
+					int padding = (int) (height * 0.8f);
+
+					// Apply that same padding to all four sides
+					int newLeft = Math.Max (0, left - padding);
+					int newTop = Math.Max (0, top - padding);
+					int newWidth = Math.Min (renderedPageBitmap.Width - newLeft, width + (2 * padding));
+					int newHeight = Math.Min (renderedPageBitmap.Height - newTop, height + (2 * padding));
+
+					// Final crop rectangle
+					var cropArea = new Rectangle (newLeft, newTop, newWidth, newHeight);
 
 					// Ensure crop area is within bounds
 					cropArea.Intersect (new Rectangle (Point.Empty, renderedPageBitmap.Size));
@@ -277,6 +444,9 @@ namespace OOSelenium.WebUIPageStudio
 
 		private void navigateButton_Click (object sender, EventArgs e)
 		{
+			// Keep this text in Clipboard.
+			Clipboard.SetText ("whatever you need in clipboard");
+
 			// Is the URL in the text box the same as the current page URL?
 			if (this.appPageUrlTextBox.Text == this.appPageWebView?.Source?.ToString ())
 			{

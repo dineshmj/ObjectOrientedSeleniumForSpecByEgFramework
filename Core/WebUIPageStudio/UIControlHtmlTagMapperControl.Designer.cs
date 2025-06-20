@@ -80,7 +80,7 @@
 			previewPictureBox.BorderStyle = BorderStyle.FixedSingle;
 			previewPictureBox.Location = new Point (1500, 10);
 			previewPictureBox.Name = "previewPictureBox";
-			previewPictureBox.Size = new Size (301, 135);
+			previewPictureBox.Size = new Size (341, 135);
 			previewPictureBox.TabIndex = 3;
 			previewPictureBox.TabStop = false;
 			// 
@@ -166,6 +166,8 @@
 			// 
 			doNotInitializeInConstructorCheckBox.AutoSize = true;
 			doNotInitializeInConstructorCheckBox.BackColor = Color.LightCyan;
+			doNotInitializeInConstructorCheckBox.Checked = true;
+			doNotInitializeInConstructorCheckBox.CheckState = CheckState.Checked;
 			doNotInitializeInConstructorCheckBox.Location = new Point (970, 110);
 			doNotInitializeInConstructorCheckBox.Margin = new Padding (4, 5, 4, 5);
 			doNotInitializeInConstructorCheckBox.Name = "doNotInitializeInConstructorCheckBox";
@@ -193,7 +195,7 @@
 			Controls.Add (nOfTotalLabel);
 			Controls.Add (backgroundLabel);
 			Name = "UIControlHtmlTagMapperControl";
-			Size = new Size (1810, 153);
+			Size = new Size (1850, 153);
 			((System.ComponentModel.ISupportInitialize) previewPictureBox).EndInit ();
 			((System.ComponentModel.ISupportInitialize) nameOkPictureBox).EndInit ();
 			ResumeLayout (false);

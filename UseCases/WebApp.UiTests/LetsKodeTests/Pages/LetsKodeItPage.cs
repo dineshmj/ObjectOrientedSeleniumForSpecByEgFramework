@@ -9,11 +9,11 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Pages
 	public sealed class LetsKodeItPage
 		: WebUiPageBase
 	{
-		public RadioButtons CarRadioButtonGroup { get; private set; }
+		public RadioButtons CarsRadioButtons { get; private set; }
 		
-		public DropDownList CarDropDown { get; private set; }
+		public DropDownList CarsDropDownList { get; private set; }
 
-		public MultiSelectListBox FruitsMultiListBox { get; private set; }
+		public MultiSelectListBox FruitsMultiSelectListBox { get; private set; }
 
 		public CheckBox BmwCheckBox { get; private set; }
 
@@ -21,12 +21,12 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Pages
 
 		public CheckBox HondaCheckBox { get; private set; }
 
-		public LetsKodeItPage (IWebDriver webDriver, string baseUrl)
-			: base (webDriver, baseUrl)
+		public LetsKodeItPage (IWebDriver webDriver, string baseUrl, bool navigationRequired, bool maximizeWindow)
+			: base (webDriver, baseUrl, navigationRequired, maximizeWindow)
 		{
-			this.CarRadioButtonGroup = base.FindRadioButtonGroupByName ("cars");
-			this.CarDropDown = base.FindDropDownList ("cars");
-			this.FruitsMultiListBox = base.FindMultiSelectListBox ("multiple-select-example");
+			this.CarsRadioButtons = base.FindRadioButtonGroupByName ("cars");
+			this.CarsDropDownList = base.FindDropDownListByName ("cars");
+			this.FruitsMultiSelectListBox = base.FindMultiSelectListBoxByName ("multiple-select-example");
 
 			// Check boxes.
 			BmwCheckBox

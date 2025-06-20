@@ -19,7 +19,19 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Navigation
 			return
 				new LetsKodeItPage (
 					WebDriver,
-					ExecutionEnvironmentPageDataProvider.GetWebApplicationUrlFor (base.ExecutionEnvironment));
+					ExecutionEnvironmentPageDataProvider.GetWebApplicationUrlFor (base.ExecutionEnvironment),
+					navigationRequired: true,
+					maximizeWindow: true);
+		}
+
+		public LetsKodeItPracticePage GoToLetsKodePracticePage ()
+		{
+			return
+				new LetsKodeItPracticePage (
+					WebDriver,
+					ExecutionEnvironmentPageDataProvider.GetWebApplicationUrlFor (base.ExecutionEnvironment),
+					navigationRequired: true,
+					maximizeWindow: true);
 		}
 	}
 }

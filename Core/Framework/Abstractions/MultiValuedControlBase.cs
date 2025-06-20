@@ -38,13 +38,101 @@ namespace OOSelenium.Framework.Abstractions
 
 		protected void ClickAndSelectEntry (string entryText)
 		{
+			var index = 0;
+
 			foreach (var oneTag in this.entryTags)
 			{
-				if (oneTag.GetInnerText (this.webDriver, this.uniqueIdentifierText) == entryText)
+				var oneEntryText = oneTag.GetInnerText (this.webDriver, this.uniqueIdentifierText);
+
+				if (oneEntryText == entryText)
 				{
-					oneTag.Click ();
+					// In order to make the click work with "Pega"-rendered web pages, it is essential to ensure all necessary
+					// JavaScript events are triggered.
+
+					var js = (IJavaScriptExecutor) this.webDriver;
+
+					js.ExecuteScript ("arguments[0].focus();", this.remoteElement);
+					Thread.Sleep (100);
+
+					js.ExecuteScript (
+						"arguments[0].dispatchEvent(new MouseEvent ('mousedown', {bubbles : true}));",
+						this.remoteElement);
+					Thread.Sleep (100);
+
+					js.ExecuteScript (
+						"arguments[0].dispatchEvent(new MouseEvent ('mouseup', {bubbles : true}));",
+						this.remoteElement);
+					Thread.Sleep (100);
+
+					js.ExecuteScript (
+						"arguments[0].dispatchEvent(new MouseEvent ('click', {bubbles : true}));",
+						this.remoteElement);
+					Thread.Sleep (100);
+
+					var tagName = oneTag.TagName.ToLowerInvariant ();
+					var tagType = oneTag.GetAttribute ("type")?.ToLowerInvariant ();
+
+					if (tagName == "input" && tagType == "radio")
+					{
+						js.ExecuteScript (
+							"arguments[0].checked = true; arguments [0].dispatchEvent(new Event('change', {bubbles : true}));",
+							oneTag);
+					}
+					else if (tagName == "option" && tagType == null)
+					{
+						/*
+
+						// TODO:
+						// TODO: Fix the below commented JavaScript to work with Pega-rendered web pages.
+						// TODO:
+
+						js.ExecuteScript (
+							"arguments[0].scrollIntoView({block: 'center'});" +
+							"arguments[0].focus();" +
+							"setTimeout(function() {" +
+							"  arguments[0].dispatchEvent(new MouseEvent('mousedown', {bubbles : true}));;" +
+							"  arguments[0].dispatchEvent(new MouseEvent('mouseup', {bubbles : true}));;" +
+							"  arguments[0].click();" +
+							"  setTimeout(function() {" +
+							"    arguments[0].selectedIndex = " + index.ToString () + ";" +
+							"    arguments[0].value = '" + entryText + "';" +
+							"    arguments[0].dispatchEvent(new Event('change', {bubbles : true}));" +
+							"    arguments[0].dispatchEvent(new Event('input', {bubbles : true}));" +
+							"    arguments[0].dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles : true}));" +
+							"    arguments[0].dispatchEvent(new KeyboardEvent('keyup', {key: 'Enter', bubbles : true}));" +
+							"    arguments[0].dispatchEvent(new KeyboardEvent('keypress', {key: 'Enter', bubbles : true}));" +
+							"    setTimeout(function() {" +
+							"      arguments[0].blur();" +
+							"      arguments[0].dispatchEvent (new Event ('focusout', {bubbles : true}));" +
+							"    }, 100);" +
+							"  }, 100);" +
+							"}, 100);",
+							base.remoteElement);
+
+						// TODO:
+						// TODO: Fix the above commented JavaScript to work with Pega-rendered web pages.
+						// TODO:
+
+						 */
+
+						try
+						{
+							oneTag.Click ();
+						}
+						catch
+						{
+						}
+					}
+					else
+					{
+						throw new NotImplementedException (
+							$"The tag type '{tagName}' with type '{tagType}' is not supported in the multi-valued control '{this.uniqueIdentifierText}'.");
+					}
+
 					break;
 				}
+
+				index++;
 			}
 		}
 	}

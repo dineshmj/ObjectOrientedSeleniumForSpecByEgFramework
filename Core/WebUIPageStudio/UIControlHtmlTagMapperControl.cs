@@ -33,6 +33,17 @@ namespace OOSelenium.WebUIPageStudio
 
 		public string UserSuggestedPropertyName { get { return this.pageModelPropertyNameTextBox.Text; } }
 
+		public void ChangeUserSuggestedPropertyNameTo (string propertyNameForProperty)
+		{
+			if (propertyNameForProperty.IsNullEmptyOrWhitespace ())
+			{
+				throw new ArgumentException ("Property's new name cannot be null, empty or whitespace.", nameof (propertyNameForProperty));
+			}
+
+			this.pageModelPropertyNameTextBox.Text = propertyNameForProperty;
+			this.pageModelPropertyNameTextBox_TextChanged (this.pageModelPropertyNameTextBox, EventArgs.Empty);
+		}
+
 		public string MappedOOSFWebUIControlName { get { return this.mappedControlNameValueLabel.Text; } }
 
 		public bool IsNameValid
@@ -49,7 +60,7 @@ namespace OOSelenium.WebUIPageStudio
 			}
 		}
 
-		public bool DoNotInitializeInConstructor { get; private set; }
+		public bool DoNotInitializeInConstructor { get; private set; } = true;
 
 		public void MapHtmlTagInfo (HtmlTagInfo htmlTagInfo, int index, int totalCount)
 		{

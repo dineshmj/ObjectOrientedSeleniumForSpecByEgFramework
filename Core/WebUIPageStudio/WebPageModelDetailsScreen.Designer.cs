@@ -49,10 +49,9 @@
 			// customSpecificationsLabel
 			// 
 			customSpecificationsLabel.Font = new Font ("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point,  0);
-			customSpecificationsLabel.Location = new Point (10, 6);
-			customSpecificationsLabel.Margin = new Padding (2, 0, 2, 0);
+			customSpecificationsLabel.Location = new Point (14, 10);
 			customSpecificationsLabel.Name = "customSpecificationsLabel";
-			customSpecificationsLabel.Size = new Size (588, 30);
+			customSpecificationsLabel.Size = new Size (840, 50);
 			customSpecificationsLabel.TabIndex = 0;
 			customSpecificationsLabel.Text = "Web Page Model C# Class - Custom Specifications";
 			// 
@@ -64,11 +63,9 @@
 			pageDetailsGroupBox.Controls.Add (label1);
 			pageDetailsGroupBox.Controls.Add (pageModelNameExamplesLabel);
 			pageDetailsGroupBox.Controls.Add (pageModelNameLabel);
-			pageDetailsGroupBox.Location = new Point (13, 41);
-			pageDetailsGroupBox.Margin = new Padding (2, 2, 2, 2);
+			pageDetailsGroupBox.Location = new Point (19, 68);
 			pageDetailsGroupBox.Name = "pageDetailsGroupBox";
-			pageDetailsGroupBox.Padding = new Padding (2, 2, 2, 2);
-			pageDetailsGroupBox.Size = new Size (1347, 90);
+			pageDetailsGroupBox.Size = new Size (1924, 150);
 			pageDetailsGroupBox.TabIndex = 1;
 			pageDetailsGroupBox.TabStop = false;
 			pageDetailsGroupBox.Text = "Page Model Details";
@@ -78,11 +75,10 @@
 			namespaceTextBox.BackColor = Color.FromArgb (  64,   64,   64);
 			namespaceTextBox.Font = new Font ("Consolas", 12F, FontStyle.Bold);
 			namespaceTextBox.ForeColor = Color.White;
-			namespaceTextBox.Location = new Point (254, 55);
-			namespaceTextBox.Margin = new Padding (2, 2, 2, 2);
+			namespaceTextBox.Location = new Point (363, 42);
 			namespaceTextBox.Name = "namespaceTextBox";
-			namespaceTextBox.Size = new Size (507, 26);
-			namespaceTextBox.TabIndex = 1;
+			namespaceTextBox.Size = new Size (723, 36);
+			namespaceTextBox.TabIndex = 0;
 			namespaceTextBox.Text = "MyApp.MyFunctionality.MyPurpose";
 			// 
 			// pageModelNameTextBox
@@ -90,49 +86,44 @@
 			pageModelNameTextBox.BackColor = Color.FromArgb (  64,   64,   64);
 			pageModelNameTextBox.Font = new Font ("Consolas", 12F, FontStyle.Bold);
 			pageModelNameTextBox.ForeColor = Color.White;
-			pageModelNameTextBox.Location = new Point (254, 25);
-			pageModelNameTextBox.Margin = new Padding (2, 2, 2, 2);
+			pageModelNameTextBox.Location = new Point (363, 92);
 			pageModelNameTextBox.Name = "pageModelNameTextBox";
-			pageModelNameTextBox.Size = new Size (507, 26);
-			pageModelNameTextBox.TabIndex = 0;
+			pageModelNameTextBox.Size = new Size (723, 36);
+			pageModelNameTextBox.TabIndex = 1;
 			pageModelNameTextBox.Text = "MyApplicationPage";
 			// 
 			// namespaceLabel
 			// 
-			namespaceLabel.Location = new Point (18, 54);
-			namespaceLabel.Margin = new Padding (2, 0, 2, 0);
+			namespaceLabel.Location = new Point (26, 40);
 			namespaceLabel.Name = "namespaceLabel";
-			namespaceLabel.Size = new Size (232, 23);
+			namespaceLabel.Size = new Size (331, 38);
 			namespaceLabel.TabIndex = 3;
 			namespaceLabel.Text = "Namespace:";
 			namespaceLabel.TextAlign = ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			label1.Location = new Point (764, 54);
-			label1.Margin = new Padding (2, 0, 2, 0);
+			label1.Location = new Point (1091, 40);
 			label1.Name = "label1";
-			label1.Size = new Size (232, 23);
+			label1.Size = new Size (331, 38);
 			label1.TabIndex = 3;
 			label1.Text = "e.g.: NetBankingApp.WebUITests.Login";
 			label1.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// pageModelNameExamplesLabel
 			// 
-			pageModelNameExamplesLabel.Location = new Point (764, 24);
-			pageModelNameExamplesLabel.Margin = new Padding (2, 0, 2, 0);
+			pageModelNameExamplesLabel.Location = new Point (1091, 90);
 			pageModelNameExamplesLabel.Name = "pageModelNameExamplesLabel";
-			pageModelNameExamplesLabel.Size = new Size (232, 23);
+			pageModelNameExamplesLabel.Size = new Size (331, 38);
 			pageModelNameExamplesLabel.TabIndex = 2;
 			pageModelNameExamplesLabel.Text = "e.g.: NetBankingAppLoginPage";
 			pageModelNameExamplesLabel.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// pageModelNameLabel
 			// 
-			pageModelNameLabel.Location = new Point (18, 24);
-			pageModelNameLabel.Margin = new Padding (2, 0, 2, 0);
+			pageModelNameLabel.Location = new Point (26, 90);
 			pageModelNameLabel.Name = "pageModelNameLabel";
-			pageModelNameLabel.Size = new Size (232, 23);
+			pageModelNameLabel.Size = new Size (331, 38);
 			pageModelNameLabel.TabIndex = 2;
 			pageModelNameLabel.Text = "Page Model Name:";
 			pageModelNameLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -140,11 +131,9 @@
 			// groupBox1
 			// 
 			groupBox1.Controls.Add (htmlTagInfoFlowLayoutPanel);
-			groupBox1.Location = new Point (13, 143);
-			groupBox1.Margin = new Padding (2, 2, 2, 2);
+			groupBox1.Location = new Point (19, 238);
 			groupBox1.Name = "groupBox1";
-			groupBox1.Padding = new Padding (2, 2, 2, 2);
-			groupBox1.Size = new Size (1347, 629);
+			groupBox1.Size = new Size (1924, 1048);
 			groupBox1.TabIndex = 4;
 			groupBox1.TabStop = false;
 			groupBox1.Text = "Web Page UI Controls && HTML Tags Mapping";
@@ -152,20 +141,18 @@
 			// htmlTagInfoFlowLayoutPanel
 			// 
 			htmlTagInfoFlowLayoutPanel.AutoScroll = true;
-			htmlTagInfoFlowLayoutPanel.Location = new Point (8, 18);
-			htmlTagInfoFlowLayoutPanel.Margin = new Padding (2, 2, 2, 2);
+			htmlTagInfoFlowLayoutPanel.Location = new Point (11, 30);
 			htmlTagInfoFlowLayoutPanel.Name = "htmlTagInfoFlowLayoutPanel";
-			htmlTagInfoFlowLayoutPanel.Size = new Size (1330, 603);
+			htmlTagInfoFlowLayoutPanel.Size = new Size (1900, 1005);
 			htmlTagInfoFlowLayoutPanel.TabIndex = 2;
 			// 
 			// buildPageCodeButton
 			// 
 			buildPageCodeButton.Font = new Font ("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point,  0);
 			buildPageCodeButton.ForeColor = Color.Green;
-			buildPageCodeButton.Location = new Point (1124, 779);
-			buildPageCodeButton.Margin = new Padding (2, 2, 2, 2);
+			buildPageCodeButton.Location = new Point (1606, 1298);
 			buildPageCodeButton.Name = "buildPageCodeButton";
-			buildPageCodeButton.Size = new Size (237, 34);
+			buildPageCodeButton.Size = new Size (339, 57);
 			buildPageCodeButton.TabIndex = 6;
 			buildPageCodeButton.Text = "Build Web Page C# Code";
 			buildPageCodeButton.UseVisualStyleBackColor = true;
@@ -175,10 +162,9 @@
 			// 
 			quitButton.Font = new Font ("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point,  0);
 			quitButton.ForeColor = Color.Black;
-			quitButton.Location = new Point (1018, 779);
-			quitButton.Margin = new Padding (2, 2, 2, 2);
+			quitButton.Location = new Point (1454, 1298);
 			quitButton.Name = "quitButton";
-			quitButton.Size = new Size (102, 34);
+			quitButton.Size = new Size (146, 57);
 			quitButton.TabIndex = 7;
 			quitButton.Text = "&Cancel";
 			quitButton.UseVisualStyleBackColor = true;
@@ -195,17 +181,16 @@
 			// WebPageModelDetailsScreen
 			// 
 			AcceptButton = buildPageCodeButton;
-			AutoScaleDimensions = new SizeF (7F, 15F);
+			AutoScaleDimensions = new SizeF (10F, 25F);
 			AutoScaleMode = AutoScaleMode.Font;
 			CancelButton = quitButton;
-			ClientSize = new Size (1370, 820);
+			ClientSize = new Size (1957, 1367);
 			Controls.Add (quitButton);
 			Controls.Add (buildPageCodeButton);
 			Controls.Add (groupBox1);
 			Controls.Add (pageDetailsGroupBox);
 			Controls.Add (customSpecificationsLabel);
 			Icon = (Icon) resources.GetObject ("$this.Icon");
-			Margin = new Padding (2, 2, 2, 2);
 			MaximizeBox = false;
 			Name = "WebPageModelDetailsScreen";
 			StartPosition = FormStartPosition.CenterParent;

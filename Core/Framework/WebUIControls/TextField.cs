@@ -18,10 +18,6 @@ namespace OOSelenium.Framework.WebUIControls
 			{
 				throw new ArgumentException ("Element is not a text field", nameof (element));
 			}
-			if (element.GetAttribute ("type")?.ToLower () != "text" && element.GetAttribute ("type")?.ToLower () != "password")
-			{
-				throw new ArgumentException ("Element is not a text or password field", nameof (element));
-			}
 		}
 
 		public bool IsPassword
@@ -36,7 +32,11 @@ namespace OOSelenium.Framework.WebUIControls
 
 		public void SetText (string text)
 		{
-			base.remoteElement.SetValue (text, base.webDriver);
+			// The remoteElement.SetValue () method does not trigger the 'input' event in some Pega-rendered web applications.
+			// This is a workaround to ensure that the 'input' event is triggered, which is necessary for some applications to recognize the change.
+
+			var js = (IJavaScriptExecutor) base.webDriver;
+			js.ExecuteScript ("arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input', { bubbles : true }));", base.remoteElement, text);
 		}
 
 		public void Clear ()

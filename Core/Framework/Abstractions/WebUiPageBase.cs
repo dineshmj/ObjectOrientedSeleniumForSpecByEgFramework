@@ -16,8 +16,8 @@ namespace OOSelenium.Framework.Abstractions
 		public sealed class CodeDomHelper
 		{
 			public static readonly string FindRadioButtonGroupByName = nameof (WebUiPageBase.FindRadioButtonGroupByName);
-			public static readonly string FindDropDownList = nameof (WebUiPageBase.FindDropDownList);
-			public static readonly string FindMultiSelectListBox = nameof (WebUiPageBase.FindMultiSelectListBox);
+			public static readonly string FindDropDownListByXPath = nameof (WebUiPageBase.FindDropDownListByXPath);
+			public static readonly string FindMultiSelectListBoxByXPath = nameof (WebUiPageBase.FindMultiSelectListBoxByXPath);
 		}
 
 		// Protected fields.
@@ -30,20 +30,33 @@ namespace OOSelenium.Framework.Abstractions
 		public string Title { get { return this.webDriver?.Title; } }
 
 		// Constructor.
-		public WebUiPageBase (IWebDriver webDriver, string baseUrl)
+		public WebUiPageBase (IWebDriver webDriver, string baseUrl, bool navigationRequired = false, bool maximizeWindow = true)
 		{
 			this.webDriver = webDriver;
 			this.baseUrl = baseUrl;
 
 			// Go to the page, so that its UI fields can be instantiated.
-			this.NavigateToPage ();
+			if (navigationRequired)
+			{
+				this.NavigateToPage (maximizeWindow);
+			}
 		}
 
 		// Public methods.
-		public virtual void NavigateToPage ()
+		public virtual void NavigateToPage (bool maximizeWindow = true)
 		{
-			this.webDriver.Manage ().Window.Maximize ();
+			if (maximizeWindow)
+			{
+				this.webDriver.Manage ().Window.Maximize ();
+			}
+
 			this.webDriver.Navigate ().GoToUrl (this.baseUrl);
+		}
+
+		public virtual void Wait (short seconds = 30)
+		{
+			var wait = new WebDriverWait (this.webDriver, TimeSpan.FromSeconds (seconds));
+			wait.Until (d => ((IJavaScriptExecutor)d).ExecuteScript ("return document.readyState").Equals ("complete"));
 		}
 
 		// Protected methods - "Find" methods for various Web UI controls.
@@ -82,11 +95,13 @@ namespace OOSelenium.Framework.Abstractions
 
 		protected RadioButtons FindRadioButtonGroupByName (string radioButtonGroupName)
 		{
+			// Possible bug, if HTML element's ID is used! ID will be dynamic on Pega and SalesForce pages.
+			// Consider changing the logic by using X-Path.
 			var radioButtons = this.GetAllElementsByXPath ($"//input[@name=\"{radioButtonGroupName}\" and @type=\"radio\"]");
 			return new RadioButtons (new ReadOnlyCollection<IWebElement> (radioButtons), radioButtonGroupName, LocateByWhat.Name, this.webDriver);
 		}
 
-		protected DropDownList FindDropDownList (string dropDownName)
+		protected DropDownList FindDropDownListByName (string dropDownName)
 		{
 			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ dropDownName }\"]");
 
@@ -102,7 +117,16 @@ namespace OOSelenium.Framework.Abstractions
 			return new DropDownList (selectOptionElements, dropDownName, LocateByWhat.Name, this.webDriver);
 		}
 
-		protected MultiSelectListBox FindMultiSelectListBox (string multiListName)
+		protected DropDownList FindDropDownListByXPath (string dropDownXPath)
+		{
+			var selectElement = this.GetElementByXPath (dropDownXPath);
+
+			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
+
+			return new DropDownList (selectOptionElements, dropDownXPath, LocateByWhat.Name, this.webDriver);
+		}
+
+		protected MultiSelectListBox FindMultiSelectListBoxByName (string multiListName)
 		{
 			// "multiple" attribute must be present for a multi-select list box.
 			var selectElement = this.GetElementByXPath ($"//select[@name=\"{ multiListName }\" and @multiple]");
@@ -117,6 +141,15 @@ namespace OOSelenium.Framework.Abstractions
 			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
 
 			return new MultiSelectListBox (selectOptionElements, multiListName, LocateByWhat.Name, this.webDriver);
+		}
+
+		protected MultiSelectListBox FindMultiSelectListBoxByXPath (string multiListXPath)
+		{
+			// "multiple" attribute must be present for a multi-select list box.
+			var selectElement = this.GetElementByXPath (multiListXPath);
+			var selectOptionElements = selectElement?.FindElements (By.XPath ("./option"));
+
+			return new MultiSelectListBox (selectOptionElements, multiListXPath, LocateByWhat.XPath, this.webDriver);
 		}
 
 		protected IList<Link> FindAllLinksByCss (string cssClassNameFromHtmlAsIs)

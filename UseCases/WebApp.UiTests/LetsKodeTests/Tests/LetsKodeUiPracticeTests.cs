@@ -10,14 +10,14 @@ using OOSelenium.WebUiTests.TestWebAppTests.Background;
 
 namespace OOSelenium.WebUiTests.LetsKodeTests.Tests
 {
-	public sealed class LetsKodeUiTests
+	public sealed class LetsKodeUiPracticeTests
 		: WebUiTestBase
 	{
 		private readonly IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment> letsKodeDataProvider;
 		private readonly LetsKodeNavigationComponent<UserRole, ExecutionEnvironment> letsKodeNavigationComponent;
-		private LetsKodeItPage letsKodePage;
+		private LetsKodeItPracticePage letsKodeItPracticePage;
 
-		public LetsKodeUiTests ()
+		public LetsKodeUiPracticeTests ()
 		{
 			letsKodeDataProvider = new LetsKodeDataProvider ();
 			letsKodeNavigationComponent
@@ -32,13 +32,13 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Tests
 			"Given that Let's Kode page is available"
 				.x (() =>
 				{
-					letsKodePage = letsKodeNavigationComponent.GoToLetsKodePage ();
+					letsKodeItPracticePage = letsKodeNavigationComponent.GoToLetsKodePracticePage ();
 				});
 
 			"When I check the page's Cars radio buttons group"
 				.x (() =>
 				{
-					carsRadioGroup = letsKodePage.CarsRadioButtons;
+					carsRadioGroup = letsKodeItPracticePage.CarsRadioButtons;
 				});
 
 			"Then the Cars radio button group must have expected entries"
@@ -82,14 +82,14 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Tests
 			"Given that Let's Kode page is available"
 				.x (() =>
 				{
-					letsKodePage = letsKodeNavigationComponent.GoToLetsKodePage ();
+					letsKodeItPracticePage = letsKodeNavigationComponent.GoToLetsKodePracticePage ();
 				});
 
 			"When I check the page's Cars drop-down list"
 				.x (() =>
 				{
 					// Read the UI field labels.
-					carsDropDown = letsKodePage.CarsDropDownList;
+					carsDropDown = letsKodeItPracticePage.CarsDropDownList;
 				});
 
 			"Then the Cars drop-down list must have expected entries"
@@ -133,14 +133,14 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Tests
 			"Given that Let's Kode page is available"
 				.x (() =>
 				{
-					letsKodePage = letsKodeNavigationComponent.GoToLetsKodePage ();
+					letsKodeItPracticePage = letsKodeNavigationComponent.GoToLetsKodePracticePage ();
 				});
 
 			"When I check the page's Fruits multi-select list box"
 				.x (() =>
 				{
 					// Read the UI field labels.
-					fruitsMultiListBox = letsKodePage.FruitsMultiSelectListBox;
+					fruitsMultiListBox = letsKodeItPracticePage.FruitsMultiSelectListBox;
 				});
 
 			"Then the Fruits multi-select list box must have expected entries"
@@ -192,13 +192,13 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Tests
 			"Given that Let's Kode page is available"
 				.x (() =>
 				{
-					letsKodePage = letsKodeNavigationComponent.GoToLetsKodePage ();
+					letsKodeItPracticePage = letsKodeNavigationComponent.GoToLetsKodePracticePage ();
 				});
 
 			"When I check the check-boxes on the page"
 				.x (() =>
 				{
-					bmwCheckBox = letsKodePage.BmwCheckBox;
+					bmwCheckBox = letsKodeItPracticePage.BmwCheckBox;
 				});
 
 			"Then I should see the check-boxes with the correct texts"
@@ -225,7 +225,7 @@ namespace OOSelenium.WebUiTests.LetsKodeTests.Tests
 		public override void Dispose ()
 		{
 			letsKodeNavigationComponent.Dispose ();
-			letsKodePage.Dispose ();
+			letsKodeItPracticePage.Dispose ();
 		}
 	}
 }

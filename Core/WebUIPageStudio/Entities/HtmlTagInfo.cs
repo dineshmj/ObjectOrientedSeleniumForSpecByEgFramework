@@ -8,7 +8,21 @@ namespace OOSelenium.WebUIPageStudio.Entities
 	public sealed class HtmlTagInfo
 		: INotifyPropertyChanged
 	{
-		public string? Tag { get; set; }
+		// Private fields.
+		private string? _tag;
+		private XPathInfo? _xPathPathInfo;
+		private bool _isMultiSelectListBox;
+
+		// Public properties.
+		public string? Tag
+		{
+			get { return _tag; }
+			set
+			{
+				this.CorrectTagAndXPathForMultiSelectListBoxes (this.XPathInfo);
+				_tag = value;
+			}
+		}
 
 		public string? Text { get; set; }
 
@@ -26,23 +40,43 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 		public string? Type { get; set; }
 
-		public string? XPath { get; set; }
+		public XPathInfo? XPathInfo
+		{
+			get { return _xPathPathInfo; }
+			set
+			{
+				this.CorrectTagAndXPathForMultiSelectListBoxes (value);
+				_xPathPathInfo = value;
+			}
+		}
 
 		public string? ParentTag { get; set; }
 
 		public string? ParentName { get; set; }
 
-		public string? ParentXPath { get; set; }
+		public XPathInfo? ParentXPathInfo { get; set; }
 
 		public bool ParentHasMultiple { get; set; }
 
-		public TagRenderArea TagRenderArea { get; set; }
+		public TagRenderArea? TagRenderArea { get; set; }
 
-		public Bitmap TagRenderImage { get; set; }
+		public Bitmap? TagRenderImage { get; set; }
 
 		public string? Description { get { return this.ToString (); }}
 
-		public string UserSuggestedPropertyName { get; set; }
+		public string? UserSuggestedPropertyName { get; set; }
+
+		public string? NearbyRadioId { get; set; }
+
+		public string? NearbyRadioName { get; set; }
+
+		public XPathInfo? NearbyRadioXPathInfo { get; set; }
+
+		public string? NearbyCheckBoxId { get; set; }
+
+		public string? NearbyCheckBoxName { get; set; }
+
+		public XPathInfo? NearbyCheckBoxXPathInfo { get; set; }
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -80,6 +114,11 @@ namespace OOSelenium.WebUIPageStudio.Entities
 					return $"{typeof (OOSF.Div).Name} '{this.CssClassName}'";
 
 				case "select":
+					if (_isMultiSelectListBox)
+					{
+						return $"{typeof (OOSF.MultiSelectListBox).Name} '{this.Name}'";
+					}
+
 					return $"{typeof (OOSF.DropDownList).Name} '{this.Name}'";
 
 				case "h1":
@@ -136,6 +175,66 @@ namespace OOSelenium.WebUIPageStudio.Entities
 			}
 
 			return $"Un-supported Tag '{this.Tag}'";
+		}
+
+		private void CorrectTagAndXPathForMultiSelectListBoxes (XPathInfo? xPathInfo)
+		{
+			if (this.Tag?.ToLowerInvariant () == "option" && xPathInfo != null)
+			{
+				// Check the "XPathByDomPath" property of value. If it ends with "/option", "/option[2]", etc. (case-insensitive) and its
+				// predecessor (or one or two levels above) is a "select", then the "XPathByDomPath" has to be modified
+				// such that it is only till "/select", and the name of the tag is to be changed from "option" to "select".
+
+				var xPathParts = xPathInfo.XPathByDomPath.Split (new [] { '/' }, StringSplitOptions.None);
+
+				var lastIndex = xPathParts.Length - 1;
+				var parentIndex = lastIndex - 1; // The parent element is the one before the last one.
+				var grandParentIndex = lastIndex - 2; // The grandparent element is the one before the parent.
+				var greatGrandParentIndex = lastIndex - 3; // The great-grandparent element is the one before the grandparent.
+
+				if (greatGrandParentIndex < 0)
+				{
+					return; // Not enough elements to check for a "select" tag.
+				}
+
+				var lastPart = xPathParts [lastIndex].ToLowerInvariant ();
+				var parentPart = xPathParts [parentIndex].ToLowerInvariant ();
+				var grandParentPart = xPathParts [grandParentIndex].ToLowerInvariant ();
+				var greatGrandParentPart = xPathParts [greatGrandParentIndex].ToLowerInvariant ();
+
+				if (lastPart == "option" || lastPart.StartsWith ("option[", StringComparison.OrdinalIgnoreCase))
+				{
+					var newXPath = string.Empty;
+
+					if (parentPart == "select" || parentPart.StartsWith ("select[", StringComparison.OrdinalIgnoreCase))
+					{
+						// Join the xPathParts till parent part's index and form the new xPath.
+						newXPath = string.Join ("/", xPathParts, 0, parentIndex + 1);
+					}
+					else if (grandParentPart == "select" || grandParentPart.StartsWith ("select[", StringComparison.OrdinalIgnoreCase))
+					{
+						// Join the xPathParts till grandparent part's index and form the new xPath.
+						newXPath = string.Join ("/", xPathParts, 0, grandParentIndex + 1);
+					}
+					else if (greatGrandParentPart == "select" || greatGrandParentPart.StartsWith ("select[", StringComparison.OrdinalIgnoreCase))
+					{
+						// Join the xPathParts till great-grandparent part's index and form the new xPath.
+						newXPath = string.Join ("/", xPathParts, 0, greatGrandParentIndex + 1);
+					}
+					else
+					{
+						return; // Not a multi-select list box.
+					}
+
+					if (newXPath.IsNotNullEmptyOrWhitespace ())
+					{
+						// Update the XPathByDomPath property with the new XPath.
+						xPathInfo.XPathByDomPath = newXPath;
+						this.Tag = "select";
+						_isMultiSelectListBox = true;
+					}
+				}
+			}
 		}
 	}
 }

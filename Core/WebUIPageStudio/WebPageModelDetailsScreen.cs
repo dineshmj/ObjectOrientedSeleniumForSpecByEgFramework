@@ -6,8 +6,6 @@ using OpenQA.Selenium;
 
 using OOSelenium.Framework.Abstractions;
 using OOSelenium.WebUIPageStudio.Entities;
-using OOSF = OOSelenium.Framework.WebUIControls;
-using OOSelenium.Framework.Extensions;
 using OOSelenium.Framework.WebUIControls;
 
 namespace OOSelenium.WebUIPageStudio
@@ -63,13 +61,25 @@ namespace OOSelenium.WebUIPageStudio
 				this.htmlTagInfoFlowLayoutPanel.Controls.Add (control);
 				index++;
 			}
+
+			this.LoadLastUsedNamesToTextFields ();
 		}
 
 		private void buildPageCodeButton_Click (object sender, EventArgs e)
 		{
-			foreach (var oneHtmlTagCustomControl in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
+			var properties = this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ();
+			var propertyNames = properties.Select (c => c.UserSuggestedPropertyName.Trim ()).ToList ();
+
+			// Check if property name repeats in the array.
+			if (propertyNames.Distinct ().Count () != propertyNames.Count)
 			{
-				if (oneHtmlTagCustomControl.IsNameValid == false)
+				MessageBox.Show ("Property names must be unique. Please ensure all property names are distinct.", "Property names must be distinct", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+			}
+
+			foreach (var oneProperty in properties)
+			{
+				if (oneProperty.IsNameValid == false)
 				{
 					MessageBox.Show ("Please provide a valid property name for all HTML tags.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
@@ -78,6 +88,19 @@ namespace OOSelenium.WebUIPageStudio
 
 			if (MessageBox.Show ("Are you sure you want to build the page model code?", "Confirm Build", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
+				var lines = new List<string> ();
+
+				var iniFilePath = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "LastUsed.ini");
+				lines.Add ($"Namespace={this.namespaceTextBox.Text.Trim ()}");
+				lines.Add ($"PageModelName={this.pageModelNameTextBox.Text.Trim ()}");
+
+				var propertyLines
+					= properties
+						.Select (c => $"PropertyInfo={c.MappedOOSFWebUIControlName}:{c.UserSuggestedPropertyName}");
+
+				lines.AddRange (propertyLines);
+				File.WriteAllLines (iniFilePath, lines);
+
 				this.savePageModelCodeFileDialog.FileName = this.pageModelNameTextBox.Text.Trim ();
 
 				if (this.savePageModelCodeFileDialog.ShowDialog () == DialogResult.OK)
@@ -122,8 +145,26 @@ namespace OOSelenium.WebUIPageStudio
 				// Add the page model class to the namespace.
 				pageModelNamespace.Types.Add (pageModelClass);
 
+				var properties = this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ();
+
 				// Loop through each Tag Info control instance..
-				foreach (var oneHtmlTagCustomControl in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
+				foreach (var oneHtmlTagCustomControl in properties)
+				{
+					var fieldType = oneHtmlTagCustomControl.MappedOOSFWebUIControlName;
+					var propertyName = oneHtmlTagCustomControl.UserSuggestedPropertyName;
+					var privateFieldName = $"_{char.ToLower (propertyName [0])}{propertyName.Substring (1)}";
+
+					var privateField = new CodeMemberField
+					{
+						Name = privateFieldName,
+						Type = new CodeTypeReference (fieldType),
+						Attributes = MemberAttributes.Private
+					};
+
+					pageModelClass.Members.Add (privateField);
+
+				}
+				foreach (var oneHtmlTagCustomControl in properties)
 				{
 					if (oneHtmlTagCustomControl.DoNotInitializeInConstructor)
 					{
@@ -158,7 +199,7 @@ namespace OOSelenium.WebUIPageStudio
 
 				// Loop through each Tag Info control instance to add initialization code in the constructor.
 				var index = 0;
-				foreach (var oneHtmlTagCustomControl in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
+				foreach (var oneHtmlTagCustomControl in properties)
 				{
 					if (oneHtmlTagCustomControl.DoNotInitializeInConstructor)
 					{
@@ -195,7 +236,7 @@ namespace OOSelenium.WebUIPageStudio
 									new CodeMethodInvokeExpression (
 										new CodeThisReferenceExpression (),
 										// Method to find dropdown list by name.
-										nameof (WebUiPageBase.CodeDomHelper.FindDropDownList),
+										nameof (WebUiPageBase.CodeDomHelper.FindDropDownListByXPath),
 										// Name of the dropdown list.
 										new CodePrimitiveExpression (oneHtmlTagCustomControl.HtmlTagInfo.Name)
 									)
@@ -212,7 +253,7 @@ namespace OOSelenium.WebUIPageStudio
 									new CodeMethodInvokeExpression (
 										new CodeThisReferenceExpression (),
 										// Method to find multi-select list box by name.
-										nameof (WebUiPageBase.CodeDomHelper.FindMultiSelectListBox),
+										nameof (WebUiPageBase.CodeDomHelper.FindMultiSelectListBoxByXPath),
 										// Name of the multi-select list box.
 										new CodePrimitiveExpression (oneHtmlTagCustomControl.HtmlTagInfo.Description.Replace ($"{ oneHtmlTagCustomControl.MappedOOSFWebUIControlName } ", string.Empty).Replace ("'", string.Empty))
 									)
@@ -221,30 +262,16 @@ namespace OOSelenium.WebUIPageStudio
 					}
 					else
 					{
-						if (oneHtmlTagCustomControl.HtmlTagInfo.Id.IsNotNullEmptyOrWhitespace ())
-						{
-							// "id" of the HTML tag is present; use it to find the control.
-							constructor.Statements.Add (
-								new CodeSnippetStatement (
-									$"            {oneHtmlTagCustomControl.UserSuggestedPropertyName} = base.FindById<{oneHtmlTagCustomControl.MappedOOSFWebUIControlName}>(" +
-									$"\"{oneHtmlTagCustomControl.HtmlTagInfo.Id}\", " +
-									$"(id, webElement, webDriver) => new {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} (webElement, id, LocateByWhat.Id, webDriver)" +
-									");"
-								)
-							);
-						}
-						else
-						{
-							// "id" of the HTML tag is not present; use XPath to find the control.
-							constructor.Statements.Add (
-								new CodeSnippetStatement (
-									$"            {oneHtmlTagCustomControl.UserSuggestedPropertyName} = base.FindByXPath<{oneHtmlTagCustomControl.MappedOOSFWebUIControlName}>(" +
-									$"\"{oneHtmlTagCustomControl.HtmlTagInfo.XPath.Replace ("\"", "\\\"")}\", " +
-									$"(xPath, webElement, webDriver) => new {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} (webElement, xPath, LocateByWhat.XPath, webDriver)" +
-									");"
-								)
-							);
-						}
+						// "id" of the HTML tag is not reliable (especially with Pega and Salesforce web pages
+						// So, use XPath to find the control.
+						constructor.Statements.Add (
+							new CodeSnippetStatement (
+								$"            {oneHtmlTagCustomControl.UserSuggestedPropertyName} = base.FindByXPath<{oneHtmlTagCustomControl.MappedOOSFWebUIControlName}>(" +
+								$"\"{oneHtmlTagCustomControl.HtmlTagInfo.XPathInfo.XPathByDomPath.Replace ("\"", "\\\"")}\", " +
+								$"(xPath, webElement, webDriver) => new {oneHtmlTagCustomControl.MappedOOSFWebUIControlName} (webElement, xPath, LocateByWhat.XPath, webDriver)" +
+								");"
+							)
+						);
 					}
 
 					index++;
@@ -288,63 +315,74 @@ namespace OOSelenium.WebUIPageStudio
 			}
 
 			var fieldType = oneHtmlTagCustomControl.MappedOOSFWebUIControlName;
+			var propertyName = oneHtmlTagCustomControl.UserSuggestedPropertyName;
+			var privateFieldName = $"_{char.ToLower (propertyName [0])}{propertyName.Substring (1)}";
 
-			var property =new CodeMemberProperty
+			var privateField = new CodeMemberField
 			{
-				Name = oneHtmlTagCustomControl.UserSuggestedPropertyName,
+				Name = privateFieldName,
+				Type = new CodeTypeReference (fieldType),
+				Attributes = MemberAttributes.Private
+			};
+
+			var property = new CodeMemberProperty
+			{
+				Name = propertyName,
 				Type = new CodeTypeReference (fieldType),
 				Attributes = MemberAttributes.Public | MemberAttributes.Final,
 				HasGet = true
 			};
 
-			CodeMethodReturnStatement returnStatement = default;
+			if (oneHtmlTagCustomControl.HtmlTagInfo.XPathInfo != null)
+			{
+				var xPathInfo = oneHtmlTagCustomControl.HtmlTagInfo.XPathInfo;
+				var statements = property.GetStatements;
+
+				statements.Add (new CodeCommentStatement (string.Empty));
+				statements.Add (new CodeCommentStatement ("Other available X-paths:"));
+				statements.Add (new CodeCommentStatement (string.Empty));
+				statements.Add (new CodeCommentStatement ($"X-path by 'id' : { xPathInfo.XPathById?.Trim ()}", true));
+				statements.Add (new CodeCommentStatement ($"X-path by 'data-testid' : { xPathInfo.XPathByDataTestId?.Trim ()}", true));
+				statements.Add (new CodeCommentStatement ($"X-path by 'name' : {xPathInfo.XPathByName?.Trim ()}", true));
+				statements.Add (new CodeCommentStatement ($"X-path by 'class' : {xPathInfo.XPathByCssClass?.Trim ()}", true));
+				statements.Add (new CodeCommentStatement (string.Empty));
+			}
+
+			var assignmentExpression = string.Empty;
 
 			if (fieldType == nameof (RadioButtons))
 			{
-				returnStatement
-					= new CodeMethodReturnStatement (new CodeSnippetExpression ("base."
-					+ WebUiPageBase.CodeDomHelper.FindRadioButtonGroupByName
-					+ "(\""
-					+ oneHtmlTagCustomControl.HtmlTagInfo.Id
-					+ "\")"));
+				assignmentExpression = $"{privateFieldName} = base.{ WebUiPageBase.CodeDomHelper.FindRadioButtonGroupByName }(\"{oneHtmlTagCustomControl.HtmlTagInfo.Name}\");";
 			}
 			else if (fieldType == nameof (DropDownList))
 			{
-				returnStatement
-					= new CodeMethodReturnStatement (new CodeSnippetExpression ("base."
-					+ WebUiPageBase.CodeDomHelper.FindDropDownList
-					+ "(\""
-					+ oneHtmlTagCustomControl.HtmlTagInfo.Id
-					+ "\")"));
+				assignmentExpression = $"{privateFieldName} = base.{WebUiPageBase.CodeDomHelper.FindDropDownListByXPath}(\"{oneHtmlTagCustomControl.HtmlTagInfo.XPathInfo.XPathByDomPath}\");";
 			}
 			else if (fieldType == nameof (MultiSelectListBox))
 			{
-				returnStatement
-					= new CodeMethodReturnStatement (new CodeSnippetExpression ("base."
-					+ WebUiPageBase.CodeDomHelper.FindMultiSelectListBox
-					+ "(\""
-					+ oneHtmlTagCustomControl.HtmlTagInfo.Id
-					+ "\")"));
-
+				assignmentExpression = $"{privateFieldName} = base.{WebUiPageBase.CodeDomHelper.FindMultiSelectListBoxByXPath}(\"{oneHtmlTagCustomControl.HtmlTagInfo.XPathInfo.XPathByDomPath}\");";
 			}
 			else
 			{
-				if (oneHtmlTagCustomControl.HtmlTagInfo.Id.IsNotNullEmptyOrWhitespace ())
-				{
-					returnStatement
-						= new CodeMethodReturnStatement (new CodeSnippetExpression ("base.FindById<" + fieldType + ">(\"" + oneHtmlTagCustomControl.HtmlTagInfo.Id + "\", (id, webElement, webDriver) => new " + fieldType + "(webElement, id, LocateByWhat.Id, webDriver))"));
-				}
-				else
-				{
-					returnStatement
-						= new CodeMethodReturnStatement (new CodeSnippetExpression ("base.FindByXPath<" + fieldType + ">(\"" + oneHtmlTagCustomControl.HtmlTagInfo.XPath.Replace ("\"", "\\\"") + "\", (xPath, webElement, webDriver) => new " + fieldType + "(webElement, xPath, LocateByWhat.XPath, webDriver))"));
-				}
+				assignmentExpression = $"{privateFieldName} = base.FindByXPath<{fieldType}>(\"{oneHtmlTagCustomControl.HtmlTagInfo.XPathInfo.XPathByDomPath.Replace ("\"", "\\\"")}\", (xPath, webElement, webDriver) => new {fieldType}(webElement, xPath, LocateByWhat.XPath, webDriver));";
 			}
 
-			if (returnStatement != default)
-			{
-				property.GetStatements.Add (returnStatement);
-			}
+			property.GetStatements.Add (
+				new CodeConditionStatement (
+					new CodeBinaryOperatorExpression (
+						new CodeVariableReferenceExpression (privateFieldName),
+						CodeBinaryOperatorType.IdentityEquality,
+						new CodePrimitiveExpression (null)
+					),
+					[
+						new CodeSnippetStatement ($"\t{ assignmentExpression}")
+					]));
+
+			property.GetStatements.Add (
+				new CodeMethodReturnStatement (
+					new CodeVariableReferenceExpression (privateFieldName)
+				)
+			);
 
 			return property;
 		}
@@ -354,6 +392,61 @@ namespace OOSelenium.WebUIPageStudio
 			if (MessageBox.Show ("Are you sure you want to quit?", "Confirm Quit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
 				this.Close ();
+			}
+		}
+
+		private void LoadLastUsedNamesToTextFields ()
+		{
+			var iniFilePath = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "LastUsed.ini");
+
+			if (File.Exists (iniFilePath))
+			{
+				var lines = File.ReadAllLines (iniFilePath);
+
+				foreach (var line in lines)
+				{
+					if (line.StartsWith ("Namespace=", StringComparison.OrdinalIgnoreCase))
+					{
+						this.namespaceTextBox.Text = line.Substring ("Namespace=".Length).Trim ();
+					}
+					else if (line.StartsWith ("PageModelName=", StringComparison.OrdinalIgnoreCase))
+					{
+						this.pageModelNameTextBox.Text = line.Substring ("PageModelName=".Length).Trim ();
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				var propertyLines = lines
+					.Where (l => l.StartsWith ("PropertyInfo=", StringComparison.OrdinalIgnoreCase))
+					.Select (l => l.Substring ("PropertyInfo=".Length).Trim ())
+					.ToList ();
+
+				if (propertyLines.Any ())
+				{
+					var index = 0;
+					foreach (var control in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
+					{
+						var lineParts = propertyLines [index].Split (':');
+						if (lineParts.Length == 2)
+						{
+							var controlType = lineParts [0].Trim ();
+							var propertyName = lineParts [1].Trim ();
+
+							if (control.MappedOOSFWebUIControlName == controlType)
+							{
+								control.ChangeUserSuggestedPropertyNameTo (propertyName);
+							}
+							else
+							{
+								break; // Stop if the control type does not match, as the order should be consistent.
+							}
+						}
+						index++;
+					}
+				}
 			}
 		}
 	}
