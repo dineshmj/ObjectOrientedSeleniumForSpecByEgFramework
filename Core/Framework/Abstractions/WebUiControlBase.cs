@@ -96,8 +96,6 @@ namespace OOSelenium.Framework.Abstractions
 				Thread.Sleep (100);
 				js.ExecuteScript ("arguments[0].dispatchEvent(new MouseEvent('mouseup', {bubbles : true}));", this.remoteElement);
 				Thread.Sleep (100);
-				js.ExecuteScript ("arguments[0].click();", this.remoteElement);
-				Thread.Sleep (100);
 				js.ExecuteScript ("arguments[0].dispatchEvent(new MouseEvent('click', {bubbles : true}));", this.remoteElement);
 				Thread.Sleep (100);
 			}

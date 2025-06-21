@@ -26,7 +26,7 @@ namespace OOSelenium.Framework.WebUIControls
 			{
 				var valueAttribute = this.GetAttribute ("value");
 
-				if (valueAttribute != null)
+				if (valueAttribute.IsNotNullEmptyOrWhitespace ())
 				{
 					return valueAttribute;
 				}
