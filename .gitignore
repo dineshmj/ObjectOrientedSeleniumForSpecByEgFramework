@@ -63,3 +63,11 @@
 /Tools/TestWebApp/packages
 /UseCases/WebApp.UiTests/OtherTests/Pages
 /UseCases/WebApp.UiTests/OtherTests/ICICIBank
+/Core/SimpleQA.WebUIPageStudio/obj
+/Tools/SimpleQA.WebUIPageStudio/bin/Debug/net8.0-windows
+/Tools/SimpleQA.WebUIPageStudio/obj
+/UseCases/WebUiTests.Selenium/bin/Debug
+/UseCases/WebUiTests.Selenium/obj
+/Core/SimpleQA.Framework/SimpleQA.Framework/obj
+/Core/SimpleQA.Framework.Selenium/bin/Debug
+/Core/SimpleQA.Framework.Selenium/obj
