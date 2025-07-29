@@ -16,17 +16,27 @@ namespace OOSelenium.WebUiTests.TestWebAppTests.Navigation
 		{
 		}
 
+		public InsuranceOneLoginPage GoToInsuranceOneLoginPage ()
+		{
+			return
+				new InsuranceOneLoginPage (
+					this.WebDriver,
+					this.ExecutionEnvironmentPageDataProvider.GetWebApplicationUrlFor(base.ExecutionEnvironment),
+					navigationRequired: true,
+					maximizeWindow: true);
+		}
+
 		// Public methods.
 		public LoginPage GoToLoginPage ()
 		{
 			var provider = ExecutionEnvironmentPageDataProvider;
 
 			return
-				new LoginPage
-				(
+				new LoginPage (
 					WebDriver,
-					provider.GetWebApplicationUrlFor (base.ExecutionEnvironment)
-				);
+					provider.GetWebApplicationUrlFor (base.ExecutionEnvironment),
+					navigationRequired: true,
+					maximizeWindow: true);
 		}
 
 		public TPage LoginAndGoToPage<TPage> (UserRole userRole)

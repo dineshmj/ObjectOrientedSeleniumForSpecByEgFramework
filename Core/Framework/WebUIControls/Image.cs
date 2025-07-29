@@ -39,7 +39,7 @@ namespace OOSelenium.Framework.WebUIControls
 
 					elementLocatingJavaScriptPart
 						= @"var xpathResult = document.evaluate(
-								" + Regex.Escape (xPath) + @",
+								'" + Regex.Escape (xPath) + @"',
 								document, // where to start search
 								null,     // No namespace resolver
 								XPathResult.FIRST_ORDERED_NODE_TYPE, // Return the first matching element

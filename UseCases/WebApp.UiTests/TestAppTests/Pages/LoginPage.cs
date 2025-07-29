@@ -38,8 +38,8 @@ namespace OOSelenium.WebUiTests.TestWebAppTests.Pages
 		// Sign in button.
 		public Button LoginButton { get; private set; }
 
-		public LoginPage (IWebDriver webDriver, string baseUrl)
-			: base (webDriver, baseUrl)
+		public LoginPage (IWebDriver webDriver, string baseUrl, bool navigationRequired, bool maximizeWindow) :
+				base (webDriver, baseUrl, navigationRequired, maximizeWindow)
 		{
 			// Application logo.
 			this.ApplicationLogo

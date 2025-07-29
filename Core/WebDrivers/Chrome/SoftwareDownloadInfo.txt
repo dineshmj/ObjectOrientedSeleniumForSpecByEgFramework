@@ -1,4 +1,9 @@
 Software = GoogleChromeWebDriver
+Version = 138.0.7204.168
+Download URL = https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.168/win64/chromedriver-win64.zip
+Downloaded on = 29-Jul-2025 05:10:52 PM, +05:30
+
+Software = GoogleChromeWebDriver
 Version = 137.0.7151.70
 Download URL = https://storage.googleapis.com/chrome-for-testing-public/137.0.7151.70/win64/chromedriver-win64.zip
 Downloaded on = 17-Jun-2025 10:39:59 PM, +05:30

@@ -1,4 +1,9 @@
 Software = MicrosoftEdgeWebDriver
+Version = 138.0.3351.109
+Download URL = https://msedgedriver.microsoft.com/138.0.3351.109/edgedriver_win64.zip
+Downloaded on = 29-Jul-2025 05:10:39 PM, +05:30
+
+Software = MicrosoftEdgeWebDriver
 Version = 137.0.3296.83
 Download URL = https://msedgedriver.azureedge.net/137.0.3296.83/edgedriver_win64.zip
 Downloaded on = 17-Jun-2025 10:37:29 PM, +05:30

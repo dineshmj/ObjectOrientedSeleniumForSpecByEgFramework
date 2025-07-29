@@ -222,8 +222,11 @@ namespace OOSelenium.WebUIPageStudio
                             " + nameof (HtmlTagInfo.XPathInfo) + @": el ? buildXPathInfo (el) : null,
 
 							" + nameof (HtmlTagInfo.ParentTag) + @": parent ? parent.tagName : null,
-					        " + nameof (HtmlTagInfo.ParentHasMultiple) + @": parent ? parent.hasAttribute('multiple') : false,
+							" + nameof (HtmlTagInfo.ParentId) + @": parent ? parent.getAttribute('id') : null,
 							" + nameof (HtmlTagInfo.ParentName) + @": parent ? parent.getAttribute('name') : null,
+							" + nameof (HtmlTagInfo.ParentValue) + @": parent ? parent.getAttribute('value') : null,
+							" + nameof (HtmlTagInfo.ParentCssClassName) + @": parent ? parent.getAttribute('class') : null,
+					        " + nameof (HtmlTagInfo.ParentHasMultiple) + @": parent ? parent.hasAttribute('multiple') : false,
 							" + nameof (HtmlTagInfo.ParentXPathInfo) + @": parent? buildXPathInfo (parent) : null,
 
 							" + nameof (HtmlTagInfo.NearbyRadioId) + @": nearByRadio ? nearByRadio?.getAttribute('id') : null,
@@ -232,7 +235,6 @@ namespace OOSelenium.WebUIPageStudio
 							" + nameof (HtmlTagInfo.NearbyCheckBoxId) + @": nearByCheckbox ? nearByCheckbox?.getAttribute('id') : null,
 							" + nameof (HtmlTagInfo.NearbyCheckBoxName) + @": nearByCheckbox ? nearByCheckbox?.getAttribute('name') : null,
 							" + nameof (HtmlTagInfo.NearbyCheckBoxXPathInfo) + @": nearByCheckbox ? buildXPathInfo (nearByCheckbox) : null,
-
 
 							" + nameof (HtmlTagInfo.TagRenderArea) + @": {
 								" + nameof (HtmlTagInfo.TagRenderArea.Top) + @": rect.top,

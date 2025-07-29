@@ -190,10 +190,14 @@ namespace OOSelenium.WebUIPageStudio
 				};
 
 				constructor.Parameters.Add (new CodeParameterDeclarationExpression (typeof (IWebDriver).Name, "webDriver"));
-				constructor.Parameters.Add (new CodeParameterDeclarationExpression (typeof (string).Name, "baseUrl"));
+				constructor.Parameters.Add (new CodeParameterDeclarationExpression (new CodeTypeReference (typeof (string)), "baseUrl"));
+				constructor.Parameters.Add (new CodeParameterDeclarationExpression (new CodeTypeReference (typeof (bool)), "navigationRequired"));
+				constructor.Parameters.Add (new CodeParameterDeclarationExpression (new CodeTypeReference (typeof (bool)), "maximizeWindow"));
 
 				constructor.BaseConstructorArgs.Add (new CodeVariableReferenceExpression ("webDriver"));
 				constructor.BaseConstructorArgs.Add (new CodeVariableReferenceExpression ("baseUrl"));
+				constructor.BaseConstructorArgs.Add (new CodeVariableReferenceExpression ("navigationRequired"));
+				constructor.BaseConstructorArgs.Add (new CodeVariableReferenceExpression ("maximizeWindow"));
 
 				pageModelClass.Members.Add (constructor);
 
@@ -429,22 +433,29 @@ namespace OOSelenium.WebUIPageStudio
 					var index = 0;
 					foreach (var control in this.htmlTagInfoFlowLayoutPanel.Controls.OfType<UIControlHtmlTagMapperControl> ())
 					{
-						var lineParts = propertyLines [index].Split (':');
-						if (lineParts.Length == 2)
+						if (index < propertyLines.Count)
 						{
-							var controlType = lineParts [0].Trim ();
-							var propertyName = lineParts [1].Trim ();
+							var lineParts = propertyLines [index].Split (':');
+							if (lineParts.Length == 2)
+							{
+								var controlType = lineParts [0].Trim ();
+								var propertyName = lineParts [1].Trim ();
 
-							if (control.MappedOOSFWebUIControlName == controlType)
-							{
-								control.ChangeUserSuggestedPropertyNameTo (propertyName);
+								if (control.MappedOOSFWebUIControlName == controlType)
+								{
+									control.ChangeUserSuggestedPropertyNameTo (propertyName);
+								}
+								else
+								{
+									break; // Stop if the control type does not match, as the order should be consistent.
+								}
 							}
-							else
-							{
-								break; // Stop if the control type does not match, as the order should be consistent.
-							}
+							index++;
 						}
-						index++;
+						else
+						{
+							break; // No more property lines to process.
+						}
 					}
 				}
 			}

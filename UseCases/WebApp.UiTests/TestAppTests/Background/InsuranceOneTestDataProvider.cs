@@ -40,7 +40,7 @@ namespace OOSelenium.WebUiTests.TestWebAppTests.DataProviders
 			return
 				executionEnv switch
 					{
-						ExecutionEnvironment.FunctionalTest => "https://localhost:44399/",
+						ExecutionEnvironment.FunctionalTest => "http://localhost:50004/",
 						_ => throw new NotImplementedException ($"Execution Environment, \" {executionEnv} \" is not yet implemented."),
 					};
 		}

@@ -4,11 +4,12 @@ using OOSelenium.Utilities.Entities;
 using OOSelenium.Utilities.Entities.Abstractions;
 using OOSelenium.Utilities.Entities.Config;
 using OOSelenium.Utilities.Entities.Downloads;
-using OOSelenium.Utilities.Entities.SeleniumGridHubJAR;
-using OOSelenium.Utilities.Entities.WebBrowsers.Chrome;
-using OOSelenium.Utilities.Entities.WebBrowsers.Edge;
-using OOSelenium.Utilities.Entities.WebBrowsers.Firefox;
-using OOSelenium.Utilities.Entities.WebBrowsers.IE;
+using OOSelenium.Utilities.Services;
+using OOSelenium.Utilities.Services.SeleniumGridHubJAR;
+using OOSelenium.Utilities.Services.WebBrowsers.Chrome;
+using OOSelenium.Utilities.Services.WebBrowsers.Edge;
+using OOSelenium.Utilities.Services.WebBrowsers.Firefox;
+using OOSelenium.Utilities.Services.WebBrowsers.IE;
 
 public class Program
 {

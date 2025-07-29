@@ -52,6 +52,12 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 		public string? ParentTag { get; set; }
 
+		public string? ParentId { get; set; }
+
+		public string? ParentCssClassName { get; set; }
+
+		public string? ParentValue { get; set; }
+
 		public string? ParentName { get; set; }
 
 		public XPathInfo? ParentXPathInfo { get; set; }
@@ -172,6 +178,21 @@ namespace OOSelenium.WebUIPageStudio.Entities
 
 				case "table":
 					return $"{typeof (OOSF.Table).Name} '{this.Name}'";
+
+				case "ul":
+					if (
+						this.ParentTag?.ToLowerInvariant () == "div"
+						&& (this.ParentCssClassName.IsNotNullEmptyOrWhitespace ()
+							&& this.ParentCssClassName.Contains ("validation"))
+							||
+							(this.ParentId.IsNotNullEmptyOrWhitespace ()
+							&& this.ParentId.Contains ("validation"))
+						)
+					{
+						this.XPathInfo.XPathByDomPath = this.ParentXPathInfo.XPathByDomPath;
+						return $"{typeof (OOSF.ValidationSummary).Name} '{this.Name}'";
+					}
+					break;
 			}
 
 			return $"Un-supported Tag '{this.Tag}'";
