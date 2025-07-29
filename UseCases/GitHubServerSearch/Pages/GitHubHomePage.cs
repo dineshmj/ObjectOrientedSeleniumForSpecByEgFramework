@@ -2,18 +2,18 @@
 
 using OpenQA.Selenium;
 
-using OOSelenium.Framework.Abstractions;
-using OOSelenium.Framework.Entities;
-using OOSelenium.Framework.Extensions;
-using OOSelenium.Framework.WebUIControls;
+using SimpleQA.Framework.Entities;
+using SimpleQA.Framework.Extensions;
+using SimpleQA.Framework.Selenium.Abstractions;
+using SimpleQA.Framework.Selenium.WebUIControls;
+using SimpleQA.Framework.Selenium.Extensions;
+using SimpleQA.UseCases.Selenium.GitHubServerSearch.Entities;
+using SimpleQA.UseCases.Selenium.GitHubServerSearch.Background;
 
-using GitHubServerSearch.Background;
-using GitHubServerSearch.Entities;
-
-namespace GitHubServerSearch.Pages
+namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Pages
 {
 	public sealed class GitHubHomePage
-		: WebUiPageBase
+		: SeleniumPageBase
 	{
 		private readonly List<GitHubSearchResultEntry> gitHubSearchResults = new List<GitHubSearchResultEntry> ();
 		private IList<string> confineExtensions;

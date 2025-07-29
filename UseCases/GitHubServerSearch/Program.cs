@@ -1,5 +1,5 @@
-﻿using GitHubServerSearch.Background;
-using GitHubServerSearch.Navigation;
+﻿using SimpleQA.UseCases.Selenium.GitHubServerSearch.Background;
+using SimpleQA.UseCases.Selenium.GitHubServerSearch.Navigation;
 
 Console.WriteLine ("==============================================================================");
 Console.WriteLine ("==                                                                          ==");

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace OOSelenium.TestWebApp.Models
+namespace SimpleQA.TestWebApp.Models
 {
 	public class ProposalModel
 		: QuoteModel

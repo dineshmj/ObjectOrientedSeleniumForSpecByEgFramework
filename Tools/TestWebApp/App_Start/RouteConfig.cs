@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace OOSelenium.TestWebApp
+namespace SimpleQA.TestWebApp
 {
 	public class RouteConfig
 	{

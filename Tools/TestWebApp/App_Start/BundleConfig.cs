@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace OOSelenium.TestWebApp
+namespace SimpleQA.TestWebApp
 {
 	public class BundleConfig
 	{

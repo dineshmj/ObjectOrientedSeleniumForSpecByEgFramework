@@ -1,8 +1,9 @@
 ﻿using HtmlAgilityPack;
-using OOSelenium.Utilities.Entities;
-using OOSelenium.Utilities.Entities.Abstractions;
 
-namespace OOSelenium.Utilities.Services.SeleniumGridHubJAR
+using SimpleQA.Tools.Selenium.Updater.Entities;
+using SimpleQA.Tools.Selenium.Updater.Abstractions;
+
+namespace SimpleQA.Tools.Selenium.Updater.Services.SeleniumGridHubJAR
 {
 	public sealed class SeleniumGridHubJarFileDownloadManager
 		: ISoftwareDownloadManager

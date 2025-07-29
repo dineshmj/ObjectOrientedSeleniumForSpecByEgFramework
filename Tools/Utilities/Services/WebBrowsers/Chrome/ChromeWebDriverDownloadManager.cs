@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using OOSelenium.Utilities.Entities;
-using OOSelenium.Utilities.Entities.Abstractions;
 
-namespace OOSelenium.Utilities.Services.WebBrowsers.Chrome
+using SimpleQA.Tools.Selenium.Updater.Abstractions;
+
+namespace SimpleQA.Tools.Selenium.Updater.Entities.Chrome
 {
 	public sealed class ChromeWebDriverDownloadManager
 		: ISoftwareDownloadManager

@@ -1,4 +1,6 @@
-﻿namespace OOSelenium.Utilities.Entities.Abstractions
+﻿using SimpleQA.Tools.Selenium.Updater.Entities;
+
+namespace SimpleQA.Tools.Selenium.Updater.Abstractions
 {
     public interface ISoftwareDownloadLogger
     {

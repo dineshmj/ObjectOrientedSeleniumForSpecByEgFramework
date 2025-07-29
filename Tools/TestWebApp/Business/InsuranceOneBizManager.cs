@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OOSelenium.TestWebApp.Business.Entities;
-using OOSelenium.TestWebApp.Models;
 
-namespace OOSelenium.TestWebApp.Business
+using SimpleQA.TestWebApp.Business.Entities;
+using SimpleQA.TestWebApp.Models;
+
+namespace SimpleQA.TestWebApp.Business
 {
 	public static class InsuranceOneBizManager
 	{

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-using OOSelenium.TestWebApp.Business.Entities;
+using SimpleQA.TestWebApp.Business.Entities;
 
-namespace OOSelenium.TestWebApp.Models
+namespace SimpleQA.TestWebApp.Models
 {
 	/// <summary>
 	/// Represents signing in credentials.

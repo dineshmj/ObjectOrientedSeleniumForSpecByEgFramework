@@ -1,4 +1,4 @@
-﻿namespace GitHubServerSearch.Background
+﻿namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Background
 {
 	public static class URLs
 	{

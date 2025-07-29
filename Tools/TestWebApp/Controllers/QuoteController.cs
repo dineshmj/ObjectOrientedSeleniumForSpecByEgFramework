@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Web.Mvc;
 
-using OOSelenium.TestWebApp.Business;
-using OOSelenium.TestWebApp.Business.Entities;
-using OOSelenium.TestWebApp.Models;
+using SimpleQA.TestWebApp.Business;
+using SimpleQA.TestWebApp.Business.Entities;
+using SimpleQA.TestWebApp.Models;
 
-namespace OOSelenium.TestWebApp.Controllers
+namespace SimpleQA.TestWebApp.Controllers
 {
 	public sealed class QuoteController
 		: Controller

@@ -1,7 +1,8 @@
 ﻿using System.IO.Compression;
-using OOSelenium.Utilities.Entities.Abstractions;
 
-namespace OOSelenium.Utilities.Services
+using SimpleQA.Tools.Selenium.Updater.Abstractions;
+
+namespace SimpleQA.Tools.Selenium.Updater.Services
 {
 	public sealed class DownloadAndCleanUpManager
 		: IDownloadAndCleanUpManager

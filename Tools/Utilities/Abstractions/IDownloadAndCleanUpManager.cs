@@ -1,4 +1,4 @@
-﻿namespace OOSelenium.Utilities.Entities.Abstractions
+﻿namespace SimpleQA.Tools.Selenium.Updater.Abstractions
 {
     public interface IDownloadAndCleanUpManager
     {

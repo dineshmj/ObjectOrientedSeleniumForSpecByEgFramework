@@ -1,4 +1,4 @@
-﻿namespace OOSelenium.Utilities.Entities
+﻿namespace SimpleQA.Tools.Selenium.Updater.Entities
 {
     public enum Software
     {

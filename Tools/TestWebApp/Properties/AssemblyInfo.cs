@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle ("OOSelenium.TestWebApp")]
+[assembly: AssemblyTitle ("SimpleQA.TestWebApp")]
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
-[assembly: AssemblyProduct ("OOSelenium.TestWebApp")]
+[assembly: AssemblyProduct ("SimpleQA.TestWebApp")]
 [assembly: AssemblyCopyright ("Copyright ©  2020")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]

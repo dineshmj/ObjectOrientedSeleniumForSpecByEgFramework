@@ -1,6 +1,7 @@
-﻿using OOSelenium.Utilities.Entities.Config;
+﻿using SimpleQA.Tools.Selenium.Updater.Entities;
+using SimpleQA.Tools.Selenium.Updater.Entities.Config;
 
-namespace OOSelenium.Utilities.Entities.Abstractions
+namespace SimpleQA.Tools.Selenium.Updater.Abstractions
 {
     public interface IConfigManager
     {

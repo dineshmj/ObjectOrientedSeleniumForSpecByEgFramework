@@ -1,4 +1,4 @@
-﻿namespace GitHubServerSearch.Entities
+﻿namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Entities
 {
 	public sealed class MatchingStatement
 	{

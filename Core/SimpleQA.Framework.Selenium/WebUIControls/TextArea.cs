@@ -1,0 +1,56 @@
+﻿using OpenQA.Selenium;
+
+using SimpleQA.Framework.Entities;
+using SimpleQA.Framework.Selenium.Abstractions;
+using SimpleQA.Framework.Selenium.Extensions;
+
+namespace SimpleQA.Framework.Selenium.WebUIControls
+{
+	public sealed class TextArea
+		: WebUiControlBase
+	{
+		public TextArea (IWebElement element, string uniqueIdentifierText, LocateByWhat byWhat, IWebDriver webDriver)
+			: base (element, uniqueIdentifierText, byWhat, webDriver)
+		{
+			var tagName = element.TagName.ToLower ();
+
+			if (tagName != "textarea")
+			{
+				throw new ArgumentException ("The provided element is not a textarea.", nameof (element));
+			}
+		}
+
+		public string PlaceHolderText
+		{
+			get { return base.GetAttribute ("placeholder"); }
+		}
+
+		public void SetText (string text)
+		{
+			base.remoteElement.SetValue (text, base.webDriver);
+		}
+
+		public void Clear ()
+		{
+			base.remoteElement.Clear ();
+		}
+
+		public void SetFocus ()
+		{
+			base.remoteElement.SetFocus (base.webDriver);
+		}
+
+		public void SendKeys (string keys)
+		{
+			base.remoteElement.SendKeys (keys);
+		}
+
+		public void TypeEachCharacter (string text)
+		{
+			foreach (char oneChar in text)
+			{
+				base.remoteElement.SendKeys (oneChar.ToString ());
+			}
+		}
+	}
+}

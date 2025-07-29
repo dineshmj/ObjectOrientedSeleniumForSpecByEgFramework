@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using OOSelenium.TestWebApp.Business.Entities;
-using OOSelenium.TestWebApp.Models;
+using SimpleQA.TestWebApp.Business.Entities;
+using SimpleQA.TestWebApp.Models;
 
-namespace OOSelenium.TestWebApp.Controllers
+namespace SimpleQA.TestWebApp.Controllers
 {
 	public sealed class MasterController
 		: Controller

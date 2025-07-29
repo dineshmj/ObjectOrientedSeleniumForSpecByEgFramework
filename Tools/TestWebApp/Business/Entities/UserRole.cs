@@ -1,4 +1,4 @@
-﻿namespace OOSelenium.TestWebApp.Business.Entities
+﻿namespace SimpleQA.TestWebApp.Business.Entities
 {
 	public enum UserRole
 	{

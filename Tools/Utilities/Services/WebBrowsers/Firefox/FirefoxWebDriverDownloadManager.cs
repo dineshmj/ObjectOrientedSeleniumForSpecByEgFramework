@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
-using OOSelenium.Utilities.Entities;
-using OOSelenium.Utilities.Entities.Abstractions;
 
-namespace OOSelenium.Utilities.Services.WebBrowsers.Firefox
+using SimpleQA.Tools.Selenium.Updater.Abstractions;
+using SimpleQA.Tools.Selenium.Updater.Entities;
+
+namespace SimpleQA.Tools.Selenium.Updater.Services.WebBrowsers.Firefox
 {
 	public sealed class FirefoxWebDriverDownloadManager
 		: ISoftwareDownloadManager

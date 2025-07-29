@@ -1,4 +1,4 @@
-﻿namespace OOSelenium.Utilities.Entities.Config
+﻿namespace SimpleQA.Tools.Selenium.Updater.Entities.Config
 {
     public sealed class AppSettings
     {

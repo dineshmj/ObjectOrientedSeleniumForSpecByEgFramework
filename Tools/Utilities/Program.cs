@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using OOSelenium.Utilities.Entities;
-using OOSelenium.Utilities.Entities.Abstractions;
-using OOSelenium.Utilities.Entities.Config;
-using OOSelenium.Utilities.Entities.Downloads;
-using OOSelenium.Utilities.Services;
-using OOSelenium.Utilities.Services.SeleniumGridHubJAR;
-using OOSelenium.Utilities.Services.WebBrowsers.Chrome;
-using OOSelenium.Utilities.Services.WebBrowsers.Edge;
-using OOSelenium.Utilities.Services.WebBrowsers.Firefox;
-using OOSelenium.Utilities.Services.WebBrowsers.IE;
+using SimpleQA.Tools.Selenium.Updater.Abstractions;
+using SimpleQA.Tools.Selenium.Updater.Entities;
+using SimpleQA.Tools.Selenium.Updater.Entities.Chrome;
+using SimpleQA.Tools.Selenium.Updater.Entities.Config;
+using SimpleQA.Tools.Selenium.Updater.Services;
+using SimpleQA.Tools.Selenium.Updater.Services.SeleniumGridHubJAR;
+using SimpleQA.Tools.Selenium.Updater.Services.WebBrowsers.Edge;
+using SimpleQA.Tools.Selenium.Updater.Services.WebBrowsers.Firefox;
+using SimpleQA.Tools.Selenium.Updater.Services.WebBrowsers.IE;
 
 public class Program
 {

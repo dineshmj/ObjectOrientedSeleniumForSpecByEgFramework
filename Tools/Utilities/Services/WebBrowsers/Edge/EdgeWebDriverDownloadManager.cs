@@ -1,7 +1,7 @@
-﻿using OOSelenium.Utilities.Entities;
-using OOSelenium.Utilities.Entities.Abstractions;
+﻿using SimpleQA.Tools.Selenium.Updater.Abstractions;
+using SimpleQA.Tools.Selenium.Updater.Entities;
 
-namespace OOSelenium.Utilities.Services.WebBrowsers.Edge
+namespace SimpleQA.Tools.Selenium.Updater.Services.WebBrowsers.Edge
 {
 	public sealed class EdgeWebDriverDownloadManager
 		: ISoftwareDownloadManager

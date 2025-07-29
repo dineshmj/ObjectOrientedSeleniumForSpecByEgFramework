@@ -1,14 +1,14 @@
-﻿using OOSelenium.Framework.Abstractions;
-using OOSelenium.Framework.Entities;
+﻿using SimpleQA.Framework.Abstractions;
+using SimpleQA.Framework.Entities;
 
-namespace GitHubServerSearch.Background
+namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Background
 {
 	public sealed class GitHubPageDataProvider
-		: IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment>
+		: IEnvironmentDataProvider<UserRole, ExecutionEnvironment>
 	{
 		private IDictionary<ExecutionEnvironment, IDictionary<UserRole, Credential>> devEnvRoleAndCredentialsDictionary;
 
-		public string GetWebApplicationUrlFor (ExecutionEnvironment executionEnv)
+		public string GetApplicationUrlFor (ExecutionEnvironment executionEnv)
 		{
 			switch (executionEnv)
 			{

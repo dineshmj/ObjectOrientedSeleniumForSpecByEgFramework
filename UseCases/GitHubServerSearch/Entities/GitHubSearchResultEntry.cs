@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace GitHubServerSearch.Entities
+namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Entities
 {
 	public sealed class GitHubSearchResultEntry
 	{

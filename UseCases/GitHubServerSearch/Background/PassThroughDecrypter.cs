@@ -1,6 +1,6 @@
-﻿using OOSelenium.Framework.Abstractions;
+﻿using SimpleQA.Framework.Abstractions;
 
-namespace GitHubServerSearch.Background
+namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Background
 {
 	public sealed class PassThroughDecrypter
 		: IDecryptor

@@ -1,4 +1,4 @@
-﻿namespace OOSelenium.Utilities
+﻿namespace SimpleQA.Tools.Selenium.Updater
 {
     public static class LookUp
     {

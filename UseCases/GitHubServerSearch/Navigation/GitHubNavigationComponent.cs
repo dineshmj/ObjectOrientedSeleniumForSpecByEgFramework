@@ -1,16 +1,17 @@
-﻿using OOSelenium.Framework.Abstractions;
+﻿using SimpleQA.Framework.Selenium.Abstractions;
+using SimpleQA.Framework.Abstractions;
 
-using GitHubServerSearch.Pages;
+using SimpleQA.UseCases.Selenium.GitHubServerSearch.Pages;
 
-namespace GitHubServerSearch.Navigation
+namespace SimpleQA.UseCases.Selenium.GitHubServerSearch.Navigation
 {
 	public sealed class GitHubNavigationComponent<UserRole, ExecutionEnvironment>
-		: WebUiNavigationComponentBase<UserRole, ExecutionEnvironment>
+		: SeleniumNavigationComponentBase<UserRole, ExecutionEnvironment>
 			where UserRole : Enum
 			where ExecutionEnvironment : Enum
 	{
 		public GitHubNavigationComponent (
-				IExecutionEnvironmentPageDataProvider<UserRole, ExecutionEnvironment> pageDataProvider,
+				IEnvironmentDataProvider<UserRole, ExecutionEnvironment> pageDataProvider,
 				IDecryptor decryptor
 			)
 				: base (pageDataProvider, decryptor)
@@ -19,12 +20,12 @@ namespace GitHubServerSearch.Navigation
 
 		public GitHubLoginPage GoToGitHubLoginPage ()
 		{
-			var provider = base.ExecutionEnvironmentPageDataProvider;
+			var provider = base.EnvironmentDataProvider;
 
 			return
 				new GitHubLoginPage (
 					base.WebDriver,
-					provider.GetWebApplicationUrlFor (base.ExecutionEnvironment)
+					provider.GetApplicationUrlFor (base.ExecutionEnvironment)
 				);
 		}
 

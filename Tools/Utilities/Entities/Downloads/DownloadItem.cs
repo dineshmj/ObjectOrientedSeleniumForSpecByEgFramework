@@ -1,4 +1,4 @@
-﻿namespace OOSelenium.Utilities.Entities.Downloads
+﻿namespace SimpleQA.Tools.Selenium.Updater.Entities.Downloads
 {
 	public sealed class DownloadItem
 	{

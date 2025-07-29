@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
 
 using HtmlAgilityPack;
-using OOSelenium.Utilities.Entities;
-using OOSelenium.Utilities.Entities.Abstractions;
 
-namespace OOSelenium.Utilities.Services.WebBrowsers.IE
+using SimpleQA.Tools.Selenium.Updater.Abstractions;
+using SimpleQA.Tools.Selenium.Updater.Entities;
+
+namespace SimpleQA.Tools.Selenium.Updater.Services.WebBrowsers.IE
 {
 	public sealed class InternetExplorerWebDriverDownloadManager
 		: ISoftwareDownloadManager
